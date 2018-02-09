@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:fragment="actionsGlobal" id="actionsGlobal" class="hidden">
+	<div class="panel panel-default actions">
+		<div class="panel-body" th:if="${actionList != null}">
+			<ul class="nav nav-list">
+				<li th:each="actionEntry : ${actionList}" role="presentation">
+					<div th:with="description = ${actionEntry.enabled ? 'description' : 'description.disabled'}"
+							th:classappend="${recommendedAction == actionEntry.label}? 'recommended'">
+						<a th:if="${actionEntry.disclaimer == null || !actionEntry.enabled}"
+								th:classappend="${!actionEntry.enabled}? 'disabled'"
+								th:href="${actionEntry.enabled} ? @{${actionEntry.uri}} : '#'">
+							<span class="glyphicon glyphicon-menu-right"></span> <b
+								th:text="${@TR.translate(actionEntry.label, actionEntry.labelVariables)}"></b>
+						</a>
+						<th:block th:if="${actionEntry.disclaimer != null && actionEntry.enabled}"
+								th:with="id=${@TR.escape(actionEntry.label)}">
+							<div th:replace="fragments/modals :: disclaimer (${id}, 'Action',
+									${actionEntry.disclaimer}, ${actionEntry.uri})">
+							</div>
+							<a th:classappend="${!actionEntry.enabled}? 'disabled'" data-toggle="modal"
+									th:data-target="|#${id}Action|" href="#">
+								<span class="glyphicon glyphicon-menu-right"></span>
+								<b th:text="${@TR.translate(actionEntry.label, actionEntry.labelVariables)}"></b>
+							</a>
+						</th:block>
+						&mdash; <span
+							th:text="${@TR.translate(actionEntry.label + '.' + description, actionEntry.descriptionVariables)}"></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<hr>
+</div>
+
+<th:block th:fragment="actionRead (entityName, entity, tab)">
+
+	<a th:href="@{|/${entityName}/${@A.READ}/${entityName}.id=${entity.id}#${tab}|}"
+			class="glyphicon glyphicon-eye-open">
+	</a>
+
+</th:block>
+
+<th:block th:fragment="actionUpdate (entityName, entity)"
+		th:with="modalName=|${entityName}UpdateModal|,modalId=|${modalName}${entity.id}|"
+		th:if="${!entity.archived}">
+
+	<a href="#" data-toggle="modal" class="glyphicon glyphicon-pencil"
+			th:data-target="|#${modalId}|">
+	</a>
+
+	<th:block th:replace="fragments/modals :: disclaimer (${modalName}, ${entity.id}, 'update',
+		${@U.builder(entityName, @A.UPDATE).addEntityId(entity)
+			.addRedirectParam(history, entityName + 's')})">
+	</th:block>
+
+</th:block>
+
+<th:block th:fragment="actionArchive (entityName, entity)"
+		th:with="modalName=|${entityName}ArchiveModal|,modalId=|${modalName}${entity.id}|"
+		th:if="${!entity.archived}">
+
+	<a href="#" data-toggle="modal" class="glyphicon glyphicon-remove"
+			th:data-target="|#${modalId}|">
+	</a>
+
+	<th:block th:replace="fragments/modals :: disclaimer (${modalName}, ${entity.id}, 'archive',
+		${@U.builder(entityName, @A.ARCHIVE).addEntityId(entity)
+			.addRedirectParam(history, entityName + 's')})">
+	</th:block>
+
+</th:block>
+
+<!--/* parent: optional parent entity for custom attribute deletion */-->
+<th:block th:fragment="actionDelete (entityName, entity)"
+		th:with="modalName=|${entityName}DeleteModal|,modalId=|${modalName}${entity.id}|">
+
+	<a href="#" data-toggle="modal" class="glyphicon glyphicon-remove"
+			th:data-target="|#${modalId}|">
+	</a>
+
+	<th:block th:replace="fragments/modals :: disclaimer (${modalName}, ${entity.id},
+						'delete', ${@U.builder(entityName, @A.DELETE).addEntityId(entity)
+						.addEntityIdQuery(parent)
+						.addRedirectParam(history, entityName + 's')})">
+	</th:block>
+
+</th:block>
+
+<th:block th:fragment="actionTemplate (entityName, entity)">
+	<a th:href="@{|/${entityName}/${@A.CREATE}/${@E.DOSSIER}.id=0/${entityName}.id=${entity.id}|}"
+			title="Define template based on this particulate component"
+			class="glyphicon glyphicon-duplicate">
+	</a>
+</th:block>
+
+</body>
+</html>

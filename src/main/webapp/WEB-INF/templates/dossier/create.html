@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{|dossier.${history.current.action}.jumbo.headline|}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{dossier.create.jumbo.topic.step1}"></h5>
+		</div>
+		<div class="topic">
+			<h5 th:text="#{dossier.create.jumbo.topic.step2}"></h5>
+		</div>
+		<p>
+		<div class="progress">
+			<div class="progress-bar active progress-bar-form" role="progressbar" aria-valuemin="0"
+					aria-valuemax="100"></div>
+		</div>
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+<div class="container pace-hidden">
+	<form accept-charset="UTF-8" class="form multistep" method="post" role="form"
+			th:object="${dossierForm}"
+			th:data-entity="${@E.DOSSIER}" enctype="multipart/form-data">
+		<!-- Fix for accidental submit via return key. -->
+		<input class="hidden" type="submit" onclick="return false;" />
+
+		<div class="page-header" data-classes="no-actionbox">
+			<div class="btn-toolbar pull-right">
+				<button type="submit" name="submit" value="true"
+						class="action submit btn btn-primary pull-right"
+						th:text="${dossier.id} ? #{global.form.button.update} : #{global.form.button.save_proceed}">
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}"></button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}"></button>
+			</div>
+			<h3 class="hstep" th:text="#{dossier.create.form.headline.step1}"></h3>
+			<h3 class="hstep" th:text="#{dossier.create.form.headline.step2}"></h3>
+		</div>
+
+		<div class="step">
+			<div class="form-group">
+				<label th:for="${#ids.next('purpose')}"
+						th:text="#{dossier.create.form.purpose}"></label>
+				<div th:each="purpose : ${dossierPurposes}" class="radio">
+					<label>
+						<input type="radio" th:field="*{purpose}" th:value="|{${purpose.name}}|" />
+						<span th:text="${purpose.label}"></span>
+						<!-- – TODO uncomment when explanations are added
+						<span th:text="#{|dossier.create.form.purpose.${purpose.name}.explanation|}"></span>-->
+					</label>
+					<span data-toggle="popover" class="clickable glyphicon glyphicon-question-sign"
+							th:data-content="|#{dossier.create.available_techniques}: ${@techniqueService.createFilteredTechniqueNameListing(techniques, false, '{' + purpose.name + '}')}.|"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label th:for="${#ids.next('name')}" th:text="|#{dossier.create.form.name}*|"></label>
+				<input type="text" class="form-control" th:field="*{name}"
+						th:placeholder="#{dossier.create.form.name.placeholder}" required="required" />
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-6">
+					<label th:for="${#ids.next('comment')}"
+							th:text="|#{dossier.create.form.comment}|"></label>
+					<textarea class="form-control" rows="5" th:field="*{comment}"
+							th:placeholder="#{dossier.create.form.comment.placeholder}">
+						</textarea>
+				</div>
+				<div class="col-sm-6">
+					<label th:for="${#ids.next('internalComment')}"
+							th:text="#{dossier.create.form.internal_comment}"></label>
+					<textarea class="form-control" rows="5" th:field="*{internalComment}"
+							th:placeholder="#{dossier.create.form.internal_comment.placeholder}"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class="step">
+			<div class="form-group" id="multiconstituent">
+				<label th:for="${#ids.next('multiconstituent')}"
+						th:text="#{dossier.create.form.sample.multiconstituent}"></label>
+				<div th:each="sampleType : ${dossierSampleTypes}" class="radio">
+					<label>
+						<input type="radio" th:field="*{multiconstituent}" th:value="${sampleType}" />
+						<span
+								th:text="#{${'dossier.create.form.sample.multiconstituent.' + sampleType}}"></span>
+					</label>
+					<span data-toggle="popover" class="clickable glyphicon glyphicon-question-sign"
+							th:data-content="|#{dossier.create.available_techniques}: ${@techniqueService.createFilteredTechniqueNameListing(techniques, sampleType, null)}.|"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label th:for="${#ids.next('sampleName')}"
+						th:text="|#{dossier.create.form.sample_name}*|"></label>
+				<input type="text" class="form-control" th:field="*{sampleName}"
+						th:placeholder="#{dossier.create.form.sample_name.placeholder}"
+						required="required" />
+			</div>
+		</div>
+
+		<!--/* TODO extract into fragment? */-->
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true"
+						class="action submit btn btn-primary pull-right"
+						th:text="${dossier.id} ? #{global.form.button.update} : #{global.form.button.save_proceed}">
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}"></button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}"></button>
+			</div>
+		</div>
+	</form>
+</div> <!-- container -->
+
+<div class="variables">
+	<span id="locale-dossier.create.form.sample_suffix.mono"
+			th:text="#{dossier.create.form.sample_suffix.mono}"></span>
+	<span id="locale-dossier.create.form.sample_suffix.multi"
+			th:text="#{dossier.create.form.sample_suffix.multi}"></span>
+</div>
+
+<script defer="defer" th:src="@{'/js/incl/form.js'}"></script>
+<script defer="defer" th:src="@{'/js/dossier/create.js'}"></script>
+<script defer="defer"
+		th:src="@{'/libs/jquery-validation-git/dist/jquery.validate.min.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/multistep.js'}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>

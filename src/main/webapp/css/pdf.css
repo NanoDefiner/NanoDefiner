@@ -1,0 +1,21 @@
+table {
+	width: 100%;
+}
+
+td {
+	margin: 0px;
+	padding: 0px;
+	vertical-align: top;
+	text-align: left;
+}
+
+td .attribute {
+	min-width: 200px;
+	max-width: 200px;
+}
+
+td .value {
+	min-width: auto;
+	max-width: auto;
+}
+

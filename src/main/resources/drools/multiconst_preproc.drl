@@ -1,0 +1,12 @@
+
+package eu.nanodefine.etool.drools.rules;
+
+global java.util.List list;
+ 
+rule "MULTI-CONSTITUENT PRE-PROCESSING"
+    dialect "mvel"
+    when
+    	(0 == 1) // currently deactivated
+    then
+
+end

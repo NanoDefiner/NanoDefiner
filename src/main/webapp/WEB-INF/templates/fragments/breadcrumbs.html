@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:fragment="default">
+
+	<ol class="breadcrumb breadcrumb-inline" id="breadcrumbs"
+			th:with="action=${action != null ? action : history.current.action}">
+		<li th:each="entry : ${breadcrumbs}"
+				th:classappend="${entry.length < 2} ? 'active'">
+			<a th:if="${entry.length > 2}" th:href="@{${entry[1]}}"
+					th:text="${entry[2]}" th:data-classes="|${entry[0]}|"></a>
+			<span th:if="${entry.length < 2}" th:data-classes="|${entry[0]}|"
+					th:text="#{global.entity.new}">
+			</span>
+		</li>
+		<li class="active" th:text="#{|${history.current.entity}.${action}.breadcrumb|}"></li>
+	</ol>
+
+</div>
+
+</body>
+
+</html>

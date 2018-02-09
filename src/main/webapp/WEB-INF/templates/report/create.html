@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{report.create.jumbo.headline}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{report.create.jumbo.topic.step1}"></h5>
+		</div>
+		<div class="topic">
+			<h5 th:text="#{report.create.jumbo.topic.step2}"></h5>
+		</div>
+		<p>
+		<div class="progress">
+			<div class="progress-bar active progress-bar-form" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+<div class="container pace-hidden">
+	<form accept-charset="UTF-8" class="form multistep" method="post" role="form"
+			enctype="multipart/form-data"
+			id="reportCreateForm" data-classes="submit-popup"
+			th:action="@{|/${@E.REPORT}/${@A.CREATE}/${@E.DOSSIER}.id=${dossier.id}|}">
+		<th:block th:replace="fragments/modals :: formSubmitModal ('reportCreateForm')"></th:block>
+
+		<!-- Fix for accidental submit via return key. -->
+		<input class="hidden" type="submit" onclick="return false;" />
+
+		<div class="page-header" data-classes="no-actionbox">
+			<div class="btn-toolbar pull-right">
+				<button type="submit" name="submit" value="true" data-target="table"
+						class="action submit btn btn-primary pull-right"
+						th:text="#{report.create.form.button.generate_report}">
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}"></button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}"></button>
+			</div>
+			<h3 class="hstep" th:text="#{report.create.form.headline.step1}"></h3>
+			<h3 class="hstep" th:text="#{report.create.form.headline.step2}"></h3>
+		</div>
+
+		<div class="step">
+			<th:block th:replace="method/tables :: methodSelect (${methods})"></th:block>
+		</div>
+
+		<div class="step">
+			<div class="form-group">
+				<label for="reportName" th:text="#{report.create.form.report_name_label}">
+				</label>
+				<input type="text" id="reportName" name="reportName"
+						required="required" th:value="${reportName}" />
+			</div>
+
+			<div class="alert alert-warning" role="alert"><strong>[[#{global.warning}]]!</strong>
+				[(#{report.create.form.generate_report_warning})]
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" data-target="table"
+						class="action submit btn btn-primary pull-right"
+						th:text="#{report.create.form.button.generate_report}">
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}"></button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}"></button>
+			</div>
+		</div>
+	</form>
+</div> <!-- container -->
+
+<div class="variables">
+	<span id="locale-report.create.method.select_alert"
+			th:text="#{report.create.method.select_alert}"></span>
+</div>
+
+<script defer="defer" th:src="@{'/libs/jquery-validation-git/dist/jquery.validate.min.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/multistep.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/form.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/tables.js'}"></script>
+<script defer="defer" th:src="@{'/js/report/create.js'}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+<th:block th:fragment="default (issues, archiveButton)">
+
+	<table id="issueTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="true"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="true"
+			data-search-align="right"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="changeDate"
+			data-sort-order="desc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="issueTable"
+			data-show-export="true"
+			data-export-data-type="all"
+			th:data-select-item-name="|${@E.ISSUE}Select|"
+			th:data-entity="${@E.ISSUE}">
+		<!-- Activate toggling: data-show-toggle="true" -->
+		<thead>
+		<tr>
+			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-field="id" data-visible="false" data-sortable="true" data-order="desc">#</th>
+			<th data-field="user" data-sortable="true" th:text="#{user}"></th>
+			<th data-field="comment" data-sortable="true" th:text="#{global.table.column.comment}"></th>
+			<th data-field="text" data-sortable="true" th:text="#{issue.table.column.text}"></th>
+			<th data-field="creationDate" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.creation_date}"></th>
+			<th data-field="changeDate" data-sortable="true"
+					th:text="#{global.table.column.change_date}"></th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="i : ${issues}"
+				th:with="rowLink=|/${@E.ISSUE}/${@A.UPDATE}/${@E.ISSUE}.id=${i.id}|">
+			<td th:if="${archiveButton}"></td>
+			<td th:text="${i.id}"></td>
+			<td th:text="${i.user != null ? i.user.username : 'Unknown'}"></td>
+			<td class="text">
+				<span th:text="${i.comment}"></span>
+				<a th:href="@{|${rowLink}|}"></a>
+			</td>
+			<td class="text">
+				<span th:text="${i.text}"></span>
+			</td>
+			<td th:text="${#dates.format(i.creationDate, #messages.msg('global.date_format'))}"></td>
+			<td th:text="${#dates.format(i.changeDate, #messages.msg('global.date_format'))}"></td>
+		</tr>
+		</tbody>
+	</table>
+
+	<!-- Archive button -->
+	<div th:if="${archiveButton}">
+		<button id="issueArchiveButton" data-toggle="modal"
+				data-target="#issueArchiveModal" data-table="#issueTable"
+				class="btn btn-default pull-left hidden" th:text="#{global.table.button.archive}">
+		</button>
+
+		<div th:replace="fragments/modals :: disclaimer ('issueArchiveModal', '',
+						'archive', ${@U.builder(@E.ISSUE, @A.ARCHIVE).addRedirectParam(history)})">
+		</div>
+	</div>
+
+</th:block>
+</body>
+</html>

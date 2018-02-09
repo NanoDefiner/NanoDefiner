@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="'Update issue'"></h3>
+	</div>
+
+	<form accept-charset="UTF-8" method="post" enctype="multipart/form-data" role="form" class="form">
+
+		<div class="row form-group">
+			<div class="col-sm-2">User</div>
+			<div class="col-sm-4"
+					th:text="${issue.user != null} ? ${issue.user.username} : #{issue.update.form.user_unknown}"></div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-2" th:text="#{global.table.column.creation_date.long}"></div>
+			<div class="col-sm-4"
+					th:text="${#dates.format(issue.creationDate, #messages.msg('global.date_format'))}"></div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-2" th:text="#{global.table.column.change_date.long}"></div>
+			<div class="col-sm-4"
+					th:text="${#dates.format(issue.changeDate, #messages.msg('global.date_format'))}"></div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-2" th:text="#{global.table.column.comment}"></div>
+			<div class="col-sm-8">
+				<textarea class="form-control" rows="5"
+						th:name="|${@E.ISSUE}.comment|"
+						th:placeholder="#{issue.update.form.comment.placeholder}"
+						th:text="${issue.comment}"></textarea>
+			</div>
+		</div>
+
+		<button class="btn btn-primary pull-right submit action"
+				th:text="#{global.form.button.update}"></button>
+
+	</form>
+
+	<br />
+
+	<hr class="divider" />
+
+	<div class="row form-group">
+		<div class="col-sm-12"><h3 th:text="#{issue.update.form.issue_text}"></h3></div>
+	</div>
+	<div class="row form-group">
+		<pre class="col-sm-12" th:text="${issue.text}"></pre>
+	</div>
+</div>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

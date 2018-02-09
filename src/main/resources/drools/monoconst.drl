@@ -1,0 +1,147 @@
+import java.util.List;
+
+import eu.nanodefine.etool.knowledge.ddos.PerformanceCriterionDDO;
+import eu.nanodefine.etool.knowledge.ddos.PerformanceCriterionDDOMap;
+
+import eu.nanodefine.etool.knowledge.ddos.MaterialCriterionDDO;
+import eu.nanodefine.etool.knowledge.ddos.MaterialCriterionDDOMap;
+
+// List for matching techniques
+global java.util.List $matches;
+
+rule "MONO-CONSTITUENT"
+
+	// We want to execute Java code, thus MVEL
+    dialect "mvel"
+    when
+
+    	$material : MaterialCriterionDDOMap()
+
+    	$performance : PerformanceCriterionDDOMap(
+
+    		// -----------------------------------------------------------------
+    		// Type: set
+    		// -----------------------------------------------------------------
+
+    		( // chemical_composition
+    			(this["chemical_composition"].isUnknown() || $material["chemical_composition"].isUnknown()) // unknown
+    			|| this["chemical_composition"].hasSubset($material["chemical_composition"])
+    		),
+
+    		( // composites
+    			(this["composites"].isUnknown() || $material["composites"].isUnknown()) // unknown
+    			|| ($material["composites"].isEmpty()) // material does not need to be a composite
+    			|| this["composites"].intersects($material["composites"])
+    		),
+
+			( // conductivity
+    			(this["conductivity"].isUnknown() || $material["conductivity"].isUnknown()) // unknown
+    			|| this["conductivity"].intersects($material["conductivity"])
+    		),
+
+    		( // dimensions
+    			(this["dimensions"].isUnknown() || $material["dimensions"].isUnknown()) // unknown
+    			|| this["dimensions"].intersects($material["dimensions"])
+    		),
+
+    		( // magnetism
+    			(this["magnetism"].isUnknown() || $material["magnetism"].isUnknown()) // unknown
+    			|| ($material["magnetism"].isEmpty()) // material does not need to be magnetic
+    			|| $material["magnetism"].intersects(this["magnetism"])
+			),
+
+			( // multimodality
+    			(this["multimodality"].isUnknown() || $material["multimodality"].isUnknown()) // unknown
+    			|| $material["multimodality"].intersects(this["multimodality"])
+			),
+
+			( // polydispersity
+    			(this["polydispersity"].isUnknown() || $material["polydispersity"].isUnknown()) // unknown
+    			|| $material["polydispersity"].intersects(this["polydispersity"])
+			),
+
+			( // shape
+    			(this["shape"].isUnknown() || $material["shape"].isUnknown()) // unknown
+    			|| this["shape"].intersects($material["shape"])
+    		),
+
+    		// Interaction between dispersibility & trade_form:
+    		(
+    			// dispersibility
+    			(this["dispersibility"].isUnknown() || $material["dispersibility"].isUnknown()) // unknown
+    			|| this["dispersibility"].intersects($material["dispersibility"]) ||
+
+    			// trade_form
+    			(this["trade_form"].isUnknown() || $material["trade_form"].isUnknown()) // unknown
+    			|| this["trade_form"].intersects($material["trade_form"])
+    		),
+
+    		// -----------------------------------------------------------------
+    		// Type: interval
+    		// -----------------------------------------------------------------
+
+    		( // analysis_temperature
+    			(this["analysis_temperature"].isUnknown() || $material["analysis_temperature"].isUnknown()) // unknown
+    			|| $material["analysis_temperature"].fitsPartially(this["analysis_temperature"]) // no strict fit
+			),
+
+			( // wr_size_range
+    			(this["wr_size_range"].isUnknown() || $material["wr_size_range"].isUnknown()) // unknown
+    			|| $material["wr_size_range"].fitsStrictly(this["wr_size_range"]) // strict fit
+			),
+
+			// -----------------------------------------------------------------
+    		// Type: binary
+    		// -----------------------------------------------------------------
+
+			( // agglomeration
+    			(this["agglomeration"].isUnknown() || $material["agglomeration"].isUnknown()) // unknown
+    			|| $material["agglomeration"].implies(this["agglomeration"]) // implication
+			),
+
+			( // aggregation
+    			(this["aggregation"].isUnknown() || $material["aggregation"].isUnknown()) // unknown
+    			|| $material["aggregation"].implies(this["aggregation"]) // implication
+			),
+
+			( // electron_beam
+    			(this["electron_beam"].isUnknown() || $material["electron_beam"].isUnknown()) // unknown
+    			|| $material["electron_beam"].implies(this["electron_beam"], false, true) // implication
+			),
+
+			( // fluorescence
+    			(this["fluorescence"].isUnknown() || $material["fluorescence"].isUnknown()) // unknown
+    			|| $material["fluorescence"].implies(this["fluorescence"]) // implication
+			),
+
+			( // functionalisation
+    			(this["functionalisation"].isUnknown() || $material["functionalisation"].isUnknown()) // unknown
+    			|| $material["functionalisation"].implies(this["functionalisation"]) // implication
+			),
+
+			( // light_absorption
+    			(this["light_absorption"].isUnknown() || $material["light_absorption"].isUnknown()) // unknown
+    			|| $material["light_absorption"].implies(this["light_absorption"]) // implication
+			),
+
+			( // os_vacuum
+    			(this["os_vacuum"].isUnknown() || $material["os_vacuum"].isUnknown()) // unknown
+    			|| $material["os_vacuum"].implies(this["os_vacuum"], false, true) // implication
+			),
+
+			( // presence
+    			(this["presence"].isUnknown() || $material["presence"].isUnknown()) // unknown
+    			|| $material["presence"].implies(this["presence"]) // implication
+			),
+
+			( // release_iam
+    			(this["release_iam"].isUnknown() || $material["release_iam"].isUnknown()) // unknown
+    			|| $material["release_iam"].implies(this["release_iam"]) // implication
+			)
+
+	   	)
+
+    then
+    	// Add performance configuration DDO as match
+    	$matches.add($performance)
+end

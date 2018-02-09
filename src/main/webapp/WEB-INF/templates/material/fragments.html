@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<th:block th:fragment="help (id)">
+	<a class="popovers" data-container="body" data-toggle="popover"
+			data-placement="auto top" data-trigger="click"
+			th:with="attribute=${@referenceDictionary.getAttribute(id)},
+				manual=${attribute.manual},helpShort=#{material.create.form.help.short_explanation(${attribute.description})},
+				helpLong=${manual != ''} ? #{material.create.form.help.manual_reference(${manual})} : #{material.create.form.help.manual_reference.unavailable(${manualLink})}"
+			th:data-content="|<small>${helpShort}<hr>${helpLong}</small>|">
+		<span class="hidden" th:id="|${@E.MATERIAL}.${id}.label|"
+				th:text="${attribute.label}"></span>
+		<label th:for="|${@E.MATERIAL}.${id}|"
+				th:text="#{|material.create.form.label.${id}|}"></label>
+	</a>
+</th:block>
+
+<th:block th:fragment="selectFragment (id, allowUnknown, allowEmpty, multi)">
+	<div class="form-group"
+			th:with="attribute=${@performanceDictionary.getAttribute(id)},
+				value=${materialCriteria.get(id)}">
+		<th:block th:replace=":: help (${id})"></th:block>
+		<span th:if="${multi}">(multi-select)</span>
+		<select th:id="|select-${id}|" class="form-control selectpicker"
+				data-container="body" th:attr="multiple=${multi ? 'multiple' : 'false'}"
+				th:name="|${@E.MATERIAL}.${id}|">
+			<option value="?" th:if="${allowUnknown}"
+					th:selected="${value == null || value.contains('?')}"
+					th:text="#{material.create.form.unknown}">
+			</option>
+			<option value="" th:if="${allowEmpty}"
+					th:selected="${value == '{}'}"
+					th:text="#{|material.create.form.${id}.option.empty|}">
+			</option>
+			<optgroup label="Options">
+				<option th:each="option : ${attribute.options}"
+						th:value="${option.name}"
+						th:selected="${value != null && value.contains(option.name)}"
+						th:data-tokens="${id + '.' + option.name}">
+					<span th:remove="tag" th:text="${option.label}"></span>
+				</option>
+			</optgroup>
+		</select>
+	</div>
+</th:block>
+
+<th:block th:fragment="radio (id, value)">
+	<div class="form-group">
+		<th:block th:replace=":: help (${id})"></th:block>
+		<div class="radio">
+			<label>
+				<input type="radio"
+						th:name="|${@E.MATERIAL}.${id}|" value="?"
+						th:checked="${value == null || value == '?'}"
+						th:text="#{material.create.form.unknown}">
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio"
+						th:name="|${@E.MATERIAL}.${id}|"
+						value="yes" th:checked="${value == 'yes'}"
+						th:text="#{material.create.form.yes}">
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio"
+						th:name="|${@E.MATERIAL}.${id}|"
+						value="no" th:checked="${value == 'no'}"
+						th:text="#{material.create.form.no}">
+			</label>
+		</div>
+	</div>
+</th:block>
+
+<th:block th:fragment="slider (id, lower, upper, unknown, min)">
+	<div class="form-group">
+		<th:block th:replace=":: help (${id})"></th:block>
+		<div class="row">
+			<div class="col-sm-6">
+				<label class="pull-left not-bold">
+					<input type="checkbox" th:name="|${@E.MATERIAL}.${id}" value="?"
+							th:id="|${id}_unknown|" data-classes="slider-unknown" th:checked="${unknown}"
+							th:text="#{material.create.form.unknown}" />
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<input type="number" th:attr="min=${min}" class="form-control"
+						th:name="|${@E.MATERIAL}.${id}" th:id="|${id}_lower|"
+						placeholder="0" required="required" th:value="${lower}">
+			</div>
+			<div class="col-sm-6">
+				<input type="number" th:attr="min=${min}" class="form-control"
+						th:name="|${@E.MATERIAL}.${id}" placeholder="0"
+						th:id="|${id}_upper|" required="required"
+						th:value="${upper}">
+			</div>
+		</div>
+		<div class="row" style="padding-top:10px; padding-left: 30px;
+						padding-right:30px;">
+			<div th:id="|${id}_slider|" data-classes="slider"></div>
+		</div>
+	</div>
+</th:block>
+
+<div th:fragment="techniqueModal (technique, materialCriteriaTechniqueCompatibilityTable,
+ 	incompleteness)">
+
+	<th:block th:each="cp : ${@performanceConfiguration.getEntriesForTechniqueSignifier(technique.signifier)}">
+	<div th:with="materialSignifier=${cp.getEntry(@PA.MATERIAL_SIGNIFIER).value},id=${technique.signifier + materialSignifier}"
+			class="modal fade modal-large" th:id="|${id}Modal|"
+			tabindex="-1" role="dialog"
+			th:aria-labelledby="|${id}Label|">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							th:aria-label="#{global.label.close}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title" th:id="|${id}Label|"
+							th:text="${technique.comment + @materialTS.determineMaterialSignifierString(materialSignifier)}">
+					</h3>
+				</div>
+				<div class="modal-body">
+
+
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a th:href="|#${id}SuitabilityCurrent|" data-toggle="tab"
+									th:text="#{material.create.modal.technique.tab.current}"></a>
+						</li>
+						<li th:each="material : ${compatibilityTableMap.keySet()}">
+							<a th:href="|#${id}Suitability${material.id}|" data-toggle="tab"
+									th:text="|${#strings.abbreviate(material.name, 28)}|"></a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="active tab-pane" data-classes="current-material"
+								th:id="|${id}SuitabilityCurrent|">
+							<th:block th:replace="material/tables :: techniqueModalTable (${technique},
+							 ${materialSignifier}, ${materialCriteriaTechniqueCompatibilityTable},
+							 ${incompleteness})"></th:block>
+						</div>
+						<div th:each="entry : ${compatibilityTableMap.entrySet()}"
+								th:with="material=${entry.key},table=${entry.value},
+									incompleteness=${materialIncompletenessTable.get(material, technique.signifier)}"
+								class="tab-pane" th:id="|${id}Suitability${material.id}|">
+							<h3 th:text="${material.name}"></h3>
+							<th:block th:replace="material/tables :: techniqueModalTable (technique=${technique},
+								materialSignifier=${materialSignifier}, compatibilityTable=${table}, incompleteness=${incompleteness},
+								idSuffix=${materialSignifier + material.id})"></th:block>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal" th:text="#{global.label.close}">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</th:block>
+</div>
+
+<div th:fragment="createFormModal">
+
+	<div class="modal fade modal-large" id="materialCreateFormModal"
+			tabindex="-1" role="dialog"
+			aria-labelledby="materialCreateFormModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							th:aria-label="#{global.label.close}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title" id="materialCreateFormModalLabel"
+							th:text="#{material.create.modal.unknown_attributes.heading}">
+					</h3>
+				</div>
+				<div class="modal-body">
+					<p th:text="#{material.create.modal.unknown_attributes.body.list}"></p>
+					<ul id="unknownAttributeList"></ul>
+					<p th:text="#{material.create.modal.unknown_attributes.body.proceed}"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal" th:text="#{global.button.cancel}">
+					</button>
+					<button type="button" class="btn btn-primary pull-left" id="materialCreateFormModalSubmit"
+							th:text="#{material.create.modal.unknown_attributes.button.proceed}">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<th:block th:fragment="readRow (id, materialCriteria)">
+	<tr th:with="attribute=${@referenceDictionary.getAttribute(id)}">
+		<td th:text="${attribute.label}"></td>
+		<td th:utext="${materialCriteria.get(id)}"></td>
+	</tr>
+</th:block>
+
+<div th:fragment="mcsImages" id="mcsImages" class="hidden">
+	<img th:each="imageEntry : ${@mcsImages.entrySet()}" th:data-tokens="${imageEntry.key}"
+			th:src="@{|/img/mcs/${imageEntry.value}|}"
+			class="mcs-image" style="height: 20px; width: auto;" />
+</div>
+
+</body>
+</html>

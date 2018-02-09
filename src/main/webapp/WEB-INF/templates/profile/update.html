@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{profile.update}"></h3>
+	</div>
+
+	<form accept-charset="UTF-8" method="post" role="form" class="form" th:object="${profile}"
+			enctype="multipart/form-data">
+
+		<div class="row form-group">
+			<div class="col-sm-4" th:text="#{global.table.column.name}"></div>
+			<div class="col-sm-4"
+					th:text="|${profile.technique.comment} (${profile.technique.name})|"></div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-4">
+				<label th:for="${#ids.next('enabled')}"
+						th:text="#{profile.update.form.availability_label}">
+				</label>
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control selectpicker"
+						data-container="body" th:field="*{enabled}">
+					<option value="1"
+							th:text="'Available'">
+					</option>
+					<option value="0"
+							th:text="'Unavailable'">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-4">
+				<label th:for="${#ids.next('cost')}" th:text="#{profile.update.form.cost_label}">
+				</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="number" min="0" class="form-control"
+						th:field="*{cost}" placeholder="0" required="required">
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-4">
+				<label th:for="${#ids.next('duration')}" th:text="#{profile.update.form.duration_label}">
+				</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="number" min="0" class="form-control"
+						th:field="*{duration}" placeholder="0" required="required">
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-4">
+				<a class="popovers" data-container="body" data-toggle="popover"
+						data-placement="auto top" data-trigger="click"
+						th:with="help=#{method.fragment.uncertainty_input.uncertainty_label_help}"
+						th:data-content="|<small>${help}</small>|">
+					<label th:for="${#ids.next('uncertainty')}"
+							th:text="#{profile.update.form.uncertainty_label}">
+					</label>
+				</a>
+			</div>
+			<div class="col-sm-4">
+				<input type="checkbox" th:name="|${@E.METHOD}.technique_uncertainty_unknown|" />
+				<label th:for="|${@E.METHOD}.technique_uncertainty_unknown|"
+						th:text="#{method.fragment.uncertainty_input.unknown_label}"></label>
+				<input type="number" min="0" step="0.1" maxlength="3" max="100" class="form-control"
+						th:field="*{uncertainty}" placeholder="0" required="required"
+						data-classes="technique_uncertainty">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-12">
+				<button type="submit" name="submit" value="true" th:text="#{global.form.button.save_return}"
+						class="action submit btn btn-primary pull-right">
+				</button>
+			</div>
+		</div>
+
+	</form>
+</div>
+
+<script defer="defer" th:src="@{/js/incl/uncertainty.js}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

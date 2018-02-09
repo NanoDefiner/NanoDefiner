@@ -1,0 +1,5 @@
+<DynamicReports>
+	<!-- DEFAULT FONT -->
+	<font fontName="DejaVu Serif" pdfFontName="DejaVu Serif" pdfEncoding="Cp1252"
+				pdfEmbedded="true" fontSize="10"/>
+</DynamicReports>

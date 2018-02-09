@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<!--/* TODO sort fragments */-->
+
+<div th:fragment="techniqueWarningModal (technique, techniquesMap, techniqueGeneralWarnings,
+ techniqueMaterialWarnings, compatibilityTableMap)" id="techniqueWarningModal">
+
+	<div class="modal fade modal-large" th:id="|${technique.signifier}WarningModal|"
+			tabindex="-1" role="dialog" th:aria-labelledby="|${technique.signifier}Label|">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							th:aria-label="#{global.label.close}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title" th:id="|${technique.signifier}WarningLabel|">
+						[[${technique.name}]]: [[#{method.fragment.warning_modal.heading}]]
+					</h3>
+				</div>
+				<div class="modal-body">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a th:href="|#${technique.signifier}Warnings|" data-toggle="tab"
+									th:text="#{method.fragment.warning_modal.tab.warnings}">
+							</a>
+						</li>
+						<li th:each="material : ${compatibilityTableMap.keySet()}">
+							<a th:href="|#${technique.signifier}Suitability${material.id}|" data-toggle="tab"
+									th:text="|${#strings.abbreviate(material.name, 28)}|"></a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active" th:id="|${technique.signifier}Warnings|">
+
+							<th:block th:if="${techniqueGeneralWarnings.containsKey(technique.signifier)}">
+								<h3 th:text="#{method.fragment.warning_modal.technique.heading}"></h3>
+								<div class="alert alert-warning"
+										th:text="${techniqueGeneralWarnings.get(technique.signifier)}"></div>
+							</th:block>
+
+							<h3>Attribute-specific warnings</h3>
+							<th:block th:if="${!techniqueMaterialWarnings.row(technique.signifier).empty}">
+								<div class="alert alert-warning">
+									[[#{method.fragment.warning_modal.technique.attribute.unknown}]]
+									<ul>
+										<li th:each="entry : ${techniqueMaterialWarnings.row(technique.signifier)}"
+												th:with="attribute=${entry.key}, materials=${entry.value}">
+											<span
+													th:text="${@referenceDictionary.getAttribute(attribute.name).label}"></span>
+											<!--/* Empty comments are necessary to prevent whitespace */-->
+											<th:block th:if="${dossier.multiconstituent}">
+												(
+												<th:block th:each="material,iterStat : ${materials}"><!--
+													--><span th:text="${material.name}" th:remove="tag"></span><!--
+													--><span th:remove="tag" th:unless="${iterStat.last}">; </span><!--
+												--></th:block>
+												)
+											</th:block>
+										</li>
+
+									</ul>
+								</div>
+							</th:block>
+
+							<th:block th:if="${techniqueMaterialWarnings.row(technique.signifier).empty}">
+								<div class="alert alert-success"
+										th:text="#{method.fragment.warning_modal.technique.attribute.none}">
+								</div>
+							</th:block>
+							<h3 th:text="#{method.fragment.warning_modal.technique.suitability.heading}"></h3>
+							<div class="alert alert-danger"
+									th:if="${techniquesMap.get(technique).equals(@materialFeedbackController.SUITABILITY_NO)}"
+									th:text="#{method.fragment.warning_modal.technique.suitability.unsuitable}">
+							</div>
+							<div class="alert alert-success"
+									th:if="${!techniquesMap.get(technique).equals(@materialFeedbackController.SUITABILITY_NO)}"
+									th:text="#{method.fragment.warning_modal.technique.suitability.suitable}">
+							</div>
+							[[#{method.fragment.warning_modal.technique.suitability.details}]]
+						</div>
+						<div th:each="entry : ${compatibilityTableMap.entrySet()}"
+								th:with="material=${entry.key},table=${entry.value},
+									incompleteness=${materialIncompletenessTable.get(material, technique.signifier)}"
+								class="tab-pane" th:id="|${technique.signifier}Suitability${material.id}|">
+							<h3 th:text="${material.name + @materialTS.determineMaterialSignifierString(material.signifier)}"></h3>
+							<!-- TODO material signifier -->
+							<th:block th:replace="material/tables :: techniqueModalTable (technique=${technique},
+								materialSignifier=${material.signifier}, compatibilityTable=${table},
+								incompleteness=${incompleteness}, idSuffix=${material.id})"></th:block>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary pull-left" data-classes="confirm"
+							data-dismiss="modal" th:text="#{method.fragment.warning_modal.button.confirm}">
+					</button>
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal" th:text="#{global.label.close}">
+					</button>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div th:fragment="incompletenessBar (incompleteness)" id="incompletenessBar"
+		th:data-sort="${#numbers.formatDecimal(incompleteness * 100, 3, 0)}"
+		class="progress progress-table"
+		th:with="incompletenessFormatted=${#numbers.formatDecimal(incompleteness * 100, 1, 0)}"
+		th:title="|${incompletenessFormatted}%|">
+
+	<div class="progress-bar" th:style="|width: ${incompletenessFormatted}%|"
+			th:classappend="|progress-bar-${@materialTS.determineIncompletenessClass(incompleteness)}|"
+			role="progressbar">
+	</div>
+</div>
+
+<th:block th:fragment="uncertaintyInput(uncertainty)" id="uncertaintyInput">
+	<a class="popovers" data-container="body" data-toggle="popover"
+			data-placement="auto top" data-trigger="click"
+			th:with="help=#{method.fragment.uncertainty_input.uncertainty_label_help}"
+			th:data-content="|<small>${help}</small>|">
+		<label th:for="|${@E.METHOD}.technique_uncertainty|"
+				th:text="#{method.fragment.uncertainty_input.uncertainty_label}"></label>
+	</a>
+	<br />
+	<input type="checkbox" th:name="|${@E.METHOD}.technique_uncertainty_unknown|" />
+	<label th:for="|${@E.METHOD}.technique_uncertainty_unknown|"
+			th:text="#{method.fragment.uncertainty_input.unknown_label}"></label>
+	<input type="number" min="0" max="100" step="0.1" maxlength="3" class="form-control"
+			th:name="|${@E.METHOD}.technique_uncertainty|" data-classes="technique_uncertainty"
+			placeholder="0" th:value="${uncertainty != null ? uncertainty : '0'}" required="required">
+</th:block>
+
+<th:block th:fragment="particleSizerUpload" id="particleSizerUpload">
+	<p></p>
+	<p th:utext="#{method.fragment.particle_sizer_upload.information('<a href=\'http://imagej.net/ParticleSizer#Use_the_ParticleSizer_with_the_NanoDefiner_e-tool\'>ParticleSizer</a>')}">
+	</p>
+	<form accept-charset="UTF-8" class="form" id="genericUploadForm" data-classes="submit-popup"
+			th:action="@{${@U.builder(@E.METHOD, @A.UPDATE).addEntityId(method).addPathParam('particleSizer')}}"
+			enctype="multipart/form-data" method="post">
+		<th:block th:replace="fragments/modals :: formSubmitModal ('genericUploadForm')"></th:block>
+
+		<div class="form-group">
+			<label th:for="|${@E.METHOD}.analysis_file|">Analysis file</label>
+			<input type="file" th:name="|${@E.METHOD}.analysis_file|"
+					class="filestyle" data-icon="false" required="required" />
+		</div>
+
+		<div class="form-group">
+			<th:block th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
+		</div>
+
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
+						th:text="#{global.button.upload}">
+				</button>
+			</div>
+		</div>
+	</form>
+</th:block>
+
+<th:block th:fragment="betUpload" id="betUpload">
+	<form accept-charset="UTF-8" class="form" method="post" enctype="multipart/form-data"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/BET|}">
+		<div class="form-group">
+			<label th:text="#{method.fragment.bet_upload.criteria_label}"></label>
+			<div class="table-responsive">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="false"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead><!-- /* TODO only works for mono-constituent */ -->
+					<tbody th:with="
+						material=${@archivableService.getFirstNotArchived(method.dossier.materials)},
+						materialCriteriaMap=${@materialCriterionService.createMaterialCriteriaMap(material, true)}">
+					<tr th:with="attribute=${@referenceDictionary.getAttribute(@PA.DIMENSIONS)}">
+						<!-- TODO Use dictionary / locales. -->
+						<td th:text="${attribute.label}">Number of small dimensions</td>
+						<!-- TODO Needed as parameter by VSSA processor. -->
+						<td th:text="${materialCriteriaMap.get(@PA.DIMENSIONS)}"></td>
+					</tr>
+					<tr th:with="attribute=${@referenceDictionary.getAttribute(@PA.AGGREGATION)}">
+						<!-- TODO Use dictionary / locales. -->
+						<td th:text="${attribute.label}">Presence of aggregation</td>
+						<!-- TODO Needed as parameter by VSSA processor. -->
+						<td th:text="${materialCriteriaMap.get(@PA.AGGREGATION)}"></td>
+					</tr>
+					<tr th:with="attribute=${@referenceDictionary.getAttribute(@PA.MULTIMODALITY)}">
+						<!-- TODO Use dictionary / locales. -->
+						<td th:text="${attribute.label}">Presence of multimodality</td>
+						<!-- TODO Needed as parameter by VSSA processor. -->
+						<td th:text="${materialCriteriaMap.get(@PA.MULTIMODALITY)}"></td>
+					</tr>
+					<tr>
+						<!-- TODO Use dictionary / locales. -->
+						<td>[[#{method.fragment.bet_upload.criteria_porosity}]]*</td>
+						<!-- Just an insurance. -->
+						<td>[[#{method.fragment.bet_upload.criteria_porosity.no}]]*</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<p>
+				<!-- TODO Create disclaimer for locales. -->
+				<small>*) [[#{method.fragment.bet_upload.criteria_porosity.explanation}]]
+				</small>
+			</p>
+		</div>
+		<div class="form-group">
+			<label th:for="|${@E.METHOD}.vssa|"
+					th:utext="#{method.fragment.bet_upload.vssa_label}"></label>
+			<!-- TODO Needed as parameter by VSSA processor. -->
+			<input type="number" step="0.01" min="0.01" class="form-control" th:name="|${@E.METHOD}.vssa|"
+					placeholder="VSSA"
+					required="required">
+		</div>
+		<div class="form-group">
+			<th:block th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
+		</div>
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true"
+						class="action submit btn btn-primary pull-right"
+						th:text="#{global.button.submit}">
+				</button>
+			</div>
+		</div>
+	</form>
+</th:block>
+
+<!-- TODO: merge this and generic upload into single fragment with parameters -->
+<th:block th:fragment="spicpmsUpload" id="spicpmsUpload">
+	<p></p>
+	<p th:utext="#{method.fragment.spicpms_upload.information('<a href=\'https://www.wur.nl/en/show/Single-Particle-Calculation-tool.htm\'>RIKILT Single Particle Calculation Tool</a>')}">
+	</p>
+	<form accept-charset="UTF-8" class="form" id="spicpmsForm" data-classes="submit-popup"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS|}"
+			enctype="multipart/form-data" method="post">
+		<th:block th:replace="fragments/modals :: formSubmitModal ('spicpmsForm')"></th:block>
+
+		<div class="form-group">
+			<label th:for="|${@E.METHOD}.analysis_file|"
+					th:text="#{method.fragment.spicpms_upload.analysis_file_label}"></label>
+			<input type="file" th:name="|${@E.METHOD}.analysis_file|"
+					class="filestyle" data-icon="false" required="required" />
+		</div>
+		<div class="form-group">
+			<th:block th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
+		</div>
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
+						th:text="#{global.button.upload}">
+				</button>
+			</div>
+		</div>
+	</form>
+</th:block>
+
+<th:block th:fragment="spicpmsSheet" id="spicpmsSheet">
+	<p></p>
+	<p th:text="#{method.fragment.spicpms_sheet.information}">
+	</p>
+	<form accept-charset="UTF-8" class="form" id="spicpmsSheetForm"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS/sheet|}"
+			enctype="multipart/form-data" data-classes="submit-popup" method="post">
+		<th:block th:replace="fragments/modals :: formSubmitModal ('spicpmsSheetForm')"></th:block>
+
+		<div class="form-group">
+			<label for="sheetId" th:text="#{method.fragment.spicpms_sheet.sheet_label}"></label>
+
+			<select id="sheetId" class="form-control selectpicker"
+					data-container="body" name="sheetId">
+				<option th:each="sheetName : ${@SPCTv2Service.getSheetList(method)}"
+						th:text="${sheetName}"
+						th:value="${sheetNameStat.count}">
+				</option>
+			</select>
+
+		</div>
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
+						th:text="#{global.button.submit}">
+				</button>
+			</div>
+		</div>
+	</form>
+</th:block>
+
+<th:block th:fragment="sizePlausibilityCheck (method)" id="sizePlausibilityCheck">
+	<p></p>
+	<form accept-charset="UTF-8" class="form" id="sizePlausibilityCheckForm"
+			th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_NEEDED)}"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/plausibility|}"
+			enctype="multipart/form-data" method="post">
+
+		<div class="form-group">
+			<label for="size" th:utext="#{method.fragment.size_check.size_label}"></label>
+
+			<input type="number" class="form-control" id="size" name="size" placeholder="1" min="1"
+					required="required" />
+
+		</div>
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
+						th:text="#{global.button.submit}">Submit
+				</button>
+			</div>
+		</div>
+	</form>
+	<!--/* TODO merge locale strings */-->
+	<th:block th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_VALUE)}">
+		<div th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_FAILED)}"
+				th:utext="#{method.fragment.size_check.failed(method.getAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_VALUE).value)}">
+		</div>
+
+		<div th:if="${!method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_FAILED)}"
+				th:text="#{method.fragment.size_check.succeeded(method.getAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_VALUE).value)}">
+		</div>
+	</th:block>
+
+</th:block>
+
+<th:block id="manualD50Result" th:fragment="manualD50Result">
+	<div class="table-responsive">
+		<table data-classes="table table-hover"
+				data-toggle="table"
+				data-striped="true"
+				data-locale="en-US"
+				data-search="true"
+				data-search-align="left"
+				data-detail-view="false"
+				data-show-export="true"
+				data-export-data-type="all">
+			<thead>
+			<tr>
+				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
+				<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<th:block th:replace=":: commonResultRows">
+			</th:block>
+			<tr>
+				<td th:text="#{method.fragment.result.argumentation}"></td>
+				<td th:utext="'D<sub>50</sub>'"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<th:block th:replace=":: sizePlausibilityCheck (${method})"></th:block>
+	<p></p>
+</th:block>
+
+<th:block th:fragment="fileUploadResult" id="fileUploadResult">
+	<div class="table-responsive">
+		<table data-classes="table table-hover"
+				data-toggle="table"
+				data-striped="true"
+				data-locale="en-US"
+				data-search="true"
+				data-search-align="left"
+				data-detail-view="false"
+				data-show-export="true"
+				data-export-data-type="all">
+			<thead>
+			<tr>
+				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
+				<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="#{method.fragment.spicpms_upload.analysis_file_label}"></td>
+				<td>
+					[[${@methodService.extractOriginalDataFileName(method)}]]
+					[[${@TS.generateFileSize(method.dataFile)}]]
+					<a class="glyphicon glyphicon-floppy-disk"
+							th:href="@{${@U.builder(@E.METHOD, @A.READ).addEntityId(method).addPathParam('download')}}"></a>
+				</td>
+			</tr>
+			<tr th:if="${method.dataFormat == @ADF.RIKILT_SPCTv2}">
+				<td th:text="#{method.fragment.spicpms_sheet.sheet_label}">Sheet</td>
+				<td th:text="${method.getAttribute(@MA.SPCTv2_SHEET_NAME).value}"></td>
+			</tr>
+			<th:block th:replace=":: commonResultRows">
+			</th:block>
+			<tr>
+				<td th:text="#{method.fragment.result.argumentation}"></td>
+				<td th:utext="'D<sub>50</sub>'"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<th:block th:replace=":: sizePlausibilityCheck (${method})"></th:block>
+	<p></p>
+</th:block>
+
+<th:block th:fragment="betResult" id="betResult">
+	<!--/* Exceptional result layout case for BET. */-->
+
+	<!--
+		Unified access on the analysis results makes it pretty
+		easy now, many attributes can be used here.
+
+		Exception:
+		- Analysis file
+
+		Also, no plots possible.
+	-->
+
+	<div class="table-responsive">
+		<table data-classes="table table-hover"
+				data-toggle="table"
+				data-striped="true"
+				data-locale="en-US"
+				data-search="true"
+				data-search-align="left"
+				data-detail-view="false"
+				data-show-export="true"
+				data-export-data-type="all">
+			<thead>
+			<tr>
+				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
+				<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td th:text="#{method.fragment.bet_result.vssa_value_label}"></td>
+				<td th:text="${method.dataFile}"></td>
+			</tr>
+			<th:block th:replace=":: commonResultRows">
+			</th:block>
+			<tr>
+				<td th:text="#{method.fragment.result.argumentation}"></td>
+				<td th:if="${method.hasResult()}" th:utext="'D<sub>50</sub>'"></td>
+				<td th:if="${!method.hasResult()}" th:text="#{method.update.error.bet}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<p />
+
+</th:block>
+
+<th:block th:fragment="fileUploadDetails" id="fileUploadDetails">
+	<div class="tab-pane" th:id="${idDetails}" role="tabpanel">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading panel-heading-sm">
+						<div class="panel-title"
+								th:text="#{method.fragment.file_upload.distribution_plot_label}"></div>
+					</div>
+					<div class="panel-body panel-body-sm">
+						<img style="width: 100%;"
+								th:src="@{|/${@E.METHOD}/${@A.READ}/${@E.METHOD}.id=${method.id}/plot=distribution|}" />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading panel-heading-sm">
+						<div class="panel-title"
+								th:text="#{method.fragment.file_upload.density_plot_label}"></div>
+					</div>
+					<div class="panel-body panel-body-sm">
+						<img style="width: 100%;"
+								th:src="@{|/${@E.METHOD}/${@A.READ}/${@E.METHOD}.id=${method.id}/plot=density|}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block th:fragment="manualD50Upload" id="manualD50Upload">
+
+	<!--/* Manual D50 entry */-->
+	<hr />
+	<form accept-charset="UTF-8" method="post" enctype="multipart/form-data"
+			th:action="@{${@U.builder(@E.METHOD, @A.UPDATE).addEntityId(method)
+						.addPathParam('D50')}}">
+
+		<p th:utext="#{method.fragment.manual_upload.information}"></p>
+
+		<div class="form-group">
+			<label for="D50" th:utext="#{method.fragment.manual_upload.d_50_label}"></label>
+			<input type="number" id="D50" th:name="|${@E.METHOD}.D50|" step="1" min="1"
+					required="required" value="1" class="form-control" />
+		</div>
+
+		<div class="form-group">
+			<th:block
+					th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
+		</div>
+
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
+						th:text="#{global.button.submit}">
+				</button>
+			</div>
+		</div>
+
+	</form>
+
+</th:block>
+
+<th:block th:fragment="commonResultRows" id="commonResultRows">
+	<tr>
+		<td th:utext="#{method.fragment.common_result.analysis_data_format_label}"></td>
+		<td th:utext="#{|method.read.analysis_data_format.${method.dataFormat}|}"></td>
+	</tr>
+	<tr th:if="${method.hasResult()}">
+		<td th:utext="#{method.fragment.common_result.analysis_result_label}"></td>
+		<td th:utext="|${#numbers.formatDecimal(method.result, 1, 0)}nm|"></td>
+	</tr>
+	<tr>
+	<tr>
+		<td th:utext="#{method.table.column.uncertainty}"></td>
+		<td th:text="${@methodTS.determineUncertainty(method, true)}"></td>
+	</tr>
+	<tr>
+		<td th:utext="#{method.fragment.common_result.nanomaterial_label}"></td>
+		<td th:if="${method.hasResult()}">
+			<span th:text="#{|method.read.nano.decision.${nanoString}|}"></span>
+			<span th:if="${borderline}" th:text="#{method.fragment.common_result.borderline}">
+			</span>
+			<span th:if="${sizePlausibilityCheck}"
+					th:text="#{method.fragment.common_result.size_check_needed}">
+			</span>
+			<span th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_FAILED)}"
+					th:text="#{method.fragment.common_result.size_check_failed}">
+			</span>
+		</td>
+		<td th:if="!${method.hasResult()}">
+			<span th:text="#{|method.read.nano.decision.none|}"></span>
+		</td>
+	</tr>
+</th:block>
+
+</body>
+</html>

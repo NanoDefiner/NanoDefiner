@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS NanoDefiner_Test;
+CREATE DATABASE NanoDefiner_Test CHARACTER SET utf8 COLLATE utf8_swedish_ci;

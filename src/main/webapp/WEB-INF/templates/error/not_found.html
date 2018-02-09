@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="error/layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{error.not_found.heading}"></h3>
+	</div>
+
+	<div align="center">
+		<h1></h1>
+		<p></p>
+		<p th:text="#{error.not_found.body.text}"></p>
+	</div>
+</div>
+
+
+<footer th:replace="layout :: footer"></footer>
+</body>

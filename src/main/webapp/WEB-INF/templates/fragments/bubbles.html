@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+
+<div class="jumbotron pace-hidden" th:fragment="bubbles (entity, n1, n2, n3)">
+	<div class="container">
+		<div class="row placeholders">
+			<div class="col-xs-4 col-sm-4 placeholder">
+				<a href="#active" data-toggle="tab">
+					<img
+							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n1}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{dossier.active}"></h4>
+				<span class="text-muted" th:text="#{|${entity}.active.count|}"></span>
+			</div>
+			<div class="col-xs-4 col-sm-4 placeholder">
+				<a href="#archived" data-toggle="tab">
+					<img
+							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n2}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{dossier.archived}"></h4>
+				<span class="text-muted" th:text="#{|${entity}.archived.count|}"></span>
+			</div>
+			<div class="col-xs-4 col-sm-4 placeholder">
+				<a href="#all" data-toggle="tab">
+					<img
+							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n3}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{dossier.all}"></h4>
+				<span class="text-muted" th:text="#{|${entity}.all.count|}"></span>
+			</div>
+		</div>
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+</body>
+</html>

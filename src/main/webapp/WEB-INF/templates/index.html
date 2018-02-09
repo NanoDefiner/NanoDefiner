@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+	<nav th:replace="layout :: navigation"></nav>
+
+	<!-- Content here -->
+	<!-- Main jumbotron for more information about the NanoDefine project -->
+	<div class="jumbotron pace-hidden">
+		<div class="container pace-hidden">
+			<h1>Welcome!</h1>
+			<p>
+				This is the NanoDefiner e-tool, a decision support system and
+				expert tool for the characterisation of potential nano products. It
+				is one of the products delivered by the NanoDefine project. Want
+				more information?
+			</p>
+			<p>
+				<a class="btn btn-primary btn-lg" href="http://www.nanodefine.eu/" role="button">Learn more &raquo;</a>
+			</p>
+		</div>
+	</div>
+
+	<div class="container pace-hidden">
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Project</h2>
+				<p>
+					Nanotechnology is a key enabling technology. Still, existing
+					uncertainties concerning EHS need to be addressed to explore its
+					full potential ...
+				</p>
+				<p>
+					<a class="btn btn-default"
+						href="http://www.nanodefine.eu/index.php/project-overview"
+						role="button">View details &raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h2>Partners</h2>
+				<p>
+					29 Partners form a consortium of European RTD performers,
+					metrology institutes and nanomaterials and instrument ...
+				</p>
+				<p>
+					<a class="btn btn-default"
+						href="http://www.nanodefine.eu/index.php/project-overview/consortium"
+						role="button">View details &raquo;</a>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h2>Products</h2>
+				<p>
+					The strategic objectives in NanoDefine are aimed to deliver
+					the following main products: NanoDefiner e-tool, NanoDefine Method
+					Manual, ...
+				</p>
+				<p>
+					<a class="btn btn-default"
+						href="http://www.nanodefine.eu/index.php/project-overview/nanodefine-products"
+						role="button">View details &raquo;</a>
+				</p>
+			</div>
+		</div>
+	</div> <!-- container -->
+
+	<footer th:replace="layout :: footer"></footer>
+</body>

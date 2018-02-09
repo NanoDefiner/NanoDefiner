@@ -1,0 +1,377 @@
+package eu.nanodefine.etool.drools.rules;
+
+import java.util.List;
+
+import eu.nanodefine.etool.knowledge.ddos.PerformanceCriterionDDO;
+import eu.nanodefine.etool.knowledge.ddos.PerformanceCriterionDDOMap;
+
+import eu.nanodefine.etool.knowledge.ddos.MaterialCriterionDDO;
+import eu.nanodefine.etool.knowledge.ddos.MaterialCriterionDDOMap;
+
+import eu.nanodefine.etool.knowledge.dictionaries.ExplanationDictionary;
+
+// -----------------------------------------------------------------
+// SUPERIOR STATES
+// -----------------------------------------------------------------
+
+rule "irrelevance" salience 1
+    dialect "mvel"
+    when
+		$performance : PerformanceCriterionDDOMap();		
+		$pddo : PerformanceCriterionDDO(
+			this.isIrrelevant() // irrelevance
+		) from $performance.values();
+    then
+		PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;    	
+		pddo.setMatchReason(ExplanationDictionary.IRRELEVANCE);
+end
+
+rule "uncertainty_technique" salience 10
+    dialect "mvel"
+    when
+		$performance : PerformanceCriterionDDOMap();
+		
+		$pddo : PerformanceCriterionDDO(
+			this.isUnknown() // uncertainty technique
+		) from $performance.values();
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.INCOMPLETENESS_TECHNIQUE);
+end
+
+rule "uncertainty_material" salience 100
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap();
+		
+		$mddo : MaterialCriterionDDO(
+			this.isUnknown() // uncertainty material
+		) from $material.values();
+    then    	
+    	MaterialCriterionDDO mddo = (MaterialCriterionDDO) $mddo;
+    	PerformanceCriterionDDOMap performance = (PerformanceCriterionDDOMap) $performance;
+    	
+    	PerformanceCriterionDDO pddo = performance.get(mddo.getName());
+    	pddo.setMatchReason(ExplanationDictionary.INCOMPLETENESS_MATERIAL);
+end
+
+// -----------------------------------------------------------------
+// SINGLE DECISION POINTS
+// -----------------------------------------------------------------
+
+rule "chemical_composition" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("chemical_composition")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "composites" salience 9001
+    dialect "mvel"
+    when   	
+	   	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("composites")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& ($mddo.isEmpty() || this.intersects($mddo))
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH); 
+end
+
+rule "conductivity" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("conductivity")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& ($mddo.isEmpty() || this.intersects($mddo))
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);  	
+end
+
+rule "dimensions" salience 9001
+    dialect "mvel"
+    when  
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	//$mddo : MaterialCriterionDDO(name == "conductivity") from $material.values()
+      	$mddo : MaterialCriterionDDO() from $material.get("dimensions")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& 	this.hasSubset($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "magnetism" salience 9001
+    dialect "mvel"
+    when   	
+	   	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("magnetism")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& ($mddo.isEmpty() || this.intersects($mddo))
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);  	
+end
+
+rule "multimodality" salience 9001
+    dialect "mvel"
+    when
+   		$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("multimodality")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "polydispersity" salience 9001
+    dialect "mvel"
+    when
+   		$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("polydispersity")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "shape" salience 9001
+    dialect "mvel"
+    when  	
+       	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("shape")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "dispersibility" salience 9001
+    dialect "mvel"
+    when	
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("dispersibility")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "trade_form" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("trade_form")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& this.intersects($mddo)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "analysis_temperature" salience 9001
+    dialect "mvel"
+    when  	
+   		$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("analysis_temperature")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.fitsPartially(this)
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "wr_size_range" salience 9001
+    dialect "mvel"
+    when 	
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("wr_size_range")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.fitsStrictly(this) // strict fit
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "agglomeration" salience 9001
+    dialect "mvel"
+    when	
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("agglomeration")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "aggregation" salience 9001
+    dialect "mvel"
+    when	
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("aggregation")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "electron_beam" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("electron_beam")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this, false, true) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "fluorescence" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("fluorescence")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "functionalisation" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("functionalisation")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "light_absorption" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("light_absorption")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "os_vacuum" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("os_vacuum")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this, false, true) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "presence" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("presence")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end
+
+rule "release_iam" salience 9001
+    dialect "mvel"
+    when
+    	$material : MaterialCriterionDDOMap()
+		$performance : PerformanceCriterionDDOMap()
+      	
+      	$mddo : MaterialCriterionDDO() from $material.get("release_iam")
+		$pddo : PerformanceCriterionDDO(name == $mddo.getName()
+			&& $mddo.implies(this) // implication
+		) from $performance.values()  	
+    then
+    	PerformanceCriterionDDO pddo = (PerformanceCriterionDDO) $pddo;
+    	pddo.setMatchReason(ExplanationDictionary.MATCH);
+end

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body th:with="action=${dossier.id == 0 ? history.current.action + '_template'
+		: history.current.action}">
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{|material.${action}.jumbo.headline|}">
+		</h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{material.create.jumbo.topic.step1}"></h5>
+		</div>
+		<div class="topic">
+			<h5 th:text="#{material.create.jumbo.topic.step2}"></h5>
+		</div>
+		<div class="topic">
+			<h5 th:text="#{material.create.jumbo.topic.step3}"></h5>
+		</div>
+		<div class="topic">
+			<h5 th:text="#{material.create.jumbo.topic.step4}"></h5>
+		</div>
+		<p>
+		<div class="progress">
+			<div class="progress-bar active progress-bar-form" role="progressbar" aria-valuemin="0"
+					aria-valuemax="100"></div>
+		</div>
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+<div class="container pace-hidden">
+	<form accept-charset="UTF-8" class="form multistep" method="post" id="materialCreateForm"
+			th:data-entity="${@E.MATERIAL}"
+			enctype="multipart/form-data">
+		<input class="hidden" type="submit" onclick="return false;" />
+
+		<div class="variables">
+			<span id="liveFeedbackUri"
+					th:text="@{|/${@E.MATERIAL}/feedback/${@E.DOSSIER}.id=${dossier.id}${material.id != 0 ? ('?' + @E.MATERIAL + '.id=' + material.id) : ''}|}">
+			</span>
+			<span id="loadTemplateUri"
+					th:text="@{|/${@E.MATERIAL}/template/${@E.MATERIAL}.id=|}">
+			</span>
+			<span th:if="${material.id != 0 && action == 'create_template'}" th:text="${material.id}"
+					id="loadMaterialId">
+			</span>
+			<span th:text="${defaultMaterialName}" id="defaultMaterialName"></span>
+			<span id="locale-material.create.form.name.based_on"
+					th:text="#{material.create.form.name.based_on}"></span>
+		</div>
+
+		<div class="page-header" data-classes="no-actionbox">
+			<div class="btn-toolbar pull-right">
+				<button th:if="${action == 'create'}" type="submit" name="submitForm"
+						th:value="${@E.METHOD}"
+						class="action submit btn btn-primary pull-right">
+					<span th:text="#{|material.${action}.form.submit_${@E.METHOD}|}"></span>
+				</button>
+				<button type="submit" name="submitForm" value="true"
+						class="action submit btn btn-primary pull-right"
+						th:text="#{|material.${action}.form.submit|}">
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}">
+				</button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}">
+				</button>
+			</div>
+			<h3 class="hstep" th:text="#{material.create.form.headline.step1}">
+			</h3>
+			<h3 class="hstep" th:text="#{material.create.form.headline.step2}">
+			</h3>
+			<h3 class="hstep" th:text="#{material.create.form.headline.step3}">
+			</h3>
+			<h3 class="hstep" th:text="#{material.create.form.headline.step4}">
+			</h3>
+		</div>
+
+		<div class="feedback">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<a class="popovers" data-container="body" data-toggle="popover"
+								data-placement="top" data-trigger="click"
+								th:data-content="|<small id='feedbackPopoverContent'>
+						<span class='glyphicon glyphicon-ok-sign'></span>
+						#{material.create.feedback.popover.recommended}<br />
+						<span class='glyphicon glyphicon-ok-circle'></span>
+						#{material.create.feedback.popover.recommended_unassessed}<br />
+						<span class='glyphicon glyphicon-question-sign'></span>
+						#{material.create.feedback.popover.incompleteness}<br />
+						<span class='glyphicon glyphicon-remove-sign'></span>
+						#{material.create.feedback.popover.unsuitable}<br />
+						<hr />
+						<span class='unavailable'>#{material.create.feedback.popover.unavailable}</span><br />
+						<hr />
+						<span>T1</span> = #{material.create.feedback.popover.tier1},
+						<span>T2</span> = #{material.create.feedback.popover.tier2},
+						<span>*</span> = #{material.create.feedback.popover.not_assessed}
+						</small>|">
+							<label th:for="|${@E.MATERIAL}.material_configuration|"
+									th:text="#{material.create.form.label.live_feedback}">
+							</label>
+						</a>
+						<div id="feedback">
+							<th:block th:each="t : ${techniques}">
+								<span class="alert alert-danger"
+										th:id="${t.signifier}" data-toggle="modal"
+										th:data-target="|#${t.signifier}defaultModal|"
+										th:classappend="|${unavailableTechniques.contains(t) ? 'unavailable' : ''}
+											${@techniqueService.isUnassessed(t) ? 'unassessed' : ''}|">
+									<span class="glyphicon glyphicon-remove"
+											th:id="|${t.signifier}-glyphicon|"></span>
+									<span th:text="${t.name}"></span>
+								</span>
+							</th:block>
+							<span id="feedbackInProgress"
+									class="glyphicon glyphicon-cog gly-spin pull-right hidden">
+							</span>
+						</div>
+						<div class="form-group">
+							<a class="popovers" data-container="body" data-toggle="popover"
+									data-placement="top" data-trigger="click" th:data-content="|
+							<small>
+								#{material.create.incompleteness.popover.explanation}
+								<hr>
+								<i>I<sup>m</sup></i> &le; 20% = #{material.create.incompleteness.popover.low}<br />
+								<i>I<sup>m</sup></i> &le; 50% = #{material.create.incompleteness.popover.moderate}<br />
+								<i>I<sup>m</sup></i> &gt; 50% = #{material.create.incompleteness.popover.high}<br />
+								<hr>
+								<div class='progress' style='width:100%'>
+									<div class='progress-bar progress-bar-success' role='progressbar' style='width:20%'>
+								    	&le; 20%
+								  	</div>
+								  	<div class='progress-bar progress-bar-warning' role='progressbar' style='width:30%'>
+								    	&le; 50%
+								  	</div>
+								  	<div class='progress-bar progress-bar-danger' role='progressbar' style='width:50%'>
+								    	&gt; 50%
+								  	</div>
+							  	</div>
+							</small>
+							|"><label for="materialIncompleteness">
+								[(#{material.create.incompleteness.label})] <i>I<sup>m</sup></i>
+							</label></a>
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" id="materialIncompleteness"
+										role="progressbar"
+										aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+										style="min-width: 2em;">
+									0%
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="step">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label th:for="|${@E.MATERIAL}.parent|"
+								th:text="#{material.create.form.template.label}"></label>
+						<select class="form-control selectpicker" data-container="body"
+								data-live-search="true" data-size="auto"
+								th:name="|${@E.MATERIAL}.parent|"
+								data-feedback="false"
+								id="template">
+							<option value="0" th:text="#{material.create.form.template.none}"></option>
+							<optgroup label="User templates">
+								<option th:each="t : ${templates}" th:value="${t.id}"
+										th:text="${t.name}">
+								</option>
+							</optgroup>
+							<optgroup label="Reference templates">
+								<option th:each="t : ${references}"
+										th:value="${t.getEntry('reference_signifier').value}"
+										th:text="${t.getEntry('reference_name').value}">
+								</option>
+							</optgroup>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label th:for="|${@E.MATERIAL}.name|"
+								th:text="#{material.create.form.label.name}">
+						</label>
+						<input id="name" type="text" class="form-control"
+								th:name="|${@E.MATERIAL}.name|"
+								th:placeholder="#{material.create.form.placeholder.name}"
+								th:value="${material.name ?: defaultMaterialName}"
+								data-feedback="false"
+								required="required">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label th:for="|${@E.MATERIAL}.comment|"
+								th:text="#{material.create.form.label.comment}">
+						</label>
+						<textarea class="form-control" rows="5"
+								th:name="|${@E.MATERIAL}.comment|"
+								th:placeholder="#{material.create.form.placeholder.comment}"
+								data-feedback="false"
+								th:text="${material.comment}"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<a class="popovers" data-container="body" data-toggle="popover"
+								data-placement="top" data-trigger="click"
+								th:data-content="|<small>#{material.create.form.group.popover}</small>|">
+							<label th:for="|${@E.MATERIAL}.material_signifier|"
+									th:text="#{material.create.form.label.material_signifier}">
+							</label>
+						</a>
+						<select class="form-control selectpicker" data-container="body"
+								th:id="|${@E.MATERIAL}.material_signifier|"
+								data-live-search="true" data-size="auto"
+								th:name="|${@E.MATERIAL}.material_signifier|">
+							<option value="default" th:text="#{material.create.form.group.none}">
+							</option>
+							<optgroup label="Types">
+								<option th:each="type : ${@materialTypes}"
+										th:value="${type.materialSignifier}" th:text="${type.name}"
+										th:selected="${material.signifier == type.materialSignifier}"></option>
+							</optgroup>
+							<optgroup label="Groups">
+								<option th:each="group : ${@materialGroups}"
+										th:value="${group.materialSignifier}" th:text="${group.name}"
+										th:selected="${material.signifier == group.materialSignifier}"></option>
+							</optgroup>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="step">
+			<div class="row">
+				<div class="col-sm-6" th:with="id=${@PA.SHAPE}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+				<div class="col-sm-6" th:with="id=${@PA.DIMENSIONS}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"
+						th:with="id=${@PA.MULTIMODALITY}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+				<div class="col-sm-6" th:with="id=${@PA.COMPOSITES}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, true, false)">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"
+						th:with="id=${@PA.AGGREGATION}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.AGGLOMERATION}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6" th:with="id=${@PA.WR_SIZE_RANGE},
+						interval=${T(eu.nanodefine.etool.utilities.utils.ConfigurationUtil).toInterval(materialCriteria.get(id))},
+						lower=${interval != null ? interval[0] : 50},
+						upper=${interval != null ? interval[1]: 2000}">
+					<th:block
+							th:replace="material/fragments :: slider (${id}, ${lower}, ${upper}, ${interval == null}, 1)">
+					</th:block>
+				</div>
+
+				<div class="col-sm-6" th:with="id=${@PA.ANALYSIS_TEMPERATURE},
+						interval=${T(eu.nanodefine.etool.utilities.utils.ConfigurationUtil).toInterval(materialCriteria.get(id))},
+						lower=${interval != null ? interval[0] : 0},
+						upper=${interval != null ? interval[1]: 100}">
+					<th:block
+							th:replace="material/fragments :: slider (${id}, ${lower}, ${upper}, ${interval == null}, -273)">
+					</th:block>
+				</div>
+			</div>
+		</div>
+
+		<div class="step">
+			<div class="row">
+				<div class="col-sm-6" th:with="id=${@PA.TRADE_FORM}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.DISPERSIBILITY}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, true, true)">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"
+						th:with="id=${@PA.CHEMICAL_COMPOSITION}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, true)">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.POLYDISPERSITY}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6" th:with="id=${@PA.OS_VACUUM}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.ELECTRON_BEAM}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12" th:with="id=${@PA.PRESENCE}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+			</div>
+		</div>
+
+		<div class="step">
+			<div class="row">
+				<div class="col-sm-6" th:with="id=${@PA.MAGNETISM}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, true, true)">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.CONDUCTIVITY}">
+					<th:block th:replace="material/fragments :: selectFragment (${id},
+							true, false, false)">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"
+						th:with="id=${@PA.LIGHT_ABSORPTION}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.FLUORESCENCE}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6"
+						th:with="id=${@PA.FUNCTIONALISATION}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+				<div class="col-sm-6"
+						th:with="id=${@PA.RELEASE_IAM}">
+					<th:block th:replace="material/fragments :: radio (${id},
+							${materialCriteria.get(id)})">
+					</th:block>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button th:if="${action == 'create'}" type="submit" name="submitForm"
+						th:value="${@E.METHOD}"
+						class="action submit btn btn-primary pull-right">
+					<span th:text="#{|material.${action}.form.submit_${@E.METHOD}|}"></span>
+				</button>
+				<button type="submit" name="submitForm" value="true"
+						class="action submit btn btn-primary pull-right">
+					<span th:text="#{|material.${action}.form.submit|}"></span>
+				</button>
+				<button type="button" class="action next btn btn-primary pull-right"
+						th:text="#{global.form.button.next}">
+				</button>
+				<button type="button" class="action back btn btn-primary pull-right"
+						th:text="#{global.form.button.back}">
+				</button>
+			</div>
+		</div>
+
+		<div th:replace="material/fragments :: createFormModal"></div>
+	</form>
+
+	<!-- Modals after form to avoid JS problems -->
+	<th:block th:each="t : ${techniques}">
+		<div th:replace="material/fragments :: techniqueModal(${t}, null, 0)"></div>
+	</th:block>
+
+</div> <!-- End: .container -->
+
+<div th:replace="material/fragments :: mcsImages"></div>
+
+<script defer="defer"
+		th:src="@{'/libs/jquery-ui-slider-pips-git/dist/jquery-ui-slider-pips.min.js'}">
+</script>
+<script defer="defer"
+		th:src="@{'/libs/jquery-validation-git/dist/jquery.validate.min.js'}"></script>
+<script defer="defer" th:src="@{'/libs/jquery-deserialize-git/dist/jquery.deserialize.min.js'}">
+</script>
+<script defer="defer" th:src="@{'/js/incl/multistep.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/form.js'}"></script>
+<script defer="defer" th:src="@{'/js/incl/tables.js'}"></script>
+<script defer="defer" th:src="@{'/js/material/create.js'}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

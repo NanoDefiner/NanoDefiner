@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="error/layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<div align="center" class="page-header" data-classes="no-actionbox">
+		<h1>
+			<span
+					th:if="${errorAttributesMap.get('status') < 600 && errorAttributesMap.get('status') >= 300}"
+					th:remove="tag"
+					th:text="|Error ${errorAttributesMap.get('status')}: ${errorAttributesMap.get('error')}|">
+			</span>
+			<span
+					th:if="${errorAttributesMap.get('status') >= 600 || errorAttributesMap.get('status') < 300}"
+					th:remove="tag"
+					th:text="|Error: ${errorAttributesMap.get('message')}|">
+			</span>
+		</h1>
+		<p></p>
+		<p><img th:src="@{'/img/27_plugin-256.png'}" /></p>
+	</div>
+
+	<p th:text="#{|error.generic.body.text.${feedbackButtonEnabled}|}"></p>
+
+	<div class="panel-group" th:if="${errorAttributesMap != null && !errorAttributesMap.isEmpty()}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" href="#errorDetails" th:text="#{error.generic.details}">
+					</a>
+				</h4>
+			</div>
+			<div id="errorDetails" class="panel-collapse collapse">
+				<div class="panel-body">
+
+					<div class="table-responsive">
+						<table data-classes="table table-hover"
+								data-toggle="table"
+								data-striped="true"
+								data-locale="en-US"
+								data-search="true"
+								data-search-align="left"
+								data-detail-view="false"
+								data-show-export="true"
+								data-export-data-type="all">
+							<thead>
+							<tr>
+								<th data-field="attribute" data-width="25%"
+										th:text="#{error.generic.table.column.attribute}"></th>
+								<th data-field="value" data-width="75%"
+										th:text="#{global.table.column.value}"></th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr th:each="e : ${errorAttributesMap}">
+								<td th:text="${e.key}"></td>
+								<td th:text="${e.value}"></td>
+							</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container pace-hidden">
+	<button class="btn btn-primary pull-left" id="backButton"
+			th:text="#{global.button.go_back}"></button>
+	<button class="btn btn-primary pull-right" th:if="${feedbackButtonEnabled}" id="reportProblem"
+			th:text="#{error.generic.button.report}"></button>
+</div>
+
+<script defer="defer" th:src="@{/js/error/report.js}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>

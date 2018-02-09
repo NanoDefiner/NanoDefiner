@@ -1,0 +1,474 @@
+/*
+ * This CSS file contains some tiny customizing for a smoother UI experience.
+ */
+
+/*
+ * Base structure
+ */
+
+/*
+ * This tiny code is a little hack to prevent bootstrap from leaving an
+ * unattractive white border at the right side of the window when being
+ * displayed in low resolution.
+ *
+ * TODO commented out code will make body scrollable when popups are too high
+ */
+html, body {
+	width: auto !important;
+	/*overflow-x: hidden !important;*/
+}
+
+body {
+	padding-top: 50px;
+	padding-bottom: 20px;
+}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+.navbar-spacer {
+	height: 50px;
+}
+
+.page-header {
+	margin: 20px 0 20px;
+	padding: 0em;
+}
+
+/*
+ * Navigation elements
+ */
+
+/* Nav bar links */
+/* TODO solve more flexibly */
+#navbar .navbar-nav > li > a {
+	height: 50px;
+}
+
+#navbar label {
+	color: white;
+}
+
+/* Space around nav tabs */
+.panel.actions {
+	margin: 0px;
+}
+
+.nav.nav-tabs {
+	margin-bottom: 10px;
+}
+
+nav.navbar {
+	margin-bottom: 0px;
+}
+
+.navbar-nav > li > a {
+	padding-bottom: 0px;
+}
+
+/* Global alerts */
+nav .alert {
+	margin-bottom: -3px;
+}
+
+/*
+ * This is a little bit of css to place the brand logo adequately.
+ */
+.brand {
+	margin-top: -9px;
+	height: 42px;
+	width: auto;
+}
+
+.nav-pills > li + li {
+	margin-left: 0px;
+}
+
+/*
+ * Placeholders on dashboard
+ */
+.placeholders {
+	text-align: center;
+}
+
+.placeholders h4 {
+	margin-bottom: 0;
+}
+
+.placeholder {
+	margin: 1em 0 1em 0;
+}
+
+.placeholder img {
+	display: inline-block;
+	border-radius: 50%;
+}
+
+/*
+ * Live feedback elements
+ */
+
+#feedback, #feedbackLegend {
+	/*background-color: #EEEEEE;*/
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#feedback span.alert, #feedbackLegend span.alert {
+	padding: 5px;
+	margin: 5px;
+	border: thin solid #CCCCCC;
+	display: block;
+	float: left;
+}
+
+/* Live feedback labels should appear clickable */
+#feedback span {
+	cursor: pointer;
+}
+
+/**
+ * Spinning icons
+ */
+.gly-spin {
+	-webkit-animation: spin 2s infinite linear;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+}
+
+@-moz-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+	}
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+	}
+}
+
+@-o-keyframes spin {
+	0% {
+		-o-transform: rotate(0deg);
+	}
+	100% {
+		-o-transform: rotate(359deg);
+	}
+}
+
+@keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+.unavailable {
+	background-color: rgb(222, 222, 222) !important;
+}
+
+/* Clickable glyphicons */
+a.glyphicon, .clickable {
+	cursor: pointer;
+}
+
+/**
+ * Glyphicon links
+ */
+a.glyphicon:hover {
+	text-decoration: none;
+}
+
+/**
+ * Colored glyphicons
+ */
+
+.glyphicon.success {
+	color: #3c763d;
+}
+
+.glyphicon.danger {
+	color: #a94442;
+}
+
+/**
+ * Hidden glyphicon placeholder
+ */
+.glyphicon-none {
+	content: "\e094";
+	color: transparent !important;
+	visibility: hidden;
+}
+
+/* Live feedback technique modal needs to be wider */
+.modal-large .modal-dialog {
+	width: 75%;
+}
+
+/*
+ * Granting popovers 33% width of their container's width.
+ * This helps to prevent too small popovers.
+ */
+
+.popover {
+	max-width: 33%; /* Max Width of the popover (depending on the container!) */
+}
+
+/*
+ * Common bootstrap editing
+ */
+.jumbotron {
+	padding: 0.0em 0.0em;
+	margin: 0em;
+}
+
+.jumbotron p {
+	font-size: 1.2em;
+}
+
+.jumbotron p .btn {
+	padding: 0.5em;
+}
+
+.btn-mini {
+	padding: 0 2px 0 2px;
+}
+
+/**
+ * No borders around responsive tables
+ */
+.table-responsive {
+	border: none;
+}
+
+/**
+ * Table cells with long text
+ */
+.table td.text {
+	max-width: 200px;
+}
+
+.table td.text span {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 100%;
+}
+
+/**
+ * Table search buttons
+ */
+div[data-classes~=search-buttons] button.selected {
+	border: 2px solid #000000;
+	margin-top: -1px;
+}
+
+/**
+ * Table borders
+ */
+.fixed-table-body {
+	border: thin solid #ddd;
+}
+
+.fixed-table-container {
+	border: none;
+}
+
+/**
+ * Inline breadcrumbs
+ */
+.breadcrumb-inline {
+	background-color: inherit;
+	padding: 0px;
+	margin: 0px;
+}
+
+/*
+ * Minimize radio button group box spacing
+ */
+
+.radio {
+	margin: 0 0 0.4em 0;
+}
+
+/*
+ * Small panels
+ */
+
+.panel-heading-sm {
+	height: 30px;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.panel-body-sm {
+	padding: 5px 10px;
+}
+
+.process {
+	display: table;
+	width: 100%;
+	position: relative;
+}
+
+.process-row {
+	display: table-row;
+}
+
+.process-row:before {
+	top: 20px;
+	bottom: 0;
+	position: absolute;
+	content: " ";
+	width: 100%;
+	height: 1px;
+	background-color: #ddd;
+	z-order: 0;
+}
+
+.process-step {
+	display: table-cell;
+	text-align: center;
+	position: relative;
+	width: 25%;
+}
+
+.process-step p {
+	margin-top: 5px;
+}
+
+.btn-circle {
+	width: 40px;
+	height: 40px;
+	text-align: center;
+	font-size: 12px;
+	border-radius: 50%;
+}
+
+/**
+ * Disabled links
+ */
+a.disabled {
+	cursor: not-allowed !important;
+	text-decoration: none;
+	color: rgb(51, 51, 51);
+}
+
+/**
+ * No underlining for actionbox links
+ */
+div.actions a {
+	text-decoration: none;
+}
+
+div.actions .recommended .glyphicon-menu-right, .recommended a {
+	color: #5cb85c;
+}
+
+/**
+ * Hidden JS variables
+ */
+.variables {
+	display: none !important;
+}
+
+/**
+ * Feedback button
+ */
+button.feedback {
+	position: fixed;
+	right: 5px;
+	bottom: -2px;
+}
+
+/**
+ * Progress bars within tables
+ */
+.progress-table {
+	height: 10px;
+	width: 50px;
+}
+
+/**
+ * Forms
+ */
+
+label.not-bold {
+	font-weight: normal;
+}
+
+.multi-line-button {
+	max-width: 300px;
+	white-space: normal;
+}
+
+/**
+ * Messages
+ */
+#messages_alert .alert {
+	margin-bottom: 0;
+}
+
+/**
+ * Pace
+ */
+.pace-hidden {
+	display: none;
+}
+
+.pace div.pace-progress {
+	background-color: #c30a17;
+}
+
+.pace div.pace-progress-inner {
+	/*box-shadow: 0 0 10px #c30a17, 0 0 5px #c30a17;*/
+	box-shadow: none;
+}
+
+.pace div.pace-activity {
+	border-top-color: #c30a17;
+	border-left-color: #c30a17;
+}
+
+/**
+ * Vertically centered Modals
+ */
+.modal-vertically-centered {
+	text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+	.modal-vertically-centered:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+
+.modal-vertically-centered .modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+/**
+ * MCS images
+ */
+img.mcs-image {
+	position: absolute;
+	display: inline-block;
+	left: 5px;
+}

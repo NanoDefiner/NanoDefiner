@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:replace="fragments/bubbles :: bubbles
+	('report', ${reportsActive.size()}, ${reportsArchived.size()}, ${reportsAll.size()})"></div>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{report.overview}"></h3>
+	</div>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#active" data-toggle="tab" th:text="#{report.active}"></a>
+		</li>
+		<li>
+			<a href="#archived" data-toggle="tab" th:text="#{report.archived}"></a>
+		</li>
+		<li>
+			<a href="#all" data-toggle="tab" th:text="#{report.all}"></a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content"
+			th:with="showColumns=${@TS.list('dossier')}">
+		<div class="tab-pane active in" id="active">
+			<div th:replace="report/tables :: default (${reportsActive}, false)"></div>
+		</div>
+		<div class="tab-pane" id="archived">
+			<div th:replace="report/tables :: default (${reportsArchived}, false)"></div>
+		</div>
+		<div class="tab-pane" id="all">
+			<div th:replace="report/tables :: default (${reportsAll}, false)"></div>
+		</div>
+	</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

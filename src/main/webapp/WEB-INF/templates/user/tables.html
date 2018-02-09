@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+<th:block th:fragment="default (techniques, profileMap)">
+	<table id="userTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="false"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="false"
+			data-search="false"
+			data-search-align="left"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="name"
+			data-sort-order="asc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="userTable"
+			data-select-item-name="enabled"
+			data-detail-view="false">
+		<!--data-click-to-select="true"-->
+		<thead>
+		<tr>
+			<th data-field="id" data-visible="false" data-sortable="true">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="cost" data-sortable="true" th:utext="#{user.table.column.cost}"></th>
+			<th data-field="duration" data-sortable="true" th:text="#{user.table.column.duration}"></th>
+			<th data-field="uncertainty" data-sortable="true"
+					th:text="#{user.table.column.uncertainty}"></th>
+			<th data-field="enabled" data-sortable="true" th:text="#{user.table.column.enabled}"></th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="t : ${techniques}">
+			<td th:text="${t.id}"></td>
+			<td>
+				<!--/* TODO this is for sorting, solve cleaner */-->
+				<span th:text="${t.name}" class="hidden"></span>
+				<span th:title="${t.comment}" th:text="${t.name}"></span>
+				<a class="hidden" th:href="@{|/${@E.PROFILE}/${@A.UPDATE}/${@E.TECHNIQUE}.id=${t.id}|}">
+				</a>
+			</td>
+			<td th:text="${@profileService.formatCost(profileMap.get(t))}"></td>
+			<td th:text="${@profileService.formatDuration(profileMap.get(t))}"></td>
+			<td th:text="${@PTS.determineUncertainty(profileMap.get(t), false)}">
+			</td>
+			<td>
+				<span class="glyphicon"
+						th:classappend="${!profileMap.containsKey(t) || profileMap.get(t).enabled} ? 'glyphicon-ok' : 'glyphicon-remove'">
+				</span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</th:block>
+
+</body>
+</html>

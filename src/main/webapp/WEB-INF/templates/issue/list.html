@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:replace="fragments/bubbles :: bubbles
+	('issue', ${issuesActive.size()}, ${issuesArchived.size()}, ${issuesAll.size()})"></div>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{issue.overview}"></h3>
+	</div>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#active" data-toggle="tab" th:text="#{issue.active}"></a>
+		</li>
+		<li>
+			<a href="#archived" data-toggle="tab" th:text="#{issue.archived}"></a>
+		</li>
+		<li>
+			<a href="#all" data-toggle="tab" th:text="#{issue.all}"></a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content">
+		<div class="tab-pane active in" id="active">
+			<div th:replace="issue/tables :: default (${issuesActive}, true)"></div>
+		</div>
+		<div class="tab-pane" id="archived">
+			<div th:replace="issue/tables :: default (${issuesArchived}, false)"></div>
+		</div>
+		<div class="tab-pane" id="all">
+			<div th:replace="issue/tables :: default (${issuesAll}, false)"></div>
+		</div>
+	</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

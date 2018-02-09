@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+<th:block th:fragment="default (dossiers, archiveButton)">
+
+	<table id="dossierTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="true"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="true"
+			data-search-align="right"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="dossierTable"
+			data-show-export="true"
+			data-export-data-type="all"
+			th:data-select-item-name="|${@E.DOSSIER}Select|"
+			th:data-entity="${@E.DOSSIER}">
+		<!-- Activate toggling: data-show-toggle="true" -->
+		<thead>
+		<tr>
+			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-field="id" data-visible="false" data-sortable="true" data-order="desc">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="comment" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.comment}"></th>
+			<th data-field="internalComment" data-visible="false" data-sortable="true"
+					th:text="#{dossier.table.column.internal_comment}"></th>
+			<th data-field="purpose" data-sortable="true"
+					th:text="#{dossier.table.column.purpose}"></th>
+			<th data-field="sample" data-visible="false" data-sortable="true"
+					th:text="#{dossier.table.column.sample_name}">
+			</th>
+			<th data-field="multiconsituent" data-visible="false" data-sortable="true"
+					th:text="#{dossier.table.column.sample_type}">
+			</th>
+			<th data-field="creationDate" data-sortable="true"
+					th:text="#{global.table.column.creation_date}"></th>
+			<th data-field="changeDate" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.change_date}"></th>
+			<th data-field="finished" data-sortable="true"
+					th:text="#{dossier.table.column.finished}"></th>
+			<th data-field="actions" data-sortable="false" th:text="#{global.table.column.actions}"></th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="d : ${dossiers}"
+				th:with="tab=|${@dossierService.determineTab(d)}|,readLink=|/${@E.DOSSIER}/${@A.READ}/${@E.DOSSIER}.id=${d.id}#|">
+			<td th:if="${archiveButton}"></td>
+			<td th:text="${d.id}"></td>
+			<td>
+				<!--/* Link after text to allow sorting */-->
+				<span th:text="${d.name}"></span>
+				<a th:href="@{|${readLink}${tab}|}">
+					&nbsp;</a>
+			</td>
+			<td th:text="${d.comment}"></td>
+			<td th:text="${d.internalComment}"></td>
+			<td th:text="${@performanceDictionary.translateValue(@PA.PURPOSE, d.purpose)}"></td>
+			<td th:text="${d.sampleName}"></td>
+			<td th:text="#{|dossier.table.multiconstituent.${dossier.multiconstituent}|}"></td>
+			<td th:text="${#dates.format(d.creationDate, #messages.msg('global.date_format'))}"></td>
+			<td th:text="${#dates.format(d.changeDate, #messages.msg('global.date_format'))}"></td>
+			<td th:text="#{|global.${@dossierService.isDossierFinished(d)}|}"></td>
+			<td class="rowlink-skip">
+
+				<div class="pull-right">
+
+					<th:block th:replace="fragments/actions :: actionRead (${@E.DOSSIER},
+								${d}, ${tab})"></th:block>
+
+					<th:block
+							th:replace="fragments/actions :: actionUpdate (${@E.DOSSIER},
+								${d})"></th:block>
+
+					<th:block
+							th:replace="fragments/actions :: actionArchive (${@E.DOSSIER},
+								${d})"></th:block>
+
+				</div>
+
+
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<!-- Archive button -->
+	<div th:if="${archiveButton}">
+		<button id="dossierArchiveButton" data-toggle="modal"
+				data-target="#dossierArchiveModal" data-table="#dossierTable"
+				class="btn btn-default pull-left hidden" th:text="#{global.table.button.archive}">Archive
+		</button>
+
+		<div th:replace="fragments/modals :: disclaimer ('dossierArchiveModal', '',
+						'archive', ${@U.builder(@E.DOSSIER, @A.ARCHIVE).addRedirectParam(history, 'dossiers')})">
+		</div>
+	</div>
+
+</th:block>
+</body>
+</html>

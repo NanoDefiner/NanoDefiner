@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+<th:block th:fragment="default (methods, archiveButton)"
+		th:with="hideColumns = ${hideColumns ?: @TS.list()},
+						showColumns = ${showColumns ?: @TS.list()}">
+	<table id="methodTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="true"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="true"
+			data-search-align="right"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="methodTable"
+			data-show-export="true"
+			data-export-data-type="all"
+			th:data-select-item-name="|${@E.METHOD}Select|"
+			th:data-entity="${@E.METHOD}">
+		<thead>
+		<tr>
+			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-field="id" data-sortable="true">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="comment" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.comment}">
+			</th>
+			<th data-field="technique" data-sortable="true" th:text="#{technique}"></th>
+			<th data-field="dataFormat" data-sortable="true"
+					th:data-visible="${showColumns.contains('dataFormat') ? true : false}"
+					th:text="#{method.table.column.data_format}">
+			</th>
+			<th data-field="result" data-sortable="true" th:text="#{method.table.column.result}"></th>
+			<th data-field="uncertainty" data-sortable="true" data-visible="false"
+					th:text="#{method.table.column.uncertainty}"></th>
+			<th data-field="dossier" data-sortable="true"
+					th:data-visible="${showColumns.contains('dossier') ? true : false}"
+					th:text="#{dossier}">
+			</th>
+			<th data-field="creationDate" data-sortable="true"
+					th:text="#{global.table.column.creation_date}">
+			</th>
+			<th data-field="changeDate" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.change_date}">
+			</th>
+			<th data-field="tier" data-sortable="true" th:text="#{method.table.column.tier}"></th>
+			<th data-field="actions" data-sortable="false" th:text="#{global.table.column.actions}"></th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="m : ${methods}">
+			<td th:if="${archiveButton}"></td>
+			<td th:text="${m.id}"></td>
+			<td>
+				<span th:text="${m.name}"></span>
+				<a th:href="@{${@U.builder(@E.METHOD, @A.READ).addEntityId(m).setAnchor(@methodService.isFinished(m) ? 'method' : 'analysis')}}">
+					&nbsp;
+				</a>
+			</td>
+			<td th:text="${m.comment}"></td>
+			<td>
+				<span th:remove="tag" th:text="${m.technique.name}"></span>
+				<span class="hidden" data-classes="technique-id"
+						th:text="${m.technique.id}"></span>
+			</td>
+			<td>
+				<span th:remove="tag" th:if="${m.dataFormat != null}"
+						th:utext="#{|method.read.analysis_data_format.${m.dataFormat}|}"></span>
+				<span th:remove="tag" th:if="${m.dataFormat == null}">–</span>
+			</td>
+			<td>
+				<span th:remove="tag" th:text="${@methodTS.formatResult(m)}"></span>
+				<span th:if="${m.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_NEEDED)}"
+						class="glyphicon glyphicon-question-sign"
+						th:title="#{method.table.result.size_check_needed}"></span>
+				<span th:if="${m.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_FAILED)}"
+						class="glyphicon glyphicon-exclamation-sign"
+						th:title="#{method.table.result.size_check_failed}"></span>
+			</td>
+			<td th:text="${@methodTS.determineUncertainty(m, true)}"></td>
+			<td class="rowlink-skip">
+				<span class="hidden" th:text="${m.dossier.name}"></span><!--/* For sorting */-->
+				<a th:href="@{|/${@E.DOSSIER}/${@A.READ}/${@E.DOSSIER}.id=${m.dossier.id}#methods|}"
+						th:text="${m.dossier.name}"></a>
+			</td>
+			<td th:text="${#dates.format(m.creationDate, #messages.msg('global.date_format'))}"></td>
+			<td th:text="${#dates.format(m.changeDate, #messages.msg('global.date_format'))}"></td>
+			<!--/* <td th:text="${m.state}"></td> */-->
+			<td th:text="${@performanceDictionary.translateValue(@PA.TIER, m.tier)}"></td>
+
+			<td class="rowlink-skip">
+
+				<div class="pull-right">
+
+					<th:block th:replace="fragments/actions :: actionRead (${@E.METHOD},
+										${m}, m.result != null ? 'analysis' : '')"></th:block>
+
+					<th:block th:if="${archiveButton}">
+
+						<th:block th:replace="fragments/actions :: actionUpdate (${@E.METHOD},
+											${m})"></th:block>
+
+						<th:block th:replace="fragments/actions :: actionArchive (${@E.METHOD},
+											${m})"></th:block>
+
+					</th:block>
+
+				</div>
+
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<div th:if="${archiveButton}">
+		<button id="methodArchiveButton" data-toggle="modal"
+				data-target="#methodArchiveModal" data-table="#methodTable"
+				class="btn btn-default pull-left hidden" th:text="#{global.table.button.archive}">
+		</button>
+
+		<div th:replace="fragments/modals :: disclaimer ('methodArchiveModal', '', 'archive',
+			${@U.builder(@E.METHOD, @A.ARCHIVE).addRedirectParam(history, 'methods')})">
+		</div>
+	</div>
+</th:block>
+
+<th:block th:fragment="methodCreate (techniquesMap, profileMap, techniqueGeneralWarnings,
+	techniqueMaterialWarnings)">
+	<div th:if="${tierSwitch != null}" id="methodCreateToolbar" data-classes="search-buttons"
+			class="btn-group">
+		<a role="button" class="btn btn-primary pull-left"
+				th:href="@{${@methodTS.buildMethodCreateURI(dossier, tierSwitch)}}">
+			[[#{method.table.create.switch_to}]]
+			[[${@performanceDictionary.translateValue(@PA.TIER, '{' + tierSwitch + '}')}]]
+		</a>
+	</div>
+	<table id="methodCreateTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="false"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="false"
+			data-page-number="1"
+			data-page-size="All"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="false"
+			data-search-align="left"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="sort"
+			data-sort-order="asc"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-show-export="false"
+			data-export-data-type="all"
+			data-click-to-select="true"
+			data-toolbar="#methodCreateToolbar"
+			th:data-select-item-name="technique.id">
+		<thead>
+		<tr>
+			<th data-field="state" data-radio="true"></th>
+			<th data-field="id" data-visible="false" data-sortable="true">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="cost" data-sortable="true" th:utext="#{user.table.column.cost}"></th>
+			<th data-field="duration" data-sortable="true" th:text="#{user.table.column.duration}"></th>
+			<th data-field="uncertainty" data-sortable="true" data-visible="false"
+					th:text="#{method.table.column.uncertainty}"></th>
+			<th data-field="expertise" data-sortable="false" data-visible="false"
+					th:text="#{method.table.column.expertise}"></th>
+			<th data-field="trueness" data-sortable="false" data-visible="false"
+					th:text="#{method.table.column.trueness}"></th>
+			<th data-field="warnings" data-sortable="true" th:text="#{method.table.column.warnings}"></th>
+			<th data-field="suitable" data-sortable="true" th:text="#{method.table.column.suitable}"></th>
+			<th data-field="enabled" data-sortable="true"
+					th:title="#{method.table.column.available_title}"
+					th:text="#{method.table.column.available}">
+			</th>
+			<th data-field="technique-incompleteness" data-sortable="true"><abbr
+					th:title="#{method.table.column.incompleteness_title}"
+					th:text="#{method.table.column.incompleteness}"></abbr>
+			</th>
+			<th data-field="weighted-technique-incompleteness" data-sortable="true"><abbr
+					th:title="#{method.table.column.weighted_incompleteness_title}"
+					th:text="#{method.table.column.weighted_incompleteness}"></abbr></th>
+			<th data-field="sort" data-sortable="false" class="hidden">Sort</th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="t : ${techniquesMap.keySet()}"
+				th:with="suitable=${techniquesMap.get(t).equals(@materialFeedbackController.SUITABILITY_YES)},
+				warnings=${@techniqueService.hasTechniqueWarnings(t, techniqueGeneralWarnings, techniqueMaterialWarnings)},
+				available=${!profileMap.containsKey(t) || profileMap.get(t).enabled},
+				cost=${@profileService.formatCost(profileMap.get(t))},
+				duration=${@profileService.formatDuration(profileMap.get(t))}">
+			<td></td>
+			<td th:text="${t.id}"></td>
+			<td>
+				<span th:text="${t.name}" class="hidden"></span>
+				<!--/* TODO this is for sorting, solve cleaner */-->
+				<span data-classes="technique-name" th:title="${t.comment}" th:text="${t.name}"></span>
+				<span data-classes="technique-id" class="hidden" th:text="${t.id}"></span>
+			</td>
+			<td th:text="${cost}"></td>
+			<td th:text="${duration}"></td>
+			<td th:text="${@PTS.determineUncertainty(profileMap.get(t), true)}"></td>
+			<td th:text="${@performanceDictionary.translateValue('expertise', @performanceConfiguration.getEntry(t.signifier).getEntry('expertise').value)}"></td>
+			<td th:text="${@performanceDictionary.translateValue('trueness', @performanceConfiguration.getEntry(t.signifier).getEntry('trueness').value)}"></td>
+			<td>
+					<span class="glyphicon" th:data-toggle="modal"
+							th:classappend="${warnings} ? 'glyphicon-exclamation-sign' : 'glyphicon-ok-sign'"
+							th:data-target="|#${t.signifier}WarningModal|"></span>
+			</td>
+			<td>
+				<span class="glyphicon" th:data-toggle="modal"
+						th:data-target="|#${t.signifier}WarningModal|"
+						th:classappend="${suitable} ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
+			</td>
+			<td>
+				<span class="glyphicon"
+						th:classappend="${available} ? 'glyphicon-ok' : 'glyphicon-remove'">
+				</span>
+			</td>
+			<td th:with="incompleteness=${techniqueIncompletenessMap.get(t.signifier)[0]}">
+				<div th:replace="method/fragments :: incompletenessBar (${incompleteness})"></div>
+			</td>
+			<td th:with="incompleteness=${techniqueIncompletenessMap.get(t.signifier)[1]}">
+				<div th:replace="method/fragments :: incompletenessBar (${incompleteness})"></div>
+			</td>
+			<td class="hidden">
+				<span th:remove="tag" th:text="${suitable ? 0 : 1}"></span>
+				<span th:remove="tag" th:text="${available ? 0 : 1}"></span>
+				<span th:remove="tag" th:text="${warnings ? 1 : 0}"></span>
+				<span th:remove="tag" th:text="${cost}"></span>
+				<span th:remove="tag" th:text="${duration}"></span>
+				<span th:remove="tag" th:text="${t.name}"></span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<th:block th:each="t : ${techniquesMap.keySet()}">
+		<div th:if="${@techniqueService.hasTechniqueWarnings(t, techniqeWarnings)}"
+				th:replace="method/fragments :: techniqueWarningModal(${t}, ${techniquesMap},
+					${techniqueGeneralWarningsMap}, ${techniqueMaterialWarningsTable},
+					${materialCriteriaTechniqueCompatibilityTableMap})"></div>
+	</th:block>
+</th:block>
+
+<th:block th:fragment="methodSelect (methods)">
+
+	<div class="variables" th:if="${param.methodIds}">
+		<span data-classes="methodId" th:each="methodId : ${param.methodIds}"
+				th:text="${methodId}"></span>
+	</div>
+
+	<table id="methodSelectTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="true"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="true"
+			data-search-align="right"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="methodSelectTable"
+			data-show-export="true"
+			data-export-data-type="all"
+			data-click-to-select="true"
+			th:data-select-item-name="|${@E.METHOD}Ids|">
+		<thead>
+		<tr>
+			<th data-field="state" data-checkbox="true"></th>
+			<th data-field="id" data-sortable="true">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="comment" data-visible="false" data-sortable="true">
+				Comment
+			</th>
+			<th data-field="technique" data-sortable="true" th:text="#{technique}"></th>
+			<th data-field="dataFormat" data-sortable="true" data-visible="false"
+					th:text="#{method.table.column.data_format}">
+			</th>
+			<th data-field="result" data-sortable="true"
+					th:text="#{method.table.column.result}"></th>
+			<th data-field="uncertainty" data-sortable="true" data-visible="false"
+					th:text="#{method.table.column.uncertainty}"></th>
+			<th data-field="tier" data-sortable="true" th:text="#{method.table.column.tier}"></th>
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="m : ${methods}">
+			<td></td>
+			<td data-classes="id" th:data-methodId="${m.id}" th:text="${m.id}"></td>
+			<td th:text="${m.name}">
+			</td>
+			<td th:text="${m.comment}"></td>
+			<td>
+				<span th:text="${m.technique.name}" class="hidden"></span>
+				<!--/* TODO this is for sorting, solve cleaner */-->
+				<span th:title="${m.technique.comment}" th:text="${m.technique.name}"></span>
+			</td>
+			<td>
+				<span th:remove="tag"
+						th:utext="#{|method.read.analysis_data_format.${m.dataFormat}|}"></span>
+			</td>
+			<td th:text="${@methodTS.formatResult(m)}"></td>
+			<td th:text="${@methodTS.determineUncertainty(m, true)}"></td>
+			<td th:text="${@performanceDictionary.translateValue(@PA.TIER, m.tier)}"></td>
+		</tr>
+		</tbody>
+	</table>
+</th:block>
+
+</body>
+</html>

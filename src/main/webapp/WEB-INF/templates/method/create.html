@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:if="${history.current.action == @A.UPDATE}" class="variables">
+	<span id="variables-technique-id" th:text="${method.technique.id}"></span>
+</div>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:with="tierString=#{|material.create.feedback.popover.${tier}|}"
+				th:text="#{|method.${history.current.action}.jumbo.headline|(${tierString})}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<th:block th:if="${techniquesMap.size() > 0}">
+			<div class="topic">
+				<h5 th:text="#{method.create.jumbo.topic.step1}"></h5>
+			</div>
+			<div class="topic">
+				<h5 th:text="#{method.create.jumbo.topic.step2}"></h5>
+			</div>
+			<div class="topic">
+				<h5 th:text="#{method.create.jumbo.topic.step3}"></h5>
+			</div>
+			<p>
+			<div class="progress">
+				<div class="progress-bar active progress-bar-form" role="progressbar" aria-valuemin="0"
+						aria-valuemax="100"></div>
+			</div>
+		</th:block>
+		<!--/* TODO at the moment this can only happen if the application is badly configured */-->
+		<th:block th:if="${techniquesMap.size() == 0}">
+			<div class="topic">
+				<h5 th:text="#{method.create.topic.no_results}"></h5>
+			</div>
+		</th:block>
+	</div> <!-- End: .container -->
+</div> <!-- End: .jumbotron -->
+
+
+<div class="container pace-hidden">
+	<th:block th:if="${techniquesMap.size() > 0 || history.current.action == @A.UPDATE}">
+		<form accept-charset="UTF-8" class="form multistep" method="post" role="form"
+				th:object="${method}"
+				enctype="multipart/form-data" th:data-entity="${@E.METHOD}">
+			<!--/* Fix for accidental submit via return key. */-->
+			<input class="hidden" type="submit" onclick="return false;" />
+
+			<div class="page-header" data-classes="no-actionbox">
+				<div class="btn-toolbar pull-right">
+					<div class="btn-group"></div>
+					<button type="submit" name="submit" value="true"
+							class="action submit btn btn-primary pull-right"
+							th:text="${history.current.action == @A.UPDATE} ? #{global.form.button.update} : #{global.form.button.save_proceed}">
+					</button>
+					<button type="button" class="action next btn btn-primary pull-right"
+							th:text="#{global.form.button.next}"></button>
+					<button type="button" class="action back btn btn-primary pull-right"
+							th:text="#{global.form.button.back}"></button>
+				</div>
+				<h3 class="hstep" th:text="#{method.create.form.headline.step1}"
+						th:unless="${history.current.action == @A.UPDATE}"></h3>
+				<h3 class="hstep" th:text="#{method.create.form.headline.step2}"></h3>
+				<h3 class="hstep" th:text="#{method.create.form.headline.step3}"></h3>
+			</div>
+
+			<div class="step" th:unless="${history.current.action == @A.UPDATE}">
+				<th:block
+						th:replace="method/tables :: methodCreate (${techniquesMap}, ${profileMap}, ${techniqueGeneralWarningsMap}, ${techniqueMaterialWarningsTable})"></th:block>
+			</div>
+
+			<div class="step">
+				<div class="form-group">
+					<label th:text="#{method.create.form.preprocessing}"></label>
+					<div th:each="preproc : ${preprocessingProtocols}" class="radio">
+						<label>
+							<input type="radio" th:field="*{preparation}" th:value="|{${preproc.name}}|" />
+							<span th:text="${preproc.label}"></span>
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label th:text="#{method.create.form.preprocessing_comment}"
+								th:for="${#ids.next('preparationComment')}"></label>
+						<textarea class="form-control" rows="5" th:field="*{preparationComment}"
+								th:placeholder="#{method.create.form.preprocessing_comment.placeholder}"></textarea>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="step">
+				<div class="form-group">
+					<label th:for="${#ids.next('name')}" th:text="|#{global.table.column.name}*|"></label>
+					<input th:field="*{name}" type="text" class="form-control" th:name="|${@E.METHOD}.name|"
+							placeholder="Name" required="required" />
+				</div>
+				<div class="form-group">
+					<label th:for="${#ids.next('comment')}" th:text="#{global.table.column.comment}"></label>
+					<textarea class="form-control" rows="5" th:field="*{comment}" placeholder="Comment"></textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="btn-toolbar">
+					<button type="submit" name="submit" value="true"
+							class="action submit btn btn-primary pull-right"
+							th:text="${history.current.action == @A.UPDATE} ? #{global.form.button.update} : #{global.form.button.save_proceed}">
+					</button>
+					<button type="button" class="action next btn btn-primary pull-right"
+							th:text="#{global.form.button.next}"></button>
+					<button type="button" class="action back btn btn-primary pull-right"
+							th:text="#{global.form.button.back}"></button>
+				</div>
+			</div>
+
+		</form>
+	</th:block>
+	<th:block th:if="${techniquesMap.size() == 0}">
+		<div class="step">
+			<div class="page-header">
+				<h3 th:text="#{method.create.no_matches.heading}"></h3>
+			</div>
+
+			[[#{method.create.no_matches.content}]]
+		</div>
+		<div class="btn-toolbar">
+			<a role="button" class="btn btn-primary pull-right"
+					th:href="@{|/${@E.DOSSIER}/${@A.READ}/${@E.DOSSIER}.id=${dossier.id}#methods|}"
+					th:text="#{global.button.go_back}">
+			</a>
+		</div>
+	</th:block>
+
+</div> <!-- container -->
+
+<script defer="defer" th:src="@{/libs/jquery-validation-git/dist/jquery.validate.min.js}"></script>
+<script defer="defer" th:src="@{/js/incl/multistep.js}"></script>
+<script defer="defer" th:src="@{/js/incl/form.js}"></script>
+<script defer="defer" th:src="@{/js/incl/tables.js}"></script>
+<script defer="defer" th:src="@{/js/method/create.js}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

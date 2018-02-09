@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{admin.users.headline}"></h3>
+	</div>
+
+
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#activate" data-toggle="tab" th:text="#{admin.users.activate}"></a>
+		</li>
+		<li>
+			<a href="#management" data-toggle="tab" th:text="#{admin.users.management}"></a>
+		</li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active in" id="activate">
+			<form accept-charset="UTF-8" class="form" method="post" role="form"
+					enctype="multipart/form-data">
+
+				<th:block th:replace="admin/tables :: userActivate (${usersNotActivated})">
+				</th:block>
+
+			</form>
+		</div>
+		<div class="tab-pane" id="management">
+				<th:block th:replace="admin/tables :: userManagement (${users})">
+				</th:block>
+		</div>
+	</div>
+
+</div> <!-- container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>

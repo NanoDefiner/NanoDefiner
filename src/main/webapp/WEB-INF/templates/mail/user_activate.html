@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:remove="all">Test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p th:text="#{mail.global.greeting}"></p>
+<p th:text="#{mail.user_activate.body.account_created(${user.username})}">
+</p>
+<p th:utext="#{mail.user_activate.body.activate(${userService.buildActivationLink(user)})}">
+</p>
+
+<p>
+	[[#{mail.global.salutation}]],<br />
+	<em>NanoDefiner</em>
+</p>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{|custom_attribute.${history.current.action}.jumbo.headline|
+			(#{${customAttributeEntity.entityType} + '.sentence'})}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{|custom_attribute.${history.current.action}.jumbo.topic|
+				(${customAttributeEntity.name})}"></h5>
+		</div>
+
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+<div class="container pace-hidden">
+
+	<div class="page-header">
+		<h3 th:text="#{custom_attribute.create.headline}"></h3>
+	</div>
+
+	<form accept-charset="UTF-8" class="form" method="post" role="form" th:object="${customAttribute}"
+			th:data-entity="${@E.CUSTOM_ATTRIBUTE}" enctype="multipart/form-data">
+		<div class="form-group">
+			<label th:text="|#{global.table.column.name}*|"
+					th:for="${#ids.next('name')}">
+			</label>
+			<input type="text" th:field="*{name}"
+					th:placeholder="#{custom_attribute.create.form.name.placeholder}"
+					class="form-control" required="required" />
+		</div>
+
+		<div class="form-group" data-classes="text"
+				th:classappend="${customAttribute.file}? 'hidden'">
+			<label for="value_text">
+				<span class="glyphicon glyphicon-pencil"></span>
+				<span th:remove="tag" th:text="|#{custom_attribute.create.form.value_text}*|"></span>
+				<a data-classes="toggle-value-type" href="#"
+						th:text="#{custom_attribute.create.form.switch_to_file}"></a>
+			</label>
+			<input type="text" id="value_text" name="value_text" data-classes="value-input"
+					th:value="${!customAttribute.file ? customAttribute.value : null}"
+					th:placeholder="#{custom_attribute.create.form.value_text.placeholder}"
+					th:attrappend="disabled=${customAttribute.file}? 'disabled'"
+					required="required"
+					class="form-control" />
+		</div>
+
+		<div class="form-group" data-classes="file"
+				th:classappend="${!customAttribute.file}? 'hidden'">
+			<label for="value_file">
+				<span class="glyphicon glyphicon-floppy-disk"></span>
+				<span th:remove="tag" th:text="|#{custom_attribute.create.form.value_file}*|"></span>
+				<a data-classes="toggle-value-type" href="#"
+						th:text="#{custom_attribute.create.form.switch_to_text}"></a>
+			</label>
+			<input type="file" id="value_file" name="value_file"
+					class="filestyle" data-icon="false" data-classes="value-input"
+					th:attrappend="required=${customAttribute.value == null} ? 'required',
+						disabled=${customAttribute.file}? 'disabled'"
+					th:data-placeholder="${customAttribute.value != null && customAttribute.file} ?
+						${@FS.extractOriginalFileName(customAttribute.value)} :
+						#{custom_attribute.create.form.value_file.placeholder}" />
+		</div>
+
+		<div class="form-group">
+			<label th:for="${#ids.next('comment')}"
+					th:text="#{global.table.column.comment}">
+			</label>
+			<textarea class="form-control" rows="5" th:field="*{comment}"
+					th:placeholder="#{custom_attribute.create.form.comment.placeholder}">
+
+			</textarea>
+		</div>
+
+		<div class="form-group" th:if="${history.current.action == @A.UPDATE}">
+			<span th:remove="tag"
+					th:with="changeDate=${#dates.format(customAttribute.changeDate,
+					#messages.msg('global.date_format'))}"
+					th:text="#{|custom_attribute.update.form.last_changed|(${changeDate})}">
+			</span>
+		</div>
+
+		<div class="form-group">
+			<div class="btn-toolbar">
+				<button type="submit" name="submit" value="return"
+						class="submit btn btn-primary pull-left"
+						th:text="#{|custom_attribute.${history.current.action}.form.submit.return|}">
+				</button>
+				<button type="submit" name="submit" value="next"
+						class="submit btn btn-primary pull-right"
+						th:text="#{|custom_attribute.${history.current.action}.form.submit.next|}">
+					Save and create next attribute
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script defer="defer" th:src="@{'/js/incl/form.js'}"></script>
+<script defer="defer" th:src="@{'/js/custom_attribute/create.js'}"></script>
+
+<footer th:replace="layout :: footer"></footer>
+
+</body>
+</html>

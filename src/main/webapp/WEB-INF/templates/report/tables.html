@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+<!--/* TODO add anchor parameter */-->
+<th:block th:fragment="default (reports, archiveButton)"
+		th:with="hideColumns = ${hideColumns ?: @TS.list()},
+						showColumns = ${showColumns ?: @TS.list()}">
+	<table id="reportTable"
+			data-classes="table table-hover"
+			data-toggle="table"
+			data-striped="true"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-show-pagination-switch="true"
+			data-page-number="1"
+			data-page-size="10"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-show-columns="true"
+			data-search="true"
+			data-search-align="right"
+			data-minimum-count-columns="0"
+			data-locale="en-US"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			data-buttons-class="default"
+			data-cookie="true"
+			data-cookie-expire="1y"
+			data-cookie-id-table="reportTable"
+			data-show-export="true"
+			data-export-data-type="all"
+			th:data-select-item-name="|${@E.REPORT}Select|"
+			th:data-entity="${@E.REPORT}">
+		<thead>
+		<tr>
+			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-field="id" data-sortable="true">#</th>
+			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
+			<th data-field="dossier" data-sortable="true"
+					th:data-visible="${showColumns.contains('dossier') ? true : false}">
+				Dossier
+			</th>
+			<th data-field="creationDate" data-sortable="true" th:text="#{global.table.column.creation_date}"></th>
+			<th data-field="changeDate" data-visible="false" data-sortable="true"
+					th:text="#{global.table.column.change_date}">
+			</th>
+			<th data-field="tiers" data-sortable="true" th:text="#{report.table.column.tier}"></th>
+			<th data-field="actions" data-sortable="false" th:text="#{global.table.column.actions}"></th>
+
+		</tr>
+		</thead> <!-- thead -->
+		<tbody data-link="row" class="rowlink">
+		<tr th:each="report : ${reports}">
+			<td th:if="${archiveButton}"></td>
+			<td th:text="${report.id}"></td>
+			<td>
+				<span th:text="${report.name}"></span>
+				<a th:href="@{|/${@E.REPORT}/${@A.READ}/${@E.REPORT}.id=${report.id}|}">
+					&nbsp;
+				</a>
+			</td>
+			<td class="rowlink-skip">
+				<!--/* For sorting */-->
+				<span class="hidden" th:text="${report.dossier.name}"></span>
+				<a th:href="@{${@U.builder(@E.DOSSIER, @A.READ).addEntityId(report.dossier)
+					.setAnchor('reports')}}" th:text="${report.dossier.name}"></a>
+			</td>
+			<td th:text="${#dates.format(report.creationDate, #messages.msg('global.date_format'))}"></td>
+			<td th:text="${#dates.format(report.changeDate, #messages.msg('global.date_format'))}"></td>
+			<td>
+				[(${@performanceDictionary.translateValue(@PA.TIER, @reportService.extractTiers(report))})]
+			</td>
+			<td class="rowlink-skip">
+
+				<div class="pull-right">
+
+					<a th:href="@{|/${@E.REPORT}/${@A.READ}/${@E.REPORT}.id=${report.id}/download|}"
+							class="glyphicon glyphicon-floppy-disk" th:title="#{report.table.download_title}">
+					</a>
+					[[${@TS.generateFileSize(report.reportFileWithAttachments)}]]
+
+					<th:block th:replace="fragments/actions :: actionRead (${@E.REPORT},
+								${report}, '')"></th:block>
+
+					<th:block th:if="${archiveButton}">
+
+						<th:block
+								th:replace="fragments/actions :: actionArchive (${@E.REPORT},
+								${report})"></th:block>
+
+					</th:block>
+				</div>
+
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<!-- Archive button -->
+	<div th:if="${archiveButton}">
+		<button id="reportArchiveButton" data-toggle="modal"
+				data-target="#reportArchiveModal" data-table="#reportTable"
+				class="btn btn-default pull-left hidden" th:text="#{global.table.button.archive}">
+		</button>
+
+		<div th:replace="fragments/modals :: disclaimer ('reportArchiveModal', '',
+				'archive', ${@U.builder(@E.REPORT, @A.ARCHIVE).addRedirectParam(history, 'reports')})">
+		</div>
+	</div>
+</th:block>
+</body>
+</html>

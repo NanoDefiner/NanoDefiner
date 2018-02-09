@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<th:block th:fragment="errors (errors)">
+	<div th:if="${errors != null}" th:each="m : ${errors}" th:text="${m} + '.'"
+			class="alert alert-danger" data-classes="alert-message"></div>
+</th:block>
+
+<th:block th:fragment="messages"
+		th:if="(${messages.size()} gt 0) or (${errors.size()} gt 0) or (${successes.size()} gt 0)">
+	<div id="messages_alert" class="hidden">
+		<th:block th:replace=":: messageType ('alert-danger', ${errors})"></th:block>
+
+		<th:block th:replace=":: messageType ('alert-info', ${messages})"></th:block>
+
+		<th:block th:replace=":: messageType ('alert-success', ${successes})"></th:block>
+	</div>
+</th:block>
+
+<th:block th:fragment="messageType(type, msgs)">
+	<div th:each="m : ${msgs}" role="alert" data-classes="alert-message"
+			class="alert alert-dismissible fade in" th:classappend="${type}">
+		<button type="button" class="close" data-dismiss="alert" th:aria-label="#{global.label.close}">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<strong th:if="${type == 'alert-danger'}" th:text="#{global.error} + ':'"></strong>
+		<span th:remove="tag" th:text="(${m.contains(' ')} ? ${m} : #{${m}}) + '.'"></span>
+	</div>
+</th:block>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

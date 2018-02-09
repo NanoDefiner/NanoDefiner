@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{report.read.jumbo.headline}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{report.read.jumbo.topic}"></h5>
+		</div>
+		<p>
+	</div>
+	<!-- End: .container -->
+</div>
+<!-- End: .jumbotron -->
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{report.details}"></h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li th:classappend="'active'">
+			<a href="#report" data-toggle="tab" th:text="#{report}"></a>
+		</li>
+		<li>
+			<a href="#dossier" data-toggle="tab" th:text="#{dossier}"></a>
+		</li>
+		<li>
+			<a href="#materials" data-toggle="tab" th:text="#{material.plural}"></a>
+		</li>
+		<li>
+			<a href="#methods" data-toggle="tab" th:text="#{method.plural}"></a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content">
+		<div class="tab-pane active" id="report">
+			<div class="table-responsive">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="true"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>#</td>
+						<td th:text="${report.id}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.name}"></td>
+						<td>
+							<span th:remove="tag" th:text="${report.name}"></span>
+							<a class="glyphicon glyphicon-floppy-disk"
+									th:href="@{${@U.builder(@E.REPORT, @A.READ).addEntityId(report).addPathParam('download')}}"></a>
+							<span th:text="${@TS.generateFileSize(report.reportFileWithAttachments)}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.creation_date.long}"></td>
+						<td th:text="${#dates.format(report.creationDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.archived}"></td>
+						<td th:text="#{'global.' + ${report.archived}}"></td>
+					</tr>
+					</tbody>
+				</table>
+				<br />
+			</div>
+
+		</div>
+		<div class="tab-pane" id="dossier">
+			<div class="table-responsive">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="true"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>#</td>
+						<td th:text="${dossier.id}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.name}"></td>
+						<td th:text="${dossier.name}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.comment}"></td>
+						<td th:text="${dossier.comment}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.creation_date.long}"></td>
+						<td th:text="${#dates.format(dossier.creationDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.purpose}"></td>
+						<td th:text="${@performanceDictionary.translateValue(@PA.PURPOSE, dossier.purpose)}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.sample_name}"></td>
+						<td th:text="${dossier.sampleName}"></td>
+					</tr>
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+		<div class="tab-pane" id="materials">
+			<div class="table-responsive">
+				<div th:replace="material/tables :: default (${materials}, true)"></div>
+				<br />
+			</div>
+		</div>
+		<div class="tab-pane" id="methods">
+			<div class="table-responsive">
+				<div th:replace="method/tables :: default (${methods}, true)"></div>
+				<br />
+			</div>
+		</div>
+	</div>
+</div>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

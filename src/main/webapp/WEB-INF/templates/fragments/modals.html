@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<th:block th:fragment="generic (name, id, title, body, confirm, cancel, link)">
+
+	<div class="modal fade" th:id="|${name}${id}|"
+			tabindex="-1" role="dialog"
+			th:attr="aria-labelledby=|${name}Label${id}|">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							th:aria-label="#{global.label.close}">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title" th:id="|${name}Label${id}|"
+							th:text="${title}">
+					</h3>
+				</div>
+				<div class="modal-body" th:utext="${body}">
+				</div>
+				<div class="modal-footer">
+					<label class="pull-left" th:if="${confirm != null && link != null}">
+						<input type="checkbox" th:data-cookie="|${name}|" />
+						Don't show this dialog again
+					</label>
+					<button type="button" class="btn btn-default"
+							data-dismiss="modal" th:text="${cancel}">
+					</button>
+					<a th:if="${confirm != null && link != null}" role="button" class="btn btn-primary"
+							th:text="${confirm}" th:href="@{${link}}">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+
+<th:block th:fragment="confirmation (name, id, text, link)">
+	<div th:replace=":: generic (${name}, ${id}, #{|${text}.title|},
+			#{|${text}.body|}, #{|${text}.confirm|}, #{global.cancel}, ${link})">
+	</div>
+</th:block>
+
+<th:block th:fragment="disclaimer (name, id, type, link)">
+	<div th:replace=":: generic (${name}, ${id}, #{global.warning},
+			#{|disclaimer.${type}|}, #{global.continue},
+			#{global.cancel}, ${link})"></div>
+</th:block>
+
+<th:block th:fragment="feedback">
+
+	<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog"
+			aria-labelledby="feedbackModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form accept-charset="UTF-8" th:action="@{|/${@E.ISSUE}/${@A.CREATE}|}" method="post"
+						enctype="multipart/form-data">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+								th:aria-label="#{global.label.close}">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title" id="feedbackModalLabel"
+								th:text="'Provide feedback'">
+						</h3>
+					</div>
+					<div class="modal-body">
+						<label for="feedback-text" th:text="#{global.feedback.label}"></label>
+						<textarea class="form-control" id="feedback-text" name="feedback"
+								th:placeholder="#{global.feedback.placeholder}"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default"
+								data-dismiss="modal" th:text="#{global.button.cancel}">
+						</button>
+						<button class="btn action submit btn-primary" type="submit"
+								value="true" name="submit" th:text="'Submit'">
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+
+<th:block th:fragment="formSubmitModal (form)">
+	<div class="modal modal-vertically-centered fade" th:id="|${form}SubmitModal|" tabindex="-1"
+			role="dialog" th:aria-labelledby="|${form}ModalLabel|" data-backdrop="false"
+			data-classes="unloading-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" th:id="|${form}ModalLabel|" th:text="#{global.modal.form_submit.title}">
+					</h3>
+				</div>
+				<div class="modal-body">
+					[[#{global.modal.form_submit.body}]]
+					<span class="glyphicon glyphicon-cd gly-spin pull-right"></span>
+				</div>
+				<div class="modal-footer">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</th:block>
+
+</body>
+</html>

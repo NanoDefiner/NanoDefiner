@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml"
+>
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{dossier.read.jumbo.headline}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{dossier.read.jumbo.topic}"></h5>
+		</div>
+		<p>
+	</div> <!-- End: .container -->
+</div> <!-- End: .jumbotron -->
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{dossier.details}"></h3>
+	</div>
+
+	<div class="process">
+		<div class="process-row">
+			<div class="process-step">
+				<a href="#dossier" data-toggle="tab">
+					<button type="button" class="btn btn-sm btn-primary btn-circle">
+						<span class="glyphicon glyphicon-folder-open"></span>
+					</button>
+				</a>
+				<div>
+					<small>
+						<a href="#dossier" data-toggle="tab"
+								th:text="#{dossier.read.progress.dossier}">
+						</a>
+					</small>
+				</div>
+			</div>
+			<div class="process-step">
+				<a th:href="@{${materialHref}}"
+						th:data-toggle="${#strings.startsWith(materialHref, '#') ? 'tab' : ''}">
+					<button type="button" class="btn btn-sm btn-circle"
+							th:classappend="|${materialDone ? 'btn-primary' : 'btn-success'}|">
+						<span class="glyphicon glyphicon-certificate"></span>
+					</button>
+				</a>
+				<div>
+					<small>
+						<a th:href="@{${materialHref}}"
+								th:data-toggle="${#strings.startsWith(materialHref, '#') ? 'tab' : ''}"
+								th:text="#{|dossier.read.progress.materials.${materialDone}|}">
+						</a>
+					</small>
+				</div>
+			</div>
+			<div class="process-step">
+				<a th:href="@{${methodHref}}"
+						th:data-toggle="${#strings.startsWith(methodHref, '#') ? 'tab' : ''}">
+					<button type="button" class="btn btn-sm btn-circle"
+							th:classappend="|${methodDone ? 'btn-primary' : 'btn-default'}
+								${#strings.startsWith(recommendedAction, 'dossier.read.method_create') ? 'btn-success' : ''}|">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</a>
+				<div>
+					<small>
+						<a th:href="@{${methodHref}}"
+								th:data-toggle="${#strings.startsWith(methodHref, '#') ? 'tab' : ''}"
+								th:text="#{|dossier.read.progress.methods.${methodDone}|}">
+						</a>
+					</small>
+				</div>
+			</div>
+			<div class="process-step">
+				<a th:href="@{${reportHref}}"
+						th:data-toggle="${#strings.startsWith(reportHref, '#') ? 'tab' : ''}">
+					<button type="button" class="btn btn-sm btn-circle"
+							th:classappend="|${reportDone ? 'btn-primary' : 'btn-default'}
+								${recommendedAction == 'dossier.read.report_create' ? 'btn-success' : ''}|">
+						<span class="glyphicon glyphicon-list-alt"></span>
+					</button>
+				</a>
+				<div>
+					<small>
+						<a th:href="@{${reportHref}}"
+								th:data-toggle="${#strings.startsWith(reportHref, '#') ? 'tab' : ''}"
+								th:text="#{|dossier.read.progress.reports.${reportDone}|}">
+						</a>
+					</small>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+
+	<ul class="nav nav-tabs">
+		<li>
+			<a href="#dossier" data-toggle="tab" th:text="#{dossier}"></a>
+		</li>
+		<li>
+			<a href="#materials" data-toggle="tab" th:text="#{material}"></a>
+		</li>
+		<li>
+			<a href="#methods" data-toggle="tab" th:text="#{method.plural}"></a>
+		</li>
+		<li>
+			<a href="#reports" data-toggle="tab" th:text="#{report.plural}"></a>
+		</li>
+		<li>
+			<a href="#custom_attributes" data-toggle="tab" th:text="#{custom_attribute.plural}"></a>
+		</li>
+	</ul>
+	<div id="dossierTabContent" class="tab-content">
+		<div class="tab-pane" id="dossier">
+			<div class="table-responsive">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="true"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%"
+								th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td th:text="#{global.table.column.name}"></td>
+						<td th:text="${dossier.name}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.comment}"></td>
+						<td th:text="${dossier.comment}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.internal_comment.long}"></td>
+						<td th:text="${dossier.internalComment}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.purpose}"></td>
+						<td th:text="${@performanceDictionary.translateValue(@PA.PURPOSE, dossier.purpose)}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.sample_name}"></td>
+						<td th:text="${dossier.sampleName}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{dossier.table.column.sample_type}"></td>
+						<td th:text="#{|dossier.table.multiconstituent.${dossier.multiconstituent}|}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.creation_date.long}"></td>
+						<td th:text="${#dates.format(dossier.creationDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.change_date.long}"></td>
+						<td th:text="${#dates.format(dossier.changeDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.archived}"></td>
+						<td th:text="#{'global.' + ${dossier.archived}}"></td>
+					</tr>
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+		<div class="tab-pane" id="materials" role="tabpanel">
+			<div th:replace="material/tables :: default (${materials}, ${!dossier.archived})"></div>
+		</div>
+		<div class="tab-pane" id="methods" role="tabpanel">
+			<div th:replace="method/tables :: default (${methods}, ${!dossier.archived})"></div>
+		</div>
+		<div class="tab-pane" id="reports" role="tabpanel">
+			<div th:replace="report/tables :: default (${reports}, ${!dossier.archived})"></div>
+		</div>
+		<div class="tab-pane" id="custom_attributes" role="tabpanel">
+			<div th:replace="custom_attribute/tables :: default (${dossier},
+				${dossier.customAttributes}, ${!dossier.archived})"></div>
+		</div>
+	</div>
+
+</div> <!-- container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>

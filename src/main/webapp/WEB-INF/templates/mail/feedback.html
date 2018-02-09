@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:remove="all">Test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p th:text="#{mail.feedback.heading}">
+</p>
+<p th:utext="${feedback}">
+</p>
+
+<p>
+	[[#{mail.global.salutation}]],<br />
+	<em>NanoDefiner</em>
+</p>
+</body>
+</html>

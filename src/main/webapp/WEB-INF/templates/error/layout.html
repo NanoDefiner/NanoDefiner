@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<body>
+
+<!--/* Content */-->
+<nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<th:block> <!-- shiro:guest -->
+				<a class="navbar-brand" href="/${@E.INDEX}" th:href="@{|/${@E.INDEX}|}">
+					<img class="brand" th:src="@{/img/nd_wave_inv.svg}"
+							alt="NanoDefine" />
+				</a>
+			</th:block>
+		</div>
+
+		<div class="navbar-collapse collapse">
+
+		</div> <!-- navbar-collapse -->
+
+	</div> <!-- End: .container -->
+	<th:block th:replace="fragments/messages :: messages"></th:block>
+</nav>
+
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{admin.locale.heading}"></h3>
+	</div>
+
+	<th:block th:if="${localeCoverageEnabled}">
+
+	<label for="localeCoverage">
+		[[#{admin.locale.current_coverage}]] ([[${messageSource.locale}]]):
+	</label>
+	<div class="progress" th:with="percent=${messageSource.percentLocaleCodesUsed}">
+		<div class="progress-bar progress-bar-success" id="localeCoverage"
+				role="progressbar"
+				th:aria-valuenow="${percent}" aria-valuemin="0"
+				aria-valuemax="100" th:style="|min-width: 2em; width: ${percent}%|">
+			[[${messageSource.numLocaleCodesUsed}]]/[[${messageSource.numLocaleCodes}]] ([[${percent}]]%)
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#unused" data-toggle="tab" th:text="#{admin.locale.tab.unused}"></a>
+		</li>
+		<li>
+			<a href="#unresolved" data-toggle="tab" th:text="#{admin.locale.tab.unresolved}"></a>
+		</li>
+	</ul>
+	<div id="localeCoverageContent" class="tab-content">
+		<div class="tab-pane active in" id="unused">
+			<ul>
+				<li th:each="code : ${messageSource.unusedLocaleCodes}" th:text="${code}"></li>
+				<li th:if="${messageSource.numLocaleCodesUnused == 0}"
+						th:text="#{admin.locale.none_unused}"></li>
+			</ul>
+		</div>
+		<div class="tab-pane" id="unresolved">
+			<ul>
+				<li th:each="code : ${messageSource.unresolvedLocaleCodes}" th:text="${code}"></li>
+				<li th:if="${messageSource.numLocaleCodesUnresolved == 0}"
+						th:text="#{admin.locale.none_unresolved}"></li>
+			</ul>
+		</div>
+	</div>
+	</th:block>
+	<th:block th:if="${!localeCoverageEnabled}">
+		<div th:utext="#{admin.locale.coverage_disabled}"></div>
+	</th:block>
+</div>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

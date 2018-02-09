@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="container pace-hidden">
+	<h2 th:text="#{error.user.heading}"></h2>
+	<p class="alert alert-danger" th:text="#{|error.user.${error}.text|}"></p>
+
+	<button id="backButton" class="btn btn-primary"
+			th:text="#{global.button.go_back}"></button>
+</div>
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+

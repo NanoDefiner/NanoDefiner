@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<div class="row placeholders">
+			<div class="col-xs-3 col-sm-3 placeholder">
+				<a href="#dossiers" data-toggle="tab">
+					<img th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${dossiers.size()}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{dossier.plural}"></h4>
+				<span class="text-muted" th:text="#{dossier.active.count}"></span>
+			</div>
+			<div class="col-xs-3 col-sm-3 placeholder">
+				<a href="#materials" data-toggle="tab">
+					<img th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${materials.size()}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{material.plural}"></h4>
+				<span class="text-muted" th:text="#{material.active.count}"></span>
+			</div>
+			<div class="col-xs-3 col-sm-3 placeholder">
+				<a href="#methods" data-toggle="tab">
+					<img th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${methods.size()}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{method.plural}"></h4>
+				<span class="text-muted" th:text="#{method.active.count}"></span>
+			</div>
+			<div class="col-xs-3 col-sm-3 placeholder">
+				<a href="#reports" data-toggle="tab">
+					<img th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${reports.size()}|"
+							class="img-responsive">
+				</a>
+				<h4 th:text="#{report.plural}"></h4>
+				<span class="text-muted" th:text="#{report.active.count}"></span>
+			</div>
+		</div>
+	</div> <!-- container -->
+</div> <!-- jumbotron -->
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{dashboard}"></h3>
+	</div>
+	<ul class="nav nav-tabs" role="tablist">
+		<li class="nav-item active">
+			<a href="#dossiers" class="nav-link" role="tab" data-toggle="tab"
+					th:text="#{dashboard.read.tabs.dossier}">
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="#materials" class="nav-link" role="tab" data-toggle="tab"
+					th:text="#{dashboard.read.tabs.material}">
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="#methods" class="nav-link" role="tab" data-toggle="tab"
+					th:text="#{dashboard.read.tabs.method}">
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="#reports" class="nav-link" role="tab" data-toggle="tab"
+					th:text="#{dashboard.read.tabs.report}">
+			</a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content"
+			th:with="hideColumns=${@TS.list('comment')}, showColumns=${@TS.list('dossier')}">
+		<div class="tab-pane active in" id="dossiers" role="tabpanel">
+			<div th:replace="dossier/tables :: default (${dossiers}, true)"></div>
+		</div>
+		<div class="tab-pane" id="materials" role="tabpanel">
+			<div th:replace="material/tables :: default (${materials}, true)"></div>
+		</div>
+		<div class="tab-pane" id="methods" role="tabpanel">
+			<div th:replace="method/tables :: default (${methods}, true)"></div>
+		</div>
+		<div class="tab-pane" id="reports" role="tabpanel">
+			<div th:replace="report/tables :: default (${reports}, true)"></div>
+		</div>
+	</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body th:with="action=${dossier.id == 0 ? history.current.action + '_template' : history.current.action}">
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div class="jumbotron pace-hidden">
+	<div class="container">
+		<h3 th:text="#{|material.${action}.jumbo.headline|}"></h3>
+
+		<div th:replace="fragments/breadcrumbs :: default"></div>
+
+		<div class="topic">
+			<h5 th:text="#{material.read.jumbo.topic}"></h5>
+		</div>
+		<p>
+	</div>
+</div>
+
+<div class="container pace-hidden" id="particulate_component"
+		th:with="idMaterial='material',idCriteria='criteria',idCustomAttributes='custom_attributes'">
+	<div class="page-header">
+		<h3 th:text="#{material.read.heading}"></h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li>
+			<a th:href="|#${idMaterial}|" data-toggle="tab"
+					th:text="#{|material.read.tabs.${idMaterial}|}"></a>
+		</li>
+		<li>
+			<a th:href="|#${idCriteria}|" data-toggle="tab"
+					th:text="#{|material.read.tabs.${idCriteria}|}"></a>
+		</li>
+		<li>
+			<a th:href="|#${idCustomAttributes}|" data-toggle="tab"
+					th:text="#{|material.read.tabs.${idCustomAttributes}|}"></a>
+		</li>
+	</ul>
+	<div id="materialTabContent" class="tab-content">
+		<div class="tab-pane" th:id="${idMaterial}" role="tabpanel">
+			<div class="table-responsive">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="true"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td th:text="#{global.table.column.name}"></td>
+						<td th:utext="${material.name}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.description}"></td>
+						<td th:utext="${material.comment}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.creation_date.long}"></td>
+						<td th:utext="${#dates.format(material.creationDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					<tr>
+						<td th:text="#{global.table.column.change_date.long}"></td>
+						<td th:utext="${#dates.format(material.changeDate, #messages.msg('global.date_format'))}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<br />
+		</div>
+		<div class="tab-pane" th:id="${idCriteria}">
+			<div class="table-responsive" role="tabpanel">
+				<table data-classes="table table-hover"
+						data-toggle="table"
+						data-striped="true"
+						data-locale="en-US"
+						data-search="true"
+						data-search-align="left"
+						data-detail-view="false"
+						data-show-export="true"
+						data-export-data-type="all">
+					<thead>
+					<tr>
+						<th data-field="attribute" data-width="25%"
+								th:text="#{global.table.column.attribute}"></th>
+						<th data-field="value" data-width="75%" th:text="#{global.table.column.value}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:replace="material/fragments :: readRow(${@PA.SHAPE},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.DIMENSIONS},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.WR_SIZE_RANGE},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.ANALYSIS_TEMPERATURE},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.CHEMICAL_COMPOSITION},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.COMPOSITES},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.TRADE_FORM},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.DISPERSIBILITY},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.POLYDISPERSITY},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.MULTIMODALITY},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.OS_VACUUM},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.ELECTRON_BEAM},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.PRESENCE},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.RELEASE_IAM},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.CONDUCTIVITY},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.MAGNETISM},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.AGGREGATION},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.AGGLOMERATION},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.LIGHT_ABSORPTION},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.FLUORESCENCE},
+								${materialCriteria})">
+					</tr>
+					<tr th:replace="material/fragments :: readRow(${@PA.FUNCTIONALISATION},
+								${materialCriteria})">
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="tab-pane" th:id="${idCustomAttributes}">
+			<div th:replace="custom_attribute/tables :: default (${material},
+						${material.customAttributes}, ${!material.archived && !material.dossier.archived})"></div>
+		</div>
+	</div>
+</div>
+
+<footer th:replace="layout :: footer"></footer>
+</body>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:replace="fragments/bubbles :: bubbles
+	('material', ${materialsActive.size()}, ${materialsArchived.size()}, ${materialsAll.size()})"></div>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{material.overview}"></h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#active" data-toggle="tab" th:text="#{material.active}"></a>
+		</li>
+		<li>
+			<a href="#archived" data-toggle="tab"
+					th:text="#{material.archived}"></a>
+		</li>
+		<li>
+			<a href="#all" data-toggle="tab" th:text="#{material.all}"></a>
+		</li>
+		<li>
+			<a href="#templates" data-toggle="tab"
+					th:text="#{material.template}"></a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content"
+			th:with="hideColumns=${@TS.list('comment')}, showColumns=${@TS.list('dossier')}">
+		<div class="tab-pane active" id="active">
+			<div
+					th:replace="material/tables :: default (${materialsActive}, true)"></div>
+		</div>
+		<div class="tab-pane" id="archived">
+			<div
+					th:replace="material/tables :: default (${materialsArchived}, false)"></div>
+		</div>
+		<div class="tab-pane" id="all">
+			<div
+					th:replace="material/tables :: default (${materialsAll}, false)"></div>
+		</div>
+		<div class="tab-pane" id="templates">
+			<div
+					th:replace="material/tables :: templates (${materialsTemplate}, true)"></div>
+		</div>
+	</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>

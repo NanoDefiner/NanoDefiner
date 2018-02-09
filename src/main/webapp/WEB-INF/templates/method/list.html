@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: header"></head>
+
+<body>
+
+<nav th:replace="layout :: navigation"></nav>
+
+<div th:replace="fragments/bubbles :: bubbles
+	('method', ${methodsActive.size()}, ${methodsArchived.size()}, ${methodsAll.size()})"></div>
+
+<div class="container pace-hidden">
+	<div class="page-header">
+		<h3 th:text="#{method.list.heading}"></h3>
+	</div>
+	<ul class="nav nav-tabs">
+		<li class="active">
+			<a href="#active" data-toggle="tab" th:text="#{method.list.tab.active}"></a>
+		</li>
+		<li>
+			<a href="#archived" data-toggle="tab" th:text="#{method.list.tab.archived}"></a>
+		</li>
+		<li>
+			<a href="#all" data-toggle="tab" th:text="#{method.list.tab.all}"></a>
+		</li>
+	</ul>
+	<div id="myTabContent" class="tab-content"
+			th:with="showColumns=${@TS.list('dossier')}">
+		<div class="tab-pane active in" id="active">
+			<div th:replace="method/tables :: default (${methodsActive}, true)"></div>
+		</div>
+		<div class="tab-pane" id="archived">
+			<div th:replace="method/tables :: default (${methodsArchived}, false)"></div>
+		</div>
+		<div class="tab-pane" id="all">
+			<div th:replace="method/tables :: default (${methodsAll}, false)"></div>
+		</div>
+	</div>
+</div> <!-- /container -->
+
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>
