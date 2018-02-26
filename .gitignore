@@ -1,0 +1,39 @@
+# Java class files
+*.class
+
+# Eclipse
+.classpath
+.project
+.metadata
+.settings/
+.*
+
+# intellij
+*.iml
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.db
+
+# Logs
+*.log
+*.log.*
+
+# Directories
+build/
+bin/
+tmp/
+target/
+static/
+
+# Configuration and temporary files
+src/main/resources/banner.txt
+src/main/resources/build.properties
+config/*.properties
+config/*/*.properties
+config/knowledge
+
+# Others
+*~

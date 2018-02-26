@@ -112,20 +112,19 @@ public class LocaleConfig {
 
 		String[] filenameParts;
 		String filenameProperties;
-		Resource csvResource;
+		Resource propertiesResource;
 		for (File file : localesDirectory.listFiles(csvFilenameFilter)) {
 			this.log.debug("Processing file: {}", file.getName());
 			filenameParts = file.getName().split("\\.");
 			filenameProperties = this.localesDirectory + filenameParts[0] + ".properties";
+			propertiesResource = this.resourceLoader.getResource(filenameProperties);
 
 			if (filenameParts.length > 1
 					&& filenameParts[1].equals(CsvMessageSource.CSV_SUFFIX.substring(1))
-					&& !this.resourceLoader.getResource(filenameProperties).exists()) {
+					&& !propertiesResource.exists()) {
 				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-						new FileOutputStream(filenameProperties, false)));
+						new FileOutputStream(propertiesResource.getFile(), false)));
 				writer.write("# Do not remove this file, see README.txt");
-				writer.newLine();
-				this.writeGenerationDate(writer);
 				writer.close();
 			}
 		}
@@ -180,13 +179,5 @@ public class LocaleConfig {
 		this.log.info("Message source created and configured");
 
 		return messageSource;
-	}
-
-	/**
-	 * Write version and date information into given writer.
-	 */
-	private void writeGenerationDate(BufferedWriter writer) throws IOException {
-		writer.write("# Generated on " + this.buildDate + " using version " + this.version);
-		writer.newLine();
 	}
 }

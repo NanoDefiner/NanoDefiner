@@ -6,7 +6,6 @@
 
 package eu.nanodefine.etool.utilities.utils;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,25 +22,22 @@ public abstract class RequestUtil {
 	/**
 	 * Returns a string, listing all parameters and values of a given request.
 	 *
-	 * @param request
-	 *            given request
+	 * @param request given request
 	 * @return string listing of all parameters and values
 	 */
 	public static String requestToString(HttpServletRequest request) {
-		String s = new String();
+		StringBuilder s = new StringBuilder();
 
 		Map<String, String[]> map = request.getParameterMap();
 		Set<String> keys = map.keySet();
 
-		Iterator<String> it = keys.iterator();
-		while (it.hasNext()) {
-			String param = it.next();
+		for (String param : keys) {
 			for (int i = 0; i < map.get(param).length; i++) {
-				s += param + "=" + map.get(param)[i] + "\n";
+				s.append(param).append("=").append(map.get(param)[i]).append("\n");
 			}
 		}
 
-		return s;
+		return s.toString();
 	}
 
 }

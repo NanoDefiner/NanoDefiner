@@ -110,8 +110,6 @@
 						WEB-INF/classes/img/,
 						WEB-INF/classes/code/,
 						WEB-INF/classes/hibernate/,
-						WEB-INF/classes/knowledge/documentation/,
-						WEB-INF/classes/knowledge/**/*.xls,
 					</packagingExcludes>
 				</configuration>
 			</plugin>

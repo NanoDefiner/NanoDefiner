@@ -1,0 +1,51 @@
+[submodule "src/main/webapp/libs/bootstrap-git"]
+	path = src/main/webapp/libs/bootstrap-git
+	url = https://github.com/twbs/bootstrap.git
+[submodule "src/main/webapp/libs/bootstrap-filestyle-git"]
+	path = src/main/webapp/libs/bootstrap-filestyle-git
+	url = https://github.com/markusslima/bootstrap-filestyle.git
+[submodule "src/main/webapp/libs/bootstrap-select-git"]
+	path = src/main/webapp/libs/bootstrap-select-git
+	url = https://github.com/silviomoreto/bootstrap-select.git
+[submodule "src/main/webapp/libs/bootstrap-table-git"]
+	path = src/main/webapp/libs/bootstrap-table-git
+	url = https://github.com/wenzhixin/bootstrap-table.git
+[submodule "src/main/webapp/libs/FileSaver-git"]
+	path = src/main/webapp/libs/FileSaver-git
+	url = https://github.com/eligrey/FileSaver.js.git
+[submodule "src/main/webapp/libs/holder-git"]
+	path = src/main/webapp/libs/holder-git
+	url = https://github.com/imsky/holder.git
+[submodule "src/main/webapp/libs/html5shiv-git"]
+	path = src/main/webapp/libs/html5shiv-git
+	url = https://github.com/aFarkas/html5shiv.git
+[submodule "src/main/webapp/libs/jasny-bootstrap-git"]
+	path = src/main/webapp/libs/jasny-bootstrap-git
+	url = https://github.com/jasny/bootstrap.git
+[submodule "src/main/webapp/libs/jquery-git"]
+	path = src/main/webapp/libs/jquery-git
+	url = https://github.com/jquery/jquery.git
+[submodule "src/main/webapp/libs/jquery-deserialize-git"]
+	path = src/main/webapp/libs/jquery-deserialize-git
+	url = https://github.com/kflorence/jquery-deserialize.git
+[submodule "src/main/webapp/libs/jquery-ui-slider-pips-git"]
+	path = src/main/webapp/libs/jquery-ui-slider-pips-git
+	url = https://github.com/simeydotme/jQuery-ui-Slider-Pips.git
+[submodule "src/main/webapp/libs/jquery-validation-git"]
+	path = src/main/webapp/libs/jquery-validation-git
+	url = https://github.com/jquery-validation/jquery-validation.git
+[submodule "src/main/webapp/libs/js-cookie-git"]
+	path = src/main/webapp/libs/js-cookie-git
+	url = https://github.com/js-cookie/js-cookie.git
+[submodule "src/main/webapp/libs/respond-git"]
+	path = src/main/webapp/libs/respond-git
+	url = https://github.com/scottjehl/Respond.git
+[submodule "src/main/webapp/libs/jquery-ui-dist-git"]
+	path = src/main/webapp/libs/jquery-ui-dist-git
+	url = https://github.com/sschadwick/jquery-ui-dist.git
+[submodule "src/main/webapp/libs/pace-git"]
+	path = src/main/webapp/libs/pace-git
+	url = https://github.com/HubSpot/pace
+[submodule "src/main/webapp/libs/jquery-tableExport-git"]
+	path = src/main/webapp/libs/jquery-tableExport-git
+	url = https://github.com/hhurz/tableExport.jquery.plugin

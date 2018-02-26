@@ -16,7 +16,7 @@ mail.server.password = password
 mail.from = NanoDefiner <nanodefiner@localhost>
 # Important mails will be sent to these addresses; comma-separated list
 mail.admins = admin1@localhost,admin2@localhost
-# Whether user should receive an activation mail containing a link which activates their account.
+# Whether users should receive an activation mail containing a link which activates their account.
 # If set to false, admins have to activate users manually
 mail.user.activation = false
 # Whether to notify admins of new users (should be set to true if mail.user.activation
@@ -66,30 +66,30 @@ dev.locales = false
 # Salting rounds for jBCrypt
 security.jbcrypt.saltrounds = 12
 
-knowledge.technique.dict=file:config/knowledge/live/V0.9.7/csv/technique_dict_DRAFT_V0.9.7.csv
-knowledge.technique.config=file:config/knowledge/live/V0.9.7/csv/technique_sheet_DRAFT_V0.9.7.csv
+knowledge.technique.dict = file:config/knowledge/release/technique_dict_DRAFT_V1.0.0.csv
+knowledge.technique.config = file:config/knowledge/release/technique_sheet_DRAFT_V1.0.0.csv
 
-knowledge.material.dict=file:config/knowledge/live/V0.9.7/csv/material_dict_DRAFT_V0.9.7.csv
-knowledge.material.config=file:config/knowledge/live/V0.9.7/csv/material_sheet_DRAFT_V0.9.7.csv
+knowledge.material.dict = file:config/knowledge/release/material_dict_DRAFT_V1.0.0.csv
+knowledge.material.config = file:config/knowledge/release/material_sheet_DRAFT_V1.0.0.csv
 
-knowledge.performance.dict=file:config/knowledge/live/V0.9.7/csv/performance_dict_DRAFT_V0.9.7.csv
-knowledge.performance.config=file:config/knowledge/live/V0.9.7/csv/performance_sheet_DRAFT_V0.9.7.csv
+knowledge.performance.dict = file:config/knowledge/release/performance_dict_DRAFT_V1.0.0.csv
+knowledge.performance.config = file:config/knowledge/release/performance_sheet_DRAFT_V1.0.0.csv
 
-knowledge.reference.config=file:config/knowledge/live/V0.9.7/csv/reference_sheet_DRAFT_V0.9.7.csv
-knowledge.reference.dict=file:config/knowledge/live/V0.9.7/csv/reference_dict_DRAFT_V0.9.7.csv
+knowledge.reference.config = file:config/knowledge/release/reference_sheet_DRAFT_V1.0.0.csv
+knowledge.reference.dict = file:config/knowledge/release/reference_dict_DRAFT_V1.0.0.csv
 
-knowledge.explanation.config=file:config/knowledge/live/V0.9.7/csv/explanation_sheet_DRAFT_V0.9.7.csv
-knowledge.explanation.dict=file:config/knowledge/live/V0.9.7/csv/explanation_dict_DRAFT_V0.9.7.csv
+knowledge.explanation.config = file:config/knowledge/release/explanation_sheet_DRAFT_V1.0.0.csv
+knowledge.explanation.dict = file:config/knowledge/release/explanation_dict_DRAFT_V1.0.0.csv
 
-knowledge.priority.config=file:config/knowledge/live/V0.9.7/csv/priority_sheet_DRAFT_V0.9.7.csv
-knowledge.priority.dict=file:config/knowledge/live/V0.9.7/csv/priority_dict_DRAFT_V0.9.7.csv
+knowledge.priority.config = file:config/knowledge/release/priority_sheet_DRAFT_V1.0.0.csv
+knowledge.priority.dict = file:config/knowledge/release/priority_dict_DRAFT_V1.0.0.csv
 
 knowledge.hashes = file:config/knowledge/hashes.properties
 
-knowledge.manual=https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf
+knowledge.manual = http://nanodefine.eu/publications/reports/NanoDefine_TechnicalReport_D7.6.pdf
 
 # Directory containing the locale files
-locales.directory=file:config/locales/
+locales.directory = file:config/locales/
 
 # Automatically create an issue when an error other than 404 is encountered
 nanodefiner.error.issue_autocreate = false

@@ -289,14 +289,15 @@
 		<hr style="margin: 5px 0 5px 0;">
 		<small th:utext="#{global.copyright} + ' &mdash; ' + #{disclaimer.liability}"></small>
 		<br />
-		<button th:if="${feedbackButtonEnabled}" class="btn-danger visible-xs-block" data-toggle="modal"
-				data-target="#feedbackModal" th:text="#{layout.feedback_button}">
-		</button>
-		<button th:if="${feedbackButtonEnabled}"
-				class="btn-danger hidden-xs feedback" data-toggle="modal"
-				data-target="#feedbackModal" th:text="#{layout.feedback_button}">
-		</button>
-		<div th:replace="fragments/modals :: feedback"></div>
+		<th:block shiro:user th:if="${feedbackButtonEnabled}">
+			<button class="btn-danger visible-xs-block" data-toggle="modal"
+					data-target="#feedbackModal" th:text="#{layout.feedback_button}">
+			</button>
+			<button class="btn-danger hidden-xs feedback" data-toggle="modal"
+					data-target="#feedbackModal" th:text="#{layout.feedback_button}">
+			</button>
+			<div th:replace="fragments/modals :: feedback"></div>
+		</th:block>
 	</div> <!-- container -->
 
 
