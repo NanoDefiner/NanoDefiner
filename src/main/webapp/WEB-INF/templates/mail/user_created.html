@@ -8,7 +8,7 @@
 <p th:text="#{mail.global.greeting}"></p>
 <p th:text="#{mail.user_created.body.account_created(${user.username})}">
 </p>
-<p th:utext="#{mail.user_created.body.activate_accounts(${U.builderAbsolute(E.USER, A.ACTIVATE).build()})}">
+<p th:utext="#{mail.user_created.body.activate_accounts(${U.builderAbsolute(E.ADMIN, E.USER).build()})}">
 </p>
 
 <p>
