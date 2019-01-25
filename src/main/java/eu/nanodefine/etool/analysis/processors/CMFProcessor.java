@@ -80,21 +80,41 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 	private void determineDensityFunction() {
 		this.densityFunction = new Vector<>();
 
-		Tuple<Double, Double> t, current;
-		for (int i = 0; i < this.entries.size(); i++) {
-			current = this.entries.get(i);
-			t = new Tuple<>(current.getLeft(), current.getRight());
+		int numberOfBins = 20;
+		double sizeMin = this.entries.get(0).getLeft(),
+				sizeMax = this.entries.get(this.entries.size() - 1).getLeft();
+		double binWidth = (sizeMax - sizeMin) / numberOfBins;
 
-			if (i > this.preMedianIdx) {
-				t.setRight(1 - t.getRight()); // Post median
-			}
-			this.densityFunction.add(t);
+		double upperBinBorder, lastDensity = 0.;
+		int j = 0, numEntries = this.entries.size();
+		for (int i = 0; i < numberOfBins; i++) {
+			upperBinBorder = sizeMin + (i + 1) * binWidth;
 
-			// Place median interpolated median in the middle of pre and post
-			if (i == this.preMedianIdx) {
-				t = new Tuple<>(this.medianSize, this.medianQ0);
-				this.densityFunction.add(t);
+			while (j < numEntries - 1 && this.entries.get(j).getLeft() < upperBinBorder) {
+				j++;
 			}
+
+			this.densityFunction.add(new Tuple<>(sizeMin + i * binWidth + binWidth / 2,
+					this.entries.get(j).getRight() - lastDensity));
+			lastDensity = this.entries.get(j).getRight();
+		}
+	}
+
+	private void determineDensityFunctionFull() {
+		this.densityFunction = new Vector<>();
+
+		double lastDensity = 0.;
+		int numEntries = this.entries.size();
+		for (int i = 0; i < numEntries; i++) {
+
+			// Skip entries with same density, they also have the same size
+			if (this.entries.get(i).getRight().equals(lastDensity)) {
+				continue;
+			}
+
+			this.densityFunction.add(new Tuple<>(this.entries.get(i).getLeft(),
+					this.entries.get(i).getRight() - lastDensity));
+			lastDensity = this.entries.get(i).getRight();
 		}
 	}
 
@@ -145,7 +165,7 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 		this.result = (double) Math.round(this.medianSize);
 
 		// Density and distribution approximation
-		determineDensityFunction();
+		determineDensityFunctionFull();
 		//determineDistributionFunction(); // TODO Include again after fix
 	}
 

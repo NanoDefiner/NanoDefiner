@@ -7,6 +7,8 @@
 package eu.nanodefine.etool.model.services.report;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.annotation.PostConstruct;
 
@@ -195,7 +197,10 @@ public class DynamicReportComponentService implements IService {
 			// Add column to report model for later access
 			report.addModelAttribute("column_" + fieldNames[i], column);
 
-			report.getJasperReport().columns(column);
+			// Columns without titles are only added if there are generally no titles
+			if (titles == null || !title.equals("")) {
+				report.getJasperReport().columns(column);
+			}
 		}
 
 		if (titles != null) {
@@ -283,5 +288,37 @@ public class DynamicReportComponentService implements IService {
 	 */
 	public StyleBuilder getTextStyle() {
 		return this.textStyle;
+	}
+
+	/**
+	 * Returns a version of the given image without transparency.
+	 *
+	 * @return if the given image does not contain transparency, the image itself.
+	 * Otherwise, a copy of the image which has its background filled with the given color.
+	 */
+	public BufferedImage removeImageTransparency(BufferedImage img, Color backgroundColor) {
+		if (!img.getColorModel().hasAlpha()) {
+			return img;
+		}
+
+		BufferedImage copy = new BufferedImage(img.getWidth(), img.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D g2d = copy.createGraphics();
+		g2d.setColor(backgroundColor);
+		g2d.fillRect(0, 0, copy.getWidth(), copy.getHeight());
+		g2d.drawImage(img, 0, 0, null);
+		g2d.dispose();
+
+		return copy;
+	}
+
+	/**
+	 * Returns a version of the given image with white background instead of transparency.
+	 *
+	 * @see #removeImageTransparency(BufferedImage, Color)
+	 */
+	public BufferedImage removeImageTransparency(BufferedImage img) {
+		return this.removeImageTransparency(img, Color.WHITE);
 	}
 }

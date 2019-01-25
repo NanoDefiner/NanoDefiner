@@ -12,7 +12,7 @@
 	url = https://github.com/wenzhixin/bootstrap-table.git
 [submodule "src/main/webapp/libs/FileSaver-git"]
 	path = src/main/webapp/libs/FileSaver-git
-	url = https://github.com/eligrey/FileSaver.js.git
+	url = https://github.com/clarketm/FileSaver.js.git
 [submodule "src/main/webapp/libs/holder-git"]
 	path = src/main/webapp/libs/holder-git
 	url = https://github.com/imsky/holder.git

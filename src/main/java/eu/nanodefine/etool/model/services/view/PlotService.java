@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +35,11 @@ import de.erichseifert.gral.graphics.Label;
 import de.erichseifert.gral.graphics.Location;
 import de.erichseifert.gral.io.plots.DrawableWriter;
 import de.erichseifert.gral.io.plots.DrawableWriterFactory;
+import de.erichseifert.gral.plots.BarPlot;
 import de.erichseifert.gral.plots.XYPlot;
 import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
 import de.erichseifert.gral.plots.lines.LineRenderer;
+import de.erichseifert.gral.plots.lines.SmoothLineRenderer2D;
 import eu.nanodefine.etool.analysis.processors.CMFProcessor;
 import eu.nanodefine.etool.analysis.processors.IAnalysisProcessor;
 import eu.nanodefine.etool.analysis.processors.SPCTv2Processor;
@@ -56,6 +60,8 @@ public class PlotService implements IService {
 
 	private final ServiceManager serviceManager;
 
+	private Logger log = LoggerFactory.getLogger(PlotService.class);
+
 	@Autowired
 	public PlotService(NumberService numberService,
 			ServiceManager serviceManager) {
@@ -68,6 +74,7 @@ public class PlotService implements IService {
 	 */
 	private void addExpectedSizeRange(XYPlot plot, IAnalysisProcessor processor, Double lowerX,
 			Double upperX, Double lowerY, Double upperY) {
+		upperY = upperY + (upperY - lowerY) / 10;
 		Double[] expectedSizeRange = this.serviceManager.getBean(MaterialService.class)
 				.determineExpectedSizeRange(processor.getMethod().getDossier().getMaterials());
 
@@ -88,7 +95,8 @@ public class PlotService implements IService {
 			// remove current renderer
 			plot.setLineRenderers(dataExpectedSizeRangeLower, new ArrayList<>());
 			plot.setLineRenderers(dataExpectedSizeRangeLower, lineDashed);
-			plot.setPointRenderers(dataExpectedSizeRangeLower, new ArrayList<>()); // Don't render points
+			// Don't render points
+			plot.setPointRenderers(dataExpectedSizeRangeLower, new ArrayList<>());
 		}
 
 		if (expectedSizeRange[1] != null && expectedSizeRange[1] <= upperX) {
@@ -101,19 +109,39 @@ public class PlotService implements IService {
 			// remove current renderer
 			plot.setLineRenderers(dataExpectedSizeRangeUpper, new ArrayList<>());
 			plot.setLineRenderers(dataExpectedSizeRangeUpper, lineDashed);
-			plot.setPointRenderers(dataExpectedSizeRangeUpper, new ArrayList<>()); // Don't render points
+			// Don't render points
+			plot.setPointRenderers(dataExpectedSizeRangeUpper, new ArrayList<>());
 		}
+
+		plot.getLegend().clear();
+		//plot.setLegendVisible(false);
+		plot.setLegendLocation(Location.SOUTH);
+		plot.setLegendDistance(6.);
+		plot.setInsets(new Insets2D.Double(20, 80, 160, 20));
 
 		if (dataExpectedSizeRangeLower != null || dataExpectedSizeRangeUpper != null) {
 			// Legend
-			plot.getLegend().clear();
 			plot.getLegend().add(dataExpectedSizeRangeLower != null ?
 					dataExpectedSizeRangeLower : dataExpectedSizeRangeUpper);
 			plot.setLegendVisible(true);
-			plot.setLegendLocation(Location.SOUTH);
-			plot.setLegendDistance(6.);
-			plot.setInsets(new Insets2D.Double(20, 80, 160, 20));
 		}
+	}
+
+	/**
+	 * Creates a bar plot for the given labels and data sources.
+	 */
+	private BarPlot createBarPlot(String xLabel, String yLabel, DataSource... dataSources)
+			throws IOException {
+		BarPlot plot = new BarPlot(dataSources);
+
+		plot.setInsets(new Insets2D.Double(20, 80, 140, 20));
+		plot.getAxisRenderer(XYPlot.AXIS_Y).setLabelDistance(2);
+		plot.getAxisRenderer(XYPlot.AXIS_X).setLabel(new Label(xLabel));
+		plot.getAxisRenderer(XYPlot.AXIS_Y).setLabel(new Label(yLabel));
+		plot.getAxis(XYPlot.AXIS_Y)
+				.setMax(plot.getAxis(XYPlot.AXIS_Y).getMax().doubleValue() * 1.1);
+
+		return plot;
 	}
 
 	/**
@@ -129,15 +157,9 @@ public class PlotService implements IService {
 			maxY = Math.max(maxY, t.getRight());
 		}
 
-		DataTable dataMedian = new DataTable(Double.class, Double.class);
-		dataMedian.add(processor.getResult(), 0.);
-		dataMedian.add(processor.getResult(), maxY);
-		DataSeries dataMedianSeries = new DataSeries("Median (D_50)", dataMedian);
+		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		Double d50 = Double.valueOf(this.numberService.formatNumber(processor.getResult(), 2));
-
-		XYPlot plot = this.createXYPlot("Particle size (nm)", "f(x)", data, dataMedianSeries);
-		plot.setPointRenderers(dataMedianSeries, new ArrayList<>()); // Don't render points
+		BarPlot plot = this.createBarPlot("Particle size (nm)", "f(x)", data);
 		plot.getAxisRenderer(XYPlot.AXIS_X)
 				.setCustomTicks(ImmutableMap.of(processor.getResult(), d50.toString()));
 
@@ -146,8 +168,11 @@ public class PlotService implements IService {
 		Tuple<Double, Double> first = processor.getDensity().get(0),
 				last = processor.getDensity().get(lastIndex);
 
+		plot.setBarWidth(this.determineBarWidth(first.getLeft(), last.getLeft()));
+
 		this.addExpectedSizeRange(plot, processor, first.getLeft(), last.getLeft(), 0., maxY);
-		plot.getLegend().add(dataMedianSeries);
+		plot.getLegend().clear();
+		plot.setLegendVisible(false);
 
 		return this.createPlotBytes(plot);
 	}
@@ -168,7 +193,7 @@ public class PlotService implements IService {
 		dataMedian.add(processor.getEntries().get(processor.getEntries().size() - 1).getLeft(), .5);
 		DataSeries dataMedianSeries = new DataSeries("Median (D_50)", dataMedian);
 
-		Double d50 = Double.valueOf(this.numberService.formatNumber(processor.getResult(), 2));
+		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
 		XYPlot plot = this.createXYPlot("Particle size (nm)", "F(x)", data, dataMedianSeries);
 
@@ -177,13 +202,16 @@ public class PlotService implements IService {
 		Tuple<Double, Double> first = processor.getEntries().get(0),
 				last = processor.getEntries().get(lastIndex);
 
-		plot.setPointRenderers(dataMedianSeries, new ArrayList<>()); // Don't render points
+		// Don't render points
+		plot.setPointRenderers(dataMedianSeries, new ArrayList<>());
+		// Mark D50 on X axis
 		plot.getAxisRenderer(XYPlot.AXIS_X)
 				.setCustomTicks(ImmutableMap.of(processor.getResult(), d50.toString()));
 
 		this.addExpectedSizeRange(plot, processor, first.getLeft(),
 				last.getLeft(), first.getRight(), last.getRight());
 		plot.getLegend().add(dataMedianSeries);
+		plot.setLegendVisible(true);
 
 		return this.createPlotBytes(plot);
 	}
@@ -208,28 +236,24 @@ public class PlotService implements IService {
 
 	/**
 	 * Creates SP-ICP-MS density plot.
+	 *
+	 * TODO extract duplicate code
 	 */
 	public byte[] createSPICPMSDensityPlot(SPCTv2Processor processor) throws IOException {
 		TreeMultiset<Double> values = processor.getValues();
 		double numValues = values.size();
 		DataTable data = new DataTable(Double.class, Double.class);
 
-		double value = 0d, maxY = 0;
+		double value, maxY = 0;
 		for (Multiset.Entry<Double> entry : values.entrySet()) {
 			value = entry.getCount() / numValues;
 			data.add(entry.getElement(), value);
 			maxY = Math.max(maxY, value);
 		}
 
-		DataTable dataMedian = new DataTable(Double.class, Double.class);
-		dataMedian.add(processor.getResult(), 0.);
-		dataMedian.add(processor.getResult(), maxY);
-		DataSeries dataMedianSeries = new DataSeries("Median (D_50)", dataMedian);
+		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		Double d50 = Double.valueOf(this.numberService.formatNumber(processor.getResult(), 2));
-
-		XYPlot plot = this.createXYPlot("Particle size (nm)", "f(x)", data, dataMedianSeries);
-		plot.setPointRenderers(dataMedianSeries, new ArrayList<>()); // Don't render points
+		BarPlot plot = this.createBarPlot("Particle size (nm)", "f(x)", data);
 		plot.getAxisRenderer(XYPlot.AXIS_X)
 				.setCustomTicks(ImmutableMap.of(processor.getResult(), d50.toString()));
 
@@ -237,11 +261,12 @@ public class PlotService implements IService {
 
 		Row first = data.getRow(0), last = data.getRow(lastIndex);
 
+		plot.setBarWidth(this.determineBarWidth((Double) first.get(0), (Double) last.get(0)));
+
 		this.addExpectedSizeRange(plot, processor, (Double) first.get(0),
 				(Double) last.get(0), 0., maxY);
-		plot.getLegend().add(dataMedianSeries);
-
-		//plot.getTitle().setText("Particle size density");
+		plot.getLegend().clear();
+		plot.setLegendVisible(false);
 
 		return this.createPlotBytes(plot);
 	}
@@ -264,7 +289,7 @@ public class PlotService implements IService {
 		dataMedian.add(data.get(0, data.getRowCount() - 1), .5);
 		DataSeries dataMedianSeries = new DataSeries("Median (D_50)", dataMedian);
 
-		Double d50 = Double.valueOf(this.numberService.formatNumber(processor.getResult(), 2));
+		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
 		XYPlot plot = this.createXYPlot("Particle size (nm)", "F(x)", data, dataMedianSeries);
 
@@ -279,8 +304,7 @@ public class PlotService implements IService {
 		this.addExpectedSizeRange(plot, processor, (Double) first.get(0),
 				(Double) last.get(0), (Double) first.get(1), (Double) last.get(1));
 		plot.getLegend().add(dataMedianSeries);
-
-		//plot.getTitle().setText("Particle size distribution");
+		plot.setLegendVisible(true);
 
 		return this.createPlotBytes(plot);
 	}
@@ -288,10 +312,10 @@ public class PlotService implements IService {
 	/**
 	 * Creates a plot for the given labels and data sources.
 	 */
-	private XYPlot createXYPlot(String xLabel, String yLabel, DataSource... dataSources)
-			throws IOException {
+	private XYPlot createXYPlot(String xLabel, String yLabel, DataSource... dataSources) {
 		XYPlot plot = new XYPlot(dataSources);
-		LineRenderer lines = new DefaultLineRenderer2D();
+		LineRenderer lines = new SmoothLineRenderer2D();
+		((SmoothLineRenderer2D) lines).setSmoothness(1);
 
 		Arrays.stream(dataSources).forEach(t -> plot.setLineRenderers(t, lines));
 
@@ -299,8 +323,19 @@ public class PlotService implements IService {
 		plot.getAxisRenderer(XYPlot.AXIS_Y).setLabelDistance(2);
 		plot.getAxisRenderer(XYPlot.AXIS_X).setLabel(new Label(xLabel));
 		plot.getAxisRenderer(XYPlot.AXIS_Y).setLabel(new Label(yLabel));
+		plot.getAxis(XYPlot.AXIS_Y)
+				.setMax(plot.getAxis(XYPlot.AXIS_Y).getMax().doubleValue() * 1.1);
 
 		return plot;
+	}
+
+	/**
+	 * Determines the width of bars in {@link BarPlot}s.
+	 *
+	 * The width is based on the range of the X axis.
+	 */
+	private double determineBarWidth(Double xMin, Double xMax) {
+		return (xMax - xMin) / 600;
 	}
 
 }

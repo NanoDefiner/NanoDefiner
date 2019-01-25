@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.nanodefine.etool</groupId>
 	<artifactId>NanoDefiner</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>war</packaging>
 	<name>NanoDefiner</name>
 	<description>
@@ -34,9 +34,9 @@
 		<spring.version>4.3.6.RELEASE</spring.version>
 		<gral.version>0.11</gral.version>
 		<javax-mail.version>1.5.6</javax-mail.version>
-		<jasperReport.version>6.4.0</jasperReport.version>
+		<jasperReport.version>6.7.0</jasperReport.version>
 		<jasperReport.fonts.version>6.0.0</jasperReport.fonts.version>
-		<dynamicReports.version>5.0.0</dynamicReports.version>
+		<dynamicReports.version>6.0.0</dynamicReports.version>
 		<jbcrypt.version>0.4</jbcrypt.version>
 		<apache-poi.version>3.16</apache-poi.version>
 		<jsr305.version>3.0.2</jsr305.version>
@@ -88,14 +88,15 @@
 						libs/*/dist/**,
 						libs/*/*license*,
 						libs/*/*LICENSE*,
-						libs/bootstrap-filestyle-git/src/bootstrap-filestyle.min.js,
+						libs/bootstrap-filestyle-git/src/bootstrap-filestyle.*,
 						libs/FileSaver-git/FileSaver.js,
 						libs/holder-git/holder.min.js,
 						libs/jquery-tableExport-git/tableExport.min.js,
 						libs/jquery-ui-dist-git/jquery-ui.min.*,
+						libs/jquery-validation-git/jquery.validate.js,
 						libs/js-cookie-git/src/js.cookie.js,
 						libs/pace-git/pace.min.js,
-						libs/pace-git/themes/*.css,
+						libs/pace-git/themes/blue/*.css,
 						libs/respond-git/dest/*,
 						css/**,
 						img/**,

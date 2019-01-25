@@ -112,10 +112,10 @@ abstract public class AbstractAnalysisDataFormatService implements IAnalysisData
 	protected void addPlots(Method method, DynamicPdfReport report) throws IOException {
 		MethodService ms = this.serviceManager.getBean(MethodService.class);
 
-		BufferedImage distributionImage = ImageIO
-				.read(new File(ms.getMethodDataFilePath(method) + ".distribution.png"));
-		BufferedImage densityImage = ImageIO
-				.read(new File(ms.getMethodDataFilePath(method) + ".density.png"));
+		BufferedImage distributionImage = this.cs.removeImageTransparency(ImageIO
+				.read(new File(ms.getMethodDataFilePath(method) + ".distribution.png")));
+		BufferedImage densityImage = this.cs.removeImageTransparency(ImageIO
+				.read(new File(ms.getMethodDataFilePath(method) + ".density.png")));
 
 		ImageBuilder distributionPlot =
 				DynamicReports.cmp.image(distributionImage)

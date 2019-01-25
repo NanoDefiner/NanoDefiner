@@ -79,6 +79,9 @@ import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.datatype.DataTypes;
 import net.sf.dynamicreports.report.constant.HorizontalImageAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
+import net.sf.dynamicreports.report.constant.PdfaConformance;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Service for creating a dynamic PDF report.
@@ -389,6 +392,12 @@ public class DynamicReportService
 
 		FileService fileService = this.serviceManager.getBean(FileService.class);
 
+		// Set up PDF/a compliant font embedding
+		JasperReportsContext jasperReportsContext = DefaultJasperReportsContext.getInstance();
+		jasperReportsContext.setProperty("net.sf.jasperreports.default.pdf.font.name",
+				"net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf");
+		jasperReportsContext.setProperty("net.sf.jasperreports.default.pdf.embedded", "true");
+
 		DynamicPdfReport reportSummary = new DynamicPdfReport();
 		reportSummary.addModelAttribute("report", report);
 		reportSummary.addModelAttribute("methods", methods);
@@ -404,16 +413,16 @@ public class DynamicReportService
 		// TODO extract image stuff into method
 
 		// TODO make this configurable
-		BufferedImage companyBrandImage = ImageIO.read(this.resourceLoader
-				.getResource(this.brandLocation).getInputStream());
+		BufferedImage companyBrandImage = this.cs.removeImageTransparency(
+				ImageIO.read(this.resourceLoader.getResource(this.brandLocation).getInputStream()));
 
 		ImageBuilder companyBrand = DynamicReports.cmp.image(companyBrandImage)
 				.setFixedDimension(Math.round(companyBrandImage.getWidth() * .3f),
 						Math.round(companyBrandImage.getHeight() * .3f))
 				.setHorizontalImageAlignment(HorizontalImageAlignment.LEFT);
 
-		BufferedImage nanodefineBrandImage = ImageIO.read(this.resourceLoader
-				.getResource("/img/nd_orig.png").getInputStream());
+		BufferedImage nanodefineBrandImage = this.cs.removeImageTransparency(
+				ImageIO.read(this.resourceLoader.getResource("/img/nd_orig.png").getInputStream()));
 
 		ImageBuilder nanodefineBrand = DynamicReports.cmp.image(nanodefineBrandImage)
 				.setDimension(Math.round(nanodefineBrandImage.getWidth() * .3f),
@@ -462,7 +471,7 @@ public class DynamicReportService
 
 		// TODO fix PDF/a conformance
 		JasperPdfExporterBuilder exporterBuilder = Exporters.pdfExporter(outputStream);
-		//exporterBuilder.setPdfaConformance(PdfaConformance.PDFA_1A);
+		exporterBuilder.setPdfaConformance(PdfaConformance.PDFA_1A);
 		exporterBuilder.setIccProfilePath("pdf/sRGB2014.icc");
 		exporterBuilder.setTagged(true);
 		exporterBuilder.setTagLanguage("en-gb");
@@ -623,8 +632,7 @@ public class DynamicReportService
 					.translateValue(mc.getName(), mc.getValue());
 
 			detailReport.addRow(label, techniqueValue, materialValue,
-					compatibilityTable.get(mc.getName(), technique.getSignifier())
-							.getExplanation());
+					compatibilityTable.get(mc.getName(), technique.getSignifier()).getExplanation());
 		}
 
 		overviewReport.addSummary(this.cs.createDefaultFiller());

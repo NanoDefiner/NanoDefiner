@@ -164,10 +164,10 @@ public class MethodUpdateController extends AbstractMethodController {
 
 		// TODO move to service, clean up
 		try {
-			this.methodService
-					.addMethodData(method, filePath.getFileName().toString(), uncertainty,
-							AnalysisDataFormats.PARTICLE_SIZER);
+			this.methodService.addMethodData(method, filePath.getFileName().toString(), uncertainty,
+					AnalysisDataFormats.PARTICLE_SIZER);
 		} catch (Exception e) {
+			this.log.error("Failed to process analysis file:", e);
 
 			try {
 				Files.deleteIfExists(filePath);
