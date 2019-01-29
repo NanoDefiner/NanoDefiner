@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
-		xmlns="http://www.w3.org/1999/xhtml">
+		xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layout :: header"></head>
 
@@ -33,21 +33,21 @@
 	<p></p>
 	<ul class="nav nav-tabs">
 		<li>
-			<a href="#version" data-toggle="tab" th:text="#{home.tab.project_information}"></a>
+			<a data-toggle="tab" href="#version" th:text="#{home.tab.project_information}"></a>
 		</li>
 		<li>
-			<a href="#software" data-toggle="tab" th:text="#{home.tab.related_software}"></a>
+			<a data-toggle="tab" href="#software" th:text="#{home.tab.related_software}"></a>
 		</li>
 		<li>
-			<a href="#publications" data-toggle="tab" th:text="#{home.tab.related_publications}"></a>
+			<a data-toggle="tab" href="#publications" th:text="#{home.tab.related_publications}"></a>
 		</li>
 		<li>
-			<a href="#citation" data-toggle="tab" th:text="#{home.tab.citation}"></a>
+			<a data-toggle="tab" href="#citation" th:text="#{home.tab.citation}"></a>
 		</li>
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane" id="version">
-			<h2 th:text="#{home.version.heading}"></h2>
+			<h2 th:text="#{home.version.heading(${version})}"></h2>
 
 			<p th:text="#{home.version.information}">
 			<p>
@@ -75,7 +75,7 @@
 							</a>
 						</h4>
 					</div>
-					<div id="current" class="panel-collapse collapse">
+					<div class="panel-collapse collapse" id="current">
 						<div class="panel-body">
 							<ul>
 								<li>Reports (without attachments) are now PDF/A-1a compliant</li>
@@ -92,10 +92,10 @@
 			<ul>
 				<li>
 					<p>The <a href="https://imagej.net/ParticleSizer">ParticleSizer</a>
-					is an ImageJ plug-in for Transmission Electron Microscopy (TEM) image analysis.
-					It automatically measures distributions of characteristic size and shape properties of
-					potential nanomaterials. Analysis results may be exported in a text-based file format
-					and imported into the NanoDefiner for an automatic nano/non-nano/borderline decision on
+						is an ImageJ plug-in for Transmission Electron Microscopy (TEM) image analysis.
+						It automatically measures distributions of characteristic size and shape properties of
+						potential nanomaterials. Analysis results may be exported in a text-based file format
+						and imported into the NanoDefiner for an automatic nano/non-nano/borderline decision on
 						a specific material.</p>
 					<p>
 						<a class="btn btn-primary btn-md" href="https://imagej.net/ParticleSizer"

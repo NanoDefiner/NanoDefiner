@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <!--/* TODO sort fragments */-->
 
-<div th:fragment="techniqueWarningModal (technique, techniquesMap, techniqueGeneralWarnings,
- techniqueMaterialWarnings, compatibilityTableMap)" id="techniqueWarningModal">
+<div id="techniqueWarningModal" th:fragment="techniqueWarningModal (technique, techniquesMap, techniqueGeneralWarnings,
+ techniqueMaterialWarnings, compatibilityTableMap)">
 
-	<div class="modal fade modal-large" th:id="|${technique.signifier}WarningModal|"
-			tabindex="-1" role="dialog" th:aria-labelledby="|${technique.signifier}Label|">
+	<div class="modal fade modal-large" role="dialog"
+			tabindex="-1" th:aria-labelledby="|${technique.signifier}Label|"
+			th:id="|${technique.signifier}WarningModal|">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-							th:aria-label="#{global.label.close}">
+					<button class="close" data-dismiss="modal" th:aria-label="#{global.label.close}"
+							type="button">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<h3 class="modal-title" th:id="|${technique.signifier}WarningLabel|">
@@ -24,12 +25,12 @@
 				<div class="modal-body">
 					<ul class="nav nav-tabs">
 						<li class="active">
-							<a th:href="|#${technique.signifier}Warnings|" data-toggle="tab"
+							<a data-toggle="tab" th:href="|#${technique.signifier}Warnings|"
 									th:text="#{method.fragment.warning_modal.tab.warnings}">
 							</a>
 						</li>
 						<li th:each="material : ${compatibilityTableMap.keySet()}">
-							<a th:href="|#${technique.signifier}Suitability${material.id}|" data-toggle="tab"
+							<a data-toggle="tab" th:href="|#${technique.signifier}Suitability${material.id}|"
 									th:text="|${#strings.abbreviate(material.name, 28)}|"></a>
 						</li>
 					</ul>
@@ -56,7 +57,7 @@
 											<th:block th:if="${dossier.multiconstituent}">
 												(
 												<th:block th:each="material,iterStat : ${materials}"><!--
-													--><span th:text="${material.name}" th:remove="tag"></span><!--
+													--><span th:remove="tag" th:text="${material.name}"></span><!--
 													--><span th:remove="tag" th:unless="${iterStat.last}">; </span><!--
 												--></th:block>
 												)
@@ -83,10 +84,10 @@
 							</div>
 							[[#{method.fragment.warning_modal.technique.suitability.details}]]
 						</div>
-						<div th:each="entry : ${compatibilityTableMap.entrySet()}"
-								th:with="material=${entry.key},table=${entry.value},
-									incompleteness=${materialIncompletenessTable.get(material, technique.signifier)}"
-								class="tab-pane" th:id="|${technique.signifier}Suitability${material.id}|">
+						<div class="tab-pane"
+								th:each="entry : ${compatibilityTableMap.entrySet()}"
+								th:id="|${technique.signifier}Suitability${material.id}|" th:with="material=${entry.key},table=${entry.value},
+									incompleteness=${materialIncompletenessTable.get(material, technique.signifier)}">
 							<h3 th:text="${material.name + @materialTS.determineMaterialSignifierString(material.signifier)}"></h3>
 							<!-- TODO material signifier -->
 							<th:block th:replace="material/tables :: techniqueModalTable (technique=${technique},
@@ -96,11 +97,11 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary pull-left" data-classes="confirm"
-							data-dismiss="modal" th:text="#{method.fragment.warning_modal.button.confirm}">
+					<button class="btn btn-primary pull-left" data-classes="confirm" data-dismiss="modal"
+							th:text="#{method.fragment.warning_modal.button.confirm}" type="button">
 					</button>
-					<button type="button" class="btn btn-default"
-							data-dismiss="modal" th:text="#{global.label.close}">
+					<button class="btn btn-default" data-dismiss="modal"
+							th:text="#{global.label.close}" type="button">
 					</button>
 					</a>
 				</div>
@@ -111,48 +112,52 @@
 
 </div>
 
-<div th:fragment="incompletenessBar (incompleteness)" id="incompletenessBar"
+<div class="progress progress-table" id="incompletenessBar"
 		th:data-sort="${#numbers.formatDecimal(incompleteness * 100, 3, 0)}"
-		class="progress progress-table"
-		th:with="incompletenessFormatted=${#numbers.formatDecimal(incompleteness * 100, 1, 0)}"
-		th:title="|${incompletenessFormatted}%|">
+		th:fragment="incompletenessBar (incompleteness)"
+		th:title="|${incompletenessFormatted}%|"
+		th:with="incompletenessFormatted=${#numbers.formatDecimal(incompleteness * 100, 1, 0)}">
 
-	<div class="progress-bar" th:style="|width: ${incompletenessFormatted}%|"
+	<div class="progress-bar" role="progressbar"
 			th:classappend="|progress-bar-${@materialTS.determineIncompletenessClass(incompleteness)}|"
-			role="progressbar">
+			th:style="|width: ${incompletenessFormatted}%|">
 	</div>
 </div>
 
-<th:block th:fragment="uncertaintyInput(uncertainty)" id="uncertaintyInput">
-	<a class="popovers" data-container="body" data-toggle="popover"
-			data-placement="auto top" data-trigger="click"
-			th:with="help=#{method.fragment.uncertainty_input.uncertainty_label_help}"
-			th:data-content="|<small>${help}</small>|">
+<th:block id="uncertaintyInput" th:fragment="uncertaintyInput(uncertainty)">
+	<a class="popovers" data-container="body" data-placement="auto top"
+			data-toggle="popover" data-trigger="click"
+			th:data-content="|<small>${help}</small>|"
+			th:with="help=#{method.fragment.uncertainty_input.uncertainty_label_help}">
 		<label th:for="|${@E.METHOD}.technique_uncertainty|"
 				th:text="#{method.fragment.uncertainty_input.uncertainty_label}"></label>
 	</a>
 	<br />
-	<input type="checkbox" th:name="|${@E.METHOD}.technique_uncertainty_unknown|" />
+	<input th:name="|${@E.METHOD}.technique_uncertainty_unknown|" type="checkbox" />
 	<label th:for="|${@E.METHOD}.technique_uncertainty_unknown|"
 			th:text="#{method.fragment.uncertainty_input.unknown_label}"></label>
-	<input type="number" min="0" max="100" step="0.1" maxlength="3" class="form-control"
-			th:name="|${@E.METHOD}.technique_uncertainty|" data-classes="technique_uncertainty"
-			placeholder="0" th:value="${uncertainty != null ? uncertainty : '0'}" required="required">
+	<input class="form-control" data-classes="technique_uncertainty" max="100" maxlength="3" min="0"
+			placeholder="0"
+			required="required" step="0.1"
+			th:name="|${@E.METHOD}.technique_uncertainty|"
+			th:value="${uncertainty != null ? uncertainty : '0'}" type="number">
 </th:block>
 
-<th:block th:fragment="particleSizerUpload" id="particleSizerUpload">
+<th:block id="particleSizerUpload" th:fragment="particleSizerUpload">
 	<p></p>
 	<p th:utext="#{method.fragment.particle_sizer_upload.information('<a href=\'http://imagej.net/ParticleSizer#Use_the_ParticleSizer_with_the_NanoDefiner_e-tool\'>ParticleSizer</a>')}">
 	</p>
-	<form accept-charset="UTF-8" class="form" id="genericUploadForm" data-classes="submit-popup"
-			th:action="@{${@U.builder(@E.METHOD, @A.UPDATE).addEntityId(method).addPathParam('particleSizer')}}"
-			enctype="multipart/form-data" method="post">
+	<form accept-charset="UTF-8" class="form" data-classes="submit-popup"
+			enctype="multipart/form-data"
+			id="genericUploadForm"
+			method="post"
+			th:action="@{${@U.builder(@E.METHOD, @A.UPDATE).addEntityId(method).addPathParam('particleSizer')}}">
 		<th:block th:replace="fragments/modals :: formSubmitModal ('genericUploadForm')"></th:block>
 
 		<div class="form-group">
 			<label th:for="|${@E.METHOD}.analysis_file|">Analysis file</label>
-			<input type="file" th:name="|${@E.METHOD}.analysis_file|"
-					class="filestyle" data-icon="false" required="required" />
+			<input class="filestyle" data-icon="false"
+					required="required" th:name="|${@E.METHOD}.analysis_file|" type="file" />
 		</div>
 
 		<div class="form-group">
@@ -161,29 +166,30 @@
 
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
-						th:text="#{global.button.upload}">
+				<button class="btn btn-primary pull-right" name="submit" th:text="#{global.button.upload}"
+						type="submit"
+						value="true">
 				</button>
 			</div>
 		</div>
 	</form>
 </th:block>
 
-<th:block th:fragment="betUpload" id="betUpload">
-	<form accept-charset="UTF-8" class="form" method="post" enctype="multipart/form-data"
+<th:block id="betUpload" th:fragment="betUpload">
+	<form accept-charset="UTF-8" class="form" enctype="multipart/form-data" method="post"
 			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/BET|}">
 		<div class="form-group">
 			<label th:text="#{method.fragment.bet_upload.criteria_label}"></label>
 			<div class="table-responsive">
 				<table data-classes="table table-hover"
-						data-toggle="table"
-						data-striped="true"
+						data-detail-view="false"
+						data-export-data-type="all"
 						data-locale="en-US"
 						data-search="false"
 						data-search-align="left"
-						data-detail-view="false"
 						data-show-export="true"
-						data-export-data-type="all">
+						data-striped="true"
+						data-toggle="table">
 					<thead>
 					<tr>
 						<th data-field="attribute" data-width="25%"
@@ -232,18 +238,19 @@
 			<label th:for="|${@E.METHOD}.vssa|"
 					th:utext="#{method.fragment.bet_upload.vssa_label}"></label>
 			<!-- TODO Needed as parameter by VSSA processor. -->
-			<input type="number" step="0.01" min="0.01" class="form-control" th:name="|${@E.METHOD}.vssa|"
-					placeholder="VSSA"
-					required="required">
+			<input class="form-control" min="0.01" placeholder="VSSA" required="required" step="0.01"
+					th:name="|${@E.METHOD}.vssa|"
+					type="number">
 		</div>
 		<div class="form-group">
 			<th:block th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
 		</div>
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true"
-						class="action submit btn btn-primary pull-right"
-						th:text="#{global.button.submit}">
+				<button class="action submit btn btn-primary pull-right" name="submit"
+						th:text="#{global.button.submit}"
+						type="submit"
+						value="true">
 				</button>
 			</div>
 		</div>
@@ -251,48 +258,51 @@
 </th:block>
 
 <!-- TODO: merge this and generic upload into single fragment with parameters -->
-<th:block th:fragment="spicpmsUpload" id="spicpmsUpload">
+<th:block id="spicpmsUpload" th:fragment="spicpmsUpload">
 	<p></p>
 	<p th:utext="#{method.fragment.spicpms_upload.information('<a href=\'https://www.wur.nl/en/show/Single-Particle-Calculation-tool.htm\'>RIKILT Single Particle Calculation Tool</a>')}">
 	</p>
-	<form accept-charset="UTF-8" class="form" id="spicpmsForm" data-classes="submit-popup"
-			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS|}"
-			enctype="multipart/form-data" method="post">
+	<form accept-charset="UTF-8" class="form" data-classes="submit-popup"
+			enctype="multipart/form-data"
+			id="spicpmsForm"
+			method="post"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS|}">
 		<th:block th:replace="fragments/modals :: formSubmitModal ('spicpmsForm')"></th:block>
 
 		<div class="form-group">
 			<label th:for="|${@E.METHOD}.analysis_file|"
 					th:text="#{method.fragment.spicpms_upload.analysis_file_label}"></label>
-			<input type="file" th:name="|${@E.METHOD}.analysis_file|"
-					class="filestyle" data-icon="false" required="required" />
+			<input class="filestyle" data-icon="false"
+					required="required" th:name="|${@E.METHOD}.analysis_file|" type="file" />
 		</div>
 		<div class="form-group">
 			<th:block th:replace=":: uncertaintyInput (${techniqueUncertainty})"></th:block>
 		</div>
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
-						th:text="#{global.button.upload}">
+				<button class="btn btn-primary pull-right" name="submit"
+						th:text="#{global.button.upload}" type="submit" value="true">
 				</button>
 			</div>
 		</div>
 	</form>
 </th:block>
 
-<th:block th:fragment="spicpmsSheet" id="spicpmsSheet">
+<th:block id="spicpmsSheet" th:fragment="spicpmsSheet">
 	<p></p>
 	<p th:text="#{method.fragment.spicpms_sheet.information}">
 	</p>
-	<form accept-charset="UTF-8" class="form" id="spicpmsSheetForm"
-			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS/sheet|}"
-			enctype="multipart/form-data" data-classes="submit-popup" method="post">
+	<form accept-charset="UTF-8" class="form" data-classes="submit-popup"
+			enctype="multipart/form-data"
+			id="spicpmsSheetForm" method="post"
+			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/SPICPMS/sheet|}">
 		<th:block th:replace="fragments/modals :: formSubmitModal ('spicpmsSheetForm')"></th:block>
 
 		<div class="form-group">
 			<label for="sheetId" th:text="#{method.fragment.spicpms_sheet.sheet_label}"></label>
 
-			<select id="sheetId" class="form-control selectpicker"
-					data-container="body" name="sheetId">
+			<select class="form-control selectpicker" data-container="body"
+					id="sheetId" name="sheetId">
 				<option th:each="sheetName : ${@SPCTv2Service.getSheetList(method)}"
 						th:text="${sheetName}"
 						th:value="${sheetNameStat.count}">
@@ -302,32 +312,35 @@
 		</div>
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
-						th:text="#{global.button.submit}">
+				<button class="btn btn-primary pull-right" name="submit" th:text="#{global.button.submit}"
+						type="submit"
+						value="true">
 				</button>
 			</div>
 		</div>
 	</form>
 </th:block>
 
-<th:block th:fragment="sizePlausibilityCheck (method)" id="sizePlausibilityCheck">
+<th:block id="sizePlausibilityCheck" th:fragment="sizePlausibilityCheck (method)">
 	<p></p>
-	<form accept-charset="UTF-8" class="form" id="sizePlausibilityCheckForm"
-			th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_NEEDED)}"
+	<form accept-charset="UTF-8" class="form" enctype="multipart/form-data"
+			id="sizePlausibilityCheckForm"
+			method="post"
 			th:action="@{|/${@E.METHOD}/${@A.UPDATE}/${@E.METHOD}.id=${method.id}/plausibility|}"
-			enctype="multipart/form-data" method="post">
+			th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_NEEDED)}">
 
 		<div class="form-group">
 			<label for="size" th:utext="#{method.fragment.size_check.size_label}"></label>
 
-			<input type="number" class="form-control" id="size" name="size" placeholder="1" min="1"
-					required="required" />
+			<input class="form-control" id="size" min="1" name="size" placeholder="1" required="required"
+					type="number" />
 
 		</div>
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
-						th:text="#{global.button.submit}">Submit
+				<button class="btn btn-primary pull-right" name="submit" th:text="#{global.button.submit}"
+						type="submit"
+						value="true">Submit
 				</button>
 			</div>
 		</div>
@@ -348,14 +361,14 @@
 <th:block id="manualD50Result" th:fragment="manualD50Result">
 	<div class="table-responsive">
 		<table data-classes="table table-hover"
-				data-toggle="table"
-				data-striped="true"
+				data-detail-view="false"
+				data-export-data-type="all"
 				data-locale="en-US"
 				data-search="true"
 				data-search-align="left"
-				data-detail-view="false"
 				data-show-export="true"
-				data-export-data-type="all">
+				data-striped="true"
+				data-toggle="table">
 			<thead>
 			<tr>
 				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
@@ -376,17 +389,17 @@
 	<p></p>
 </th:block>
 
-<th:block th:fragment="fileUploadResult" id="fileUploadResult">
+<th:block id="fileUploadResult" th:fragment="fileUploadResult">
 	<div class="table-responsive">
 		<table data-classes="table table-hover"
-				data-toggle="table"
-				data-striped="true"
+				data-detail-view="false"
+				data-export-data-type="all"
 				data-locale="en-US"
 				data-search="true"
 				data-search-align="left"
-				data-detail-view="false"
 				data-show-export="true"
-				data-export-data-type="all">
+				data-striped="true"
+				data-toggle="table">
 			<thead>
 			<tr>
 				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
@@ -420,7 +433,7 @@
 	<p></p>
 </th:block>
 
-<th:block th:fragment="betResult" id="betResult">
+<th:block id="betResult" th:fragment="betResult">
 	<!--/* Exceptional result layout case for BET. */-->
 
 	<!--
@@ -435,14 +448,14 @@
 
 	<div class="table-responsive">
 		<table data-classes="table table-hover"
-				data-toggle="table"
-				data-striped="true"
+				data-detail-view="false"
+				data-export-data-type="all"
 				data-locale="en-US"
 				data-search="true"
 				data-search-align="left"
-				data-detail-view="false"
 				data-show-export="true"
-				data-export-data-type="all">
+				data-striped="true"
+				data-toggle="table">
 			<thead>
 			<tr>
 				<th data-field="attribute" data-width="25%" th:text="#{global.table.column.attribute}"></th>
@@ -468,8 +481,8 @@
 
 </th:block>
 
-<th:block th:fragment="fileUploadDetails" id="fileUploadDetails">
-	<div class="tab-pane" th:id="${idDetails}" role="tabpanel">
+<th:block id="fileUploadDetails" th:fragment="fileUploadDetails">
+	<div class="tab-pane" role="tabpanel" th:id="${idDetails}">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="panel panel-default">
@@ -499,11 +512,11 @@
 	</div>
 </th:block>
 
-<th:block th:fragment="manualD50Upload" id="manualD50Upload">
+<th:block id="manualD50Upload" th:fragment="manualD50Upload">
 
 	<!--/* Manual D50 entry */-->
 	<hr />
-	<form accept-charset="UTF-8" method="post" enctype="multipart/form-data"
+	<form accept-charset="UTF-8" enctype="multipart/form-data" method="post"
 			th:action="@{${@U.builder(@E.METHOD, @A.UPDATE).addEntityId(method)
 						.addPathParam('D50')}}">
 
@@ -511,8 +524,8 @@
 
 		<div class="form-group">
 			<label for="D50" th:utext="#{method.fragment.manual_upload.d_50_label}"></label>
-			<input type="number" id="D50" th:name="|${@E.METHOD}.D50|" step="1" min="1"
-					required="required" value="1" class="form-control" />
+			<input class="form-control" id="D50" min="1" required="required" step="1"
+					th:name="|${@E.METHOD}.D50|" type="number" value="1" />
 		</div>
 
 		<div class="form-group">
@@ -522,8 +535,9 @@
 
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" class="btn btn-primary pull-right"
-						th:text="#{global.button.submit}">
+				<button class="btn btn-primary pull-right" name="submit" th:text="#{global.button.submit}"
+						type="submit"
+						value="true">
 				</button>
 			</div>
 		</div>
@@ -532,7 +546,7 @@
 
 </th:block>
 
-<th:block th:fragment="commonResultRows" id="commonResultRows">
+<th:block id="commonResultRows" th:fragment="commonResultRows">
 	<tr>
 		<td th:utext="#{method.fragment.common_result.analysis_data_format_label}"></td>
 		<td th:utext="#{|method.read.analysis_data_format.${method.dataFormat}|}"></td>

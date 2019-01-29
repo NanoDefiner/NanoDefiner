@@ -71,11 +71,18 @@ nav .alert {
 
 /*
  * This is a little bit of css to place the brand logo adequately.
- */
+ *
 .brand {
 	margin-top: -9px;
 	height: 42px;
 	width: auto;
+}*/
+.brand {
+	margin-top: 6px;
+	margin-right: 15px;
+	height: 42px;
+	width: 100px;
+	background-size: contain;
 }
 
 .nav-pills > li + li {

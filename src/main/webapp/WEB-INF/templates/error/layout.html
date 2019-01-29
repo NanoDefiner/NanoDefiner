@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:th="http://www.thymeleaf.org"
-		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+		xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <!--/* Content */-->
@@ -9,9 +9,10 @@
 	<div class="container">
 		<div class="navbar-header">
 			<th:block> <!-- shiro:guest -->
-				<a class="navbar-brand" href="/${@E.INDEX}" th:href="@{|/${@E.INDEX}|}">
-					<img class="brand" th:src="@{/img/nd_wave_inv.svg}"
-							alt="NanoDefine" />
+				<a href="/${@E.INDEX}" th:href="@{|/${@E.INDEX}|}">
+					<div alt="NanoDefine"
+							class="brand"
+							th:style="'background-image: url(' + @{/img/nd_wave_inv.svg} + ')'"></div>
 				</a>
 			</th:block>
 		</div>

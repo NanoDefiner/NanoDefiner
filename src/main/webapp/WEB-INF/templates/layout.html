@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
-		xmlns="http://www.w3.org/1999/xhtml">
+		xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header" th:with="min=${!debugMode ? '.min' : ''}">
 	<!--/*
 		These 3 meta chaps here must come first in the head. Why? Because
@@ -9,8 +9,8 @@
 		special child. Any other head content must come after.
 	*/-->
 	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
 
 	<!--/* Place other head content below this mark. */-->
 
@@ -21,8 +21,8 @@
 			th:src="@{/libs/pace-git/pace.min.js}"></script>
 	<link rel="stylesheet" th:href="@{/libs/pace-git/themes/blue/pace-theme-flash.css}" />
 
-	<meta name="description" content="NanoDefiner e-tool" />
-	<meta name="author" content="NanoDefine" />
+	<meta content="NanoDefiner e-tool" name="description" />
+	<meta content="NanoDefine" name="author" />
 
 	<!--/*
 		TODO Load resources on demand.
@@ -36,7 +36,7 @@
 	<script defer="defer" th:src="@{|/libs/jquery-ui-dist-git/jquery-ui${min}.js|}"></script>
 	<link rel="stylesheet" th:href="@{|/libs/jquery-ui-dist-git/jquery-ui${min}.css|}" />
 
-	<script th:if="${@environment.getProperty('server.forceBaseName')}" defer="defer"
+	<script defer="defer" th:if="${@environment.getProperty('server.forceBaseName')}"
 			th:src="@{/js/incl/force-base-name.js}"></script>
 
 	<!-- post pace code -->
@@ -89,14 +89,14 @@
 	<script defer="defer" th:src="@{|/libs/respond-git/dest/respond${min}.js|}"></script>
 	<![endif]-->
 
-	<link th:href="@{|/libs/jasny-bootstrap-git/dist/css/jasny-bootstrap${min}.css|}"
-			rel="stylesheet" />
+	<link rel="stylesheet"
+			th:href="@{|/libs/jasny-bootstrap-git/dist/css/jasny-bootstrap${min}.css|}" />
 	<script defer="defer"
 			th:src="@{|/libs/jasny-bootstrap-git/dist/js/jasny-bootstrap${min}.js|}"></script>
 
 	<!-- /* TODO: don't include by default -->
-	<link th:href="@{|/libs/jquery-ui-slider-pips-git/dist/jquery-ui-slider-pips${min}.css|}"
-			rel="stylesheet" />
+	<link rel="stylesheet"
+			th:href="@{|/libs/jquery-ui-slider-pips-git/dist/jquery-ui-slider-pips.css|}" />
 
 	<!-- Setup table export -->
 	<script defer="defer" th:src="@{/js/incl/table-export.js}"></script>
@@ -135,7 +135,7 @@
 	<![endif]-->
 
 	<!-- Some tiny style modifications -->
-	<link th:href="@{/css/style.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
 
 	<!-- Favicon -->
 	<link rel="icon" th:href="@{/img/favicon.ico}" />
@@ -149,44 +149,48 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-					data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<button aria-controls="navbar" aria-expanded="false" class="navbar-toggle collapsed"
+					data-target="#navbar" data-toggle="collapse" type="button">
 				<span class="sr-only" th:text="#{layout.sr.toggle_navigation}"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/${@E.INDEX}" th:href="@{|/${@E.INDEX}|}">
-				<img class="brand" th:src="@{/img/nd_wave_inv.svg}" alt="NanoDefine" />
+			<a href="/${@E.INDEX}" th:href="@{|/${@E.INDEX}|}">
+				<div alt="NanoDefine"
+						class="brand"
+						th:style="'background-image: url(' + @{/img/nd_wave_inv.svg} + ')'"></div>
 			</a>
 		</div>
 
 		<th:block shiro:guest>
-			<div id="navbar" class="navbar-collapse collapse">
+			<div class="navbar-collapse collapse" id="navbar">
 				<form accept-charset="UTF-8" class="navbar-form navbar-right"
-						th:action="@{|/${@E.USER}/${@A.LOGIN}|}"
 						enctype="multipart/form-data"
-						method="post">
+						method="post"
+						th:action="@{|/${@E.USER}/${@A.LOGIN}|}">
 					<div class="form-group">
-						<input type="text" name="username" autocomplete="username"
-								placeholder="User name" class="form-control">
-						<input type="password" name="passwordHash" autocomplete="current-password"
-								placeholder="Password" class="form-control">
-						<input type="hidden" name="postLoginRedirect" th:value="${postLoginRedirect}" />
+						<input autocomplete="username" class="form-control" name="username"
+								placeholder="User name" type="text">
+						<input autocomplete="current-password" class="form-control" name="passwordHash"
+								placeholder="Password" type="password">
+						<input name="postLoginRedirect" th:value="${postLoginRedirect}" type="hidden" />
 					</div>
-					<button type="submit" name="submit" value="true"
-							class="btn action submit btn-success" th:text="#{layout.button.login}">
+					<button class="btn action submit btn-success" name="submit"
+							th:text="#{layout.button.login}"
+							type="submit" value="true">
 					</button>
-					<a th:href="@{|/${@E.USER}/${@A.CREATE}|}"
-							class="btn btn-primary" role="button" th:text="#{layout.button.register}"></a>
-					<input type="checkbox" name="remembered" id="remembered" />
+					<a class="btn btn-primary"
+							role="button" th:href="@{|/${@E.USER}/${@A.CREATE}|}"
+							th:text="#{layout.button.register}"></a>
+					<input id="remembered" name="remembered" type="checkbox" />
 					<label for="remembered" th:text="#{user.login.form.remember_me_label}"></label>
 				</form>
 			</div> <!-- navbar-collapse -->
 		</th:block>
 
 		<th:block shiro:user th:if="${userSession != null}">
-			<div id="navbar" class="navbar-collapse collapse">
+			<div class="navbar-collapse collapse" id="navbar">
 				<ul class="nav navbar-nav navbar-left">
 					<li th:classappend="${(history.current.entity == @E.DASHBOARD)} ? 'active'">
 						<a th:href="@{|/${@E.DASHBOARD}/${@A.READ}|}"
@@ -209,15 +213,16 @@
 						</a>
 					</li>
 					<li th:classappend="${(history.current.entity == @E.REPORT)} ? 'active'">
-						<a href="#" th:text="#{report.plural}"
-								th:href="@{|/${@E.REPORT}/${@A.LIST}|}">
+						<a href="#" th:href="@{|/${@E.REPORT}/${@A.LIST}|}"
+								th:text="#{report.plural}">
 						</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right"> <!-- <ul class="nav navbar-nav navbar-right"> -->
 					<li class="dropdown"
 							th:classappend="${(history.current.entity == @E.USER)} ? 'active'">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						<a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#"
+								role="button">
 							<span th:text="${@userService.getUsernameOrTitleFirstLastName(userSession)}"></span>
 							<span class="caret"></span>
 						</a>
@@ -290,11 +295,11 @@
 		<small th:utext="#{global.copyright} + ' &mdash; ' + #{disclaimer.liability}"></small>
 		<br />
 		<th:block shiro:user th:if="${feedbackButtonEnabled}">
-			<button class="btn-danger visible-xs-block" data-toggle="modal"
-					data-target="#feedbackModal" th:text="#{layout.feedback_button}">
+			<button class="btn-danger visible-xs-block" data-target="#feedbackModal"
+					data-toggle="modal" th:text="#{layout.feedback_button}">
 			</button>
-			<button class="btn-danger hidden-xs feedback" data-toggle="modal"
-					data-target="#feedbackModal" th:text="#{layout.feedback_button}">
+			<button class="btn-danger hidden-xs feedback" data-target="#feedbackModal"
+					data-toggle="modal" th:text="#{layout.feedback_button}">
 			</button>
 			<div th:replace="fragments/modals :: feedback"></div>
 		</th:block>
@@ -308,7 +313,7 @@
 	<div class="variables" th:if="${history != null}">
 		<span id="variables-entity" th:text="${history.current.entity}"></span>
 		<span id="variables-action" th:text="${history.current.action}"></span>
-		<span th:if="${anchor != null}" id="variables-anchor" th:text="${anchor}"></span>
+		<span id="variables-anchor" th:if="${anchor != null}" th:text="${anchor}"></span>
 		<span id="variables-base-name-without-context"
 				th:text="${@environment.getProperty('server.baseName').replace(@environment.getProperty('server.contextPath'), '')}"></span>
 
