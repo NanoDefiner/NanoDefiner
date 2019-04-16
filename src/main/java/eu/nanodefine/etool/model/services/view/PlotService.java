@@ -52,6 +52,7 @@ import eu.nanodefine.etool.utilities.classes.Tuple;
  * Service for the creation of plots.
  *
  * TODO extract locales
+ * TODO rename density to histogram
  */
 @Service
 public class PlotService implements IService {
@@ -168,7 +169,7 @@ public class PlotService implements IService {
 		Tuple<Double, Double> first = processor.getDensity().get(0),
 				last = processor.getDensity().get(lastIndex);
 
-		plot.setBarWidth(this.determineBarWidth(first.getLeft(), last.getLeft()));
+		plot.setBarWidth(processor.getBinWidth());
 
 		this.addExpectedSizeRange(plot, processor, first.getLeft(), last.getLeft(), 0., maxY);
 		plot.getLegend().clear();

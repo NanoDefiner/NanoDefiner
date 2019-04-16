@@ -29,6 +29,11 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 
 	private final FileService fileService;
 
+	/**
+	 * Bin width for histogram generation.
+	 */
+	private double binWidth;
+
 	private List<Tuple<Double, Double>> cleanEntries;
 
 	private List<Tuple<Double, Double>> densityFunction;
@@ -80,21 +85,24 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 	private void determineDensityFunction() {
 		this.densityFunction = new Vector<>();
 
-		int numberOfBins = 20;
+		//int numberOfBins = 30;
 		double sizeMin = this.entries.get(0).getLeft(),
 				sizeMax = this.entries.get(this.entries.size() - 1).getLeft();
-		double binWidth = (sizeMax - sizeMin) / numberOfBins;
+		//this.binWidth = (sizeMax - sizeMin) / numberOfBins;
+		this.binWidth = .5;
+		int numberOfBins = (int) Math.ceil((sizeMax - sizeMin) / this.binWidth);
+		double offset = Math.floor(sizeMin) - sizeMin;
 
 		double upperBinBorder, lastDensity = 0.;
 		int j = 0, numEntries = this.entries.size();
 		for (int i = 0; i < numberOfBins; i++) {
-			upperBinBorder = sizeMin + (i + 1) * binWidth;
+			upperBinBorder = sizeMin + (i + 1) * this.binWidth + offset;
 
 			while (j < numEntries - 1 && this.entries.get(j).getLeft() < upperBinBorder) {
 				j++;
 			}
 
-			this.densityFunction.add(new Tuple<>(sizeMin + i * binWidth + binWidth / 2,
+			this.densityFunction.add(new Tuple<>(upperBinBorder - this.binWidth / 2,
 					this.entries.get(j).getRight() - lastDensity));
 			lastDensity = this.entries.get(j).getRight();
 		}
@@ -116,6 +124,10 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 					this.entries.get(i).getRight() - lastDensity));
 			lastDensity = this.entries.get(i).getRight();
 		}
+	}
+
+	public double getBinWidth() {
+		return this.binWidth;
 	}
 
 	public List<Tuple<Double, Double>> getDensity() {
@@ -165,7 +177,8 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 		this.result = (double) Math.round(this.medianSize);
 
 		// Density and distribution approximation
-		determineDensityFunctionFull();
+		// determineDensityFunctionFull();
+		determineDensityFunction();
 		//determineDistributionFunction(); // TODO Include again after fix
 	}
 
