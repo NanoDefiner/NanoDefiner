@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
 		xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layout :: header"></head>
@@ -52,7 +51,11 @@
 			<p th:text="#{home.version.information}">
 			<p>
 			<ul>
-				<li>[[#{home.version.list.version}]] <span th:text="${version}"></span></li>
+				<li>
+					<a href="https://github.com/NanoDefiner/NanoDefiner">
+						[[#{home.version.list.version}]] <span th:text="${version}"></span>
+					</a>
+				</li>
 				<li>[[#{home.version.list.build_date}]] <span th:text="${buildDate}"></span></li>
 			</ul>
 			<p th:utext="#{home.version.cookie_warning}">
@@ -116,6 +119,17 @@
 								role="button">Learn more on wur.nl &raquo;</a>
 					</p>
 				</li>
+				<li>
+					<p>The <a href="https://github.com/AutoEM/AutoEM-toolbox">AutoEM-toolbox</a> is a software
+						for automatic acquisition and analysis of nanoparticles in the transmission electron
+						microscope.
+					</p>
+					<p>
+						<a class="btn btn-primary btn-md"
+								href="https://github.com/AutoEM/AutoEM-toolbox"
+								role="button">Learn more on github.com &raquo;</a>
+					</p>
+				</li>
 			</ul>
 		</div>
 		<div class="tab-pane" id="publications">
@@ -136,6 +150,18 @@
 						classification of powders
 						using the volume-specific surface
 						area method.</em> Journal of Nanoparticle Research, 19(2), 61.
+				</li>
+				<li>
+					Uusimaeki, T., Wagner, T., Lipinski, HG. et al. <em>AutoEM: a software for automated
+					acquisition and analysis of nanoparticles</em>
+					Journal of Nanoparticle Research (2019) 21: 122.
+				</li>
+				<li>
+					Gaillard, C., Mech, A., Wohlleben, W., Babick, F., Hodoroaba, V.-D., Ghanem, A., Stefan
+					Weigel, Rauscher, H. (2019).
+					<em>A technique-driven materials categorisation scheme to support
+						regulatory identification of nanomaterials.</em>
+					Nanoscale Advances, 1(2), 781–791.
 				</li>
 			</ul>
 		</div>

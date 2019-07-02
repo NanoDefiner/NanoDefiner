@@ -22,9 +22,6 @@
 [submodule "src/main/webapp/libs/jasny-bootstrap-git"]
 	path = src/main/webapp/libs/jasny-bootstrap-git
 	url = https://github.com/jasny/bootstrap.git
-[submodule "src/main/webapp/libs/jquery-git"]
-	path = src/main/webapp/libs/jquery-git
-	url = https://github.com/jquery/jquery.git
 [submodule "src/main/webapp/libs/jquery-deserialize-git"]
 	path = src/main/webapp/libs/jquery-deserialize-git
 	url = https://github.com/kflorence/jquery-deserialize.git
@@ -49,3 +46,6 @@
 [submodule "src/main/webapp/libs/jquery-tableExport-git"]
 	path = src/main/webapp/libs/jquery-tableExport-git
 	url = https://github.com/hhurz/tableExport.jquery.plugin
+[submodule "src/main/webapp/libs/jquery-dist"]
+	path = src/main/webapp/libs/jquery-dist
+	url = https://github.com/jquery/jquery-dist.git

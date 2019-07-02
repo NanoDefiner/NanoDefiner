@@ -13,7 +13,8 @@
 		<div class="panel-body" th:if="${actionList != null}">
 			<ul class="nav nav-list">
 				<li th:each="actionEntry : ${actionList}" role="presentation">
-					<div th:with="description = ${actionEntry.enabled ? 'description' : 'description.disabled'}"
+					<div
+							th:with="description = ${actionEntry.enabled ? 'description' : 'description.disabled'}"
 							th:classappend="${recommendedAction == actionEntry.label}? 'recommended'">
 						<a th:if="${actionEntry.disclaimer == null || !actionEntry.enabled}"
 								th:classappend="${!actionEntry.enabled}? 'disabled'"
@@ -96,9 +97,10 @@
 
 </th:block>
 
+<!-- TODO extract to locale -->
 <th:block th:fragment="actionTemplate (entityName, entity)">
 	<a th:href="@{|/${entityName}/${@A.CREATE}/${@E.DOSSIER}.id=0/${entityName}.id=${entity.id}|}"
-			title="Define template based on this particulate component"
+			title="Define template based on this particle type"
 			class="glyphicon glyphicon-duplicate">
 	</a>
 </th:block>

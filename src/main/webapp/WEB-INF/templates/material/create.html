@@ -183,12 +183,14 @@
 								id="template"
 								th:name="|${@E.MATERIAL}.parent|">
 							<option th:text="#{material.create.form.template.none}" value="0"></option>
+							<!-- TODO extract to locales -->
 							<optgroup label="User templates">
 								<option th:each="t : ${templates}" th:text="${t.name}"
 										th:value="${t.id}">
 								</option>
 							</optgroup>
-							<optgroup label="Reference templates">
+							<!-- TODO extract to locales -->
+							<optgroup label="Knowledge base templates">
 								<option th:each="t : ${references}"
 										th:text="${t.getEntry('reference_name').value}"
 										th:value="${t.getEntry('reference_signifier').value}">
@@ -243,12 +245,7 @@
 								th:name="|${@E.MATERIAL}.material_signifier|">
 							<option th:text="#{material.create.form.group.none}" value="default">
 							</option>
-							<optgroup label="Types">
-								<option th:each="type : ${@materialTypes}"
-										th:selected="${material.signifier == type.materialSignifier}"
-										th:text="${type.name}"
-										th:value="${type.materialSignifier}"></option>
-							</optgroup>
+							<!-- TODO extract to locale -->
 							<optgroup label="Groups">
 								<option th:each="group : ${@materialGroups}"
 										th:selected="${material.signifier == group.materialSignifier}"

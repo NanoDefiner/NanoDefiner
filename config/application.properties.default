@@ -54,6 +54,8 @@ spring.http.multipart.max-request-size=20MB
 # Set server time zone here
 spring.jpa.properties.hibernate.jdbc.time_zone = Europe/Berlin
 
+# TODO add database settings
+
 ##
 # Internal settings, you should not have to change these
 ##
@@ -66,23 +68,23 @@ dev.locales = false
 # Salting rounds for jBCrypt
 security.jbcrypt.saltrounds = 12
 
-knowledge.technique.dict = file:config/knowledge/release/technique_dict_DRAFT_V1.0.0.csv
-knowledge.technique.config = file:config/knowledge/release/technique_sheet_DRAFT_V1.0.0.csv
+knowledge.technique.dict = file:config/knowledge/release/measurement_technique_dict_DRAFT_V1.0.2.csv
+knowledge.technique.config = file:config/knowledge/release/measurement_technique_sheet_DRAFT_V1.0.2.csv
 
-knowledge.material.dict = file:config/knowledge/release/material_dict_DRAFT_V1.0.0.csv
-knowledge.material.config = file:config/knowledge/release/material_sheet_DRAFT_V1.0.0.csv
+knowledge.material.dict = file:config/knowledge/release/material_group_dict_DRAFT_V1.0.2.csv
+knowledge.material.config = file:config/knowledge/release/material_group_sheet_DRAFT_V1.0.2.csv
 
-knowledge.performance.dict = file:config/knowledge/release/performance_dict_DRAFT_V1.0.0.csv
-knowledge.performance.config = file:config/knowledge/release/performance_sheet_DRAFT_V1.0.0.csv
+knowledge.performance.dict = file:config/knowledge/release/measurement_technique_performance_dict_DRAFT_V1.0.2.csv
+knowledge.performance.config = file:config/knowledge/release/measurement_technique_performance_sheet_DRAFT_V1.0.2.csv
 
-knowledge.reference.config = file:config/knowledge/release/reference_sheet_DRAFT_V1.0.0.csv
-knowledge.reference.dict = file:config/knowledge/release/reference_dict_DRAFT_V1.0.0.csv
+knowledge.reference.config = file:config/knowledge/release/material_property_sheet_DRAFT_V1.0.2.csv
+knowledge.reference.dict = file:config/knowledge/release/material_property_dict_DRAFT_V1.0.2.csv
 
-knowledge.explanation.config = file:config/knowledge/release/explanation_sheet_DRAFT_V1.0.0.csv
-knowledge.explanation.dict = file:config/knowledge/release/explanation_dict_DRAFT_V1.0.0.csv
+knowledge.explanation.config = file:config/knowledge/release/explanation_sheet_DRAFT_V1.0.2.csv
+knowledge.explanation.dict = file:config/knowledge/release/explanation_dict_DRAFT_V1.0.2.csv
 
-knowledge.priority.config = file:config/knowledge/release/priority_sheet_DRAFT_V1.0.0.csv
-knowledge.priority.dict = file:config/knowledge/release/priority_dict_DRAFT_V1.0.0.csv
+knowledge.priority.config = file:config/knowledge/release/priority_sheet_DRAFT_V1.0.2.csv
+knowledge.priority.dict = file:config/knowledge/release/priority_dict_DRAFT_V1.0.2.csv
 
 knowledge.hashes = file:config/knowledge/hashes.properties
 

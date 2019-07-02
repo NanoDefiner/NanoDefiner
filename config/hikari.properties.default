@@ -14,15 +14,15 @@ dataSource.password=
 # Change your data source here, format: type://host:port/database
 dataSource.url=jdbc:mysql://localhost:3306/NanoDefiner?autoReconnect=true
 
-# Hikari internal settings, you should not need to change these
+# Hikari MySQL settings, uncomment when using MySQL
 # Defaults taken from https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration
-dataSource.cachePrepStmts=true
-dataSource.prepStmtCacheSize=250
-dataSource.prepStmtCacheSqlLimit=2048
-dataSource.useLocalSessionState=true
-dataSource.useLocalTransactionState=true
-dataSource.rewriteBatchedStatements=true
-dataSource.cacheResultSetMetadata=true
-dataSource.cacheServerConfiguration=true
-dataSource.elideSetAutoCommits=true
-dataSource.maintainTimeStats=false
+#dataSource.cachePrepStmts=true
+#dataSource.prepStmtCacheSize=250
+#dataSource.prepStmtCacheSqlLimit=2048
+#dataSource.useLocalSessionState=true
+#dataSource.useLocalTransactionState=true
+#dataSource.rewriteBatchedStatements=true
+#dataSource.cacheResultSetMetadata=true
+#dataSource.cacheServerConfiguration=true
+#dataSource.elideSetAutoCommits=true
+#dataSource.maintainTimeStats=false

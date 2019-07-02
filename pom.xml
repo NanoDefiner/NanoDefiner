@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.nanodefine.etool</groupId>
 	<artifactId>NanoDefiner</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>war</packaging>
 	<name>NanoDefiner</name>
 	<description>
-		NanoDefiner etool, a product resulting out of the NanoDefine project.
+		NanoDefiner e-tool, a product resulting out of the NanoDefine project.
 	</description>
 
 	<properties>

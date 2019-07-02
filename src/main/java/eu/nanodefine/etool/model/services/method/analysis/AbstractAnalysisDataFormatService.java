@@ -153,11 +153,11 @@ abstract public class AbstractAnalysisDataFormatService implements IAnalysisData
 	 * <p>Size plausibility check needs to be added if</p>
 	 *
 	 * <ul>
-	 *   <li>the method has a result,</li>
-	 *   <li>the result is non-nano,</li>
-	 *   <li>the technique that was used is tier 1 and not BET,</li>
-	 *   <li>the method is not yet marked as requiring a size plausibility check,</li>
-	 *   <li>and no size plausibility check has been performed for the method yet.</li>
+	 * <li>the method has a result,</li>
+	 * <li>the result is non-nano,</li>
+	 * <li>the technique that was used is tier 1 and not BET,</li>
+	 * <li>the method is not yet marked as requiring a size plausibility check,</li>
+	 * <li>and no size plausibility check has been performed for the method yet.</li>
 	 * </ul>
 	 */
 	private void addSizePlausibilityCheckIfNeeded(Method method) {

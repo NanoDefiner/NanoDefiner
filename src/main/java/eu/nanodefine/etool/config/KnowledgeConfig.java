@@ -154,7 +154,6 @@ public class KnowledgeConfig {
 	@Autowired
 	private TechniqueHashService techniqueHashService;
 
-
 	/**
 	 * Provides the explanation configuration bean.
 	 */
@@ -267,6 +266,8 @@ public class KnowledgeConfig {
 
 	/**
 	 * Filters the configured materials returning only material groups.
+	 *
+	 * TODO rework, only groups?
 	 */
 	@Bean
 	@Autowired
@@ -278,6 +279,8 @@ public class KnowledgeConfig {
 
 	/**
 	 * Filters the configured materials returning only material types.
+	 *
+	 * TODO rework, only groups?
 	 */
 	@Bean
 	@Autowired

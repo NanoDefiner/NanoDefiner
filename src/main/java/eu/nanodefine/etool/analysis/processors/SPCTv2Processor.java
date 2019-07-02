@@ -49,6 +49,11 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 
 	private final FileService fileService;
 
+	/**
+	 * Bin width for histogram generation.
+	 */
+	private double binWidth = .5;
+
 	private Logger log = LoggerFactory.getLogger(SPCTv2Processor.class);
 
 	/**
@@ -63,6 +68,10 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 	public SPCTv2Processor(Method method, FileService fileService) {
 		super(method);
 		this.fileService = fileService;
+	}
+
+	public double getBinWidth() {
+		return this.binWidth;
 	}
 
 	public XSSFSheet getSheet() {
@@ -89,8 +98,8 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 	 * <p>Analysis data can be:</p>
 	 *
 	 * <ul>
-	 *   <li>File name in the analysis directory</li>
-	 *   <li>{@code null} when the sheet has been initialised previously</li>
+	 * <li>File name in the analysis directory</li>
+	 * <li>{@code null} when the sheet has been initialised previously</li>
 	 * </ul>
 	 *
 	 * @see #process(String, int)
@@ -119,8 +128,6 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 		this.values = TreeMultiset.create(Comparator.naturalOrder());
 
 		Row row;
-		//Cell cellBin, cellFrequency;
-		// TODO move bin and frequency index to constants
 		double numValues = this.sheet.getRow(1).getCell(COLUMN_PARTICLE_DIAMETER).getNumericCellValue();
 		int rowIndex = FIRST_ROW;
 		double value;
@@ -140,6 +147,7 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 				}
 			} catch (IllegalStateException | NumberFormatException ex) {
 				// TODO when does this happend and do we need to deal with it?
+				this.log.debug("Exception: {}", ex.getMessage());
 			}
 
 			rowIndex++;
