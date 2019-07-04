@@ -1,0 +1,28 @@
+version: "3.1"
+services:
+  web:
+    image: nanodefiner/nanodefiner:1.0.2
+    ports:
+      - "8080:8080"
+    depends_on:
+            - "db"
+    #volumes:
+      #- "/path/to/config/dir:/nanodefiner/config"
+      #- "/path/to/data/dir:/nanodefiner/data"
+    networks:
+      - nanodefiner
+  db:
+    image: mariadb:rc
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: nanodefiner_root
+      MYSQL_USER: nanodefiner
+      MYSQL_PASSWORD: nanodefiner
+      MYSQL_DATABASE: nanodefiner
+    #volumes:
+      #- "/path/to/mysql/dir:/var/lib/mysql"
+    networks:
+      - nanodefiner
+networks:
+  nanodefiner:
+
