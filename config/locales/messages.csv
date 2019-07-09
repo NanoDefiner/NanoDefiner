@@ -161,7 +161,7 @@ global.button.submit,Submit,
 global.button.upload,Upload,
 global.cancel,Cancel,
 global.continue,Continue,
-global.copyright,&copy, NanoDefine
+global.copyright,&copy; NanoDefine
 global.date_format,yyyy-MM-dd HH:mm:ss,
 global.entity.new,New,
 global.error,Error,
