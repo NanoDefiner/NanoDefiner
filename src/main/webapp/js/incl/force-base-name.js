@@ -42,14 +42,14 @@ parseUri.options = {
 /**
  * Checks if the current URL starts with the basename and redirects to it if not.
  */
-ND.util.forceBaseName = function() {
+ND.util.forceBaseName = function () {
 	var href = window.location.href;
 
 	var result = parseUri(href);
 
 	var baseNameWithoutContext = $("#variables-base-name-without-context").text();
 
-	var pos = href.indexOf(result.relative);
+	var pos = href.lastIndexOf(result.relative);
 
 	if (href.substr(0, pos) !== baseNameWithoutContext) {
 		window.location.href = baseNameWithoutContext + result.relative;

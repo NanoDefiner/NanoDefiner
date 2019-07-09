@@ -398,6 +398,7 @@ button.feedback {
 	position: fixed;
 	right: 5px;
 	bottom: -2px;
+	z-index: 2;
 }
 
 /**
@@ -478,4 +479,17 @@ img.mcs-image {
 	position: absolute;
 	display: inline-block;
 	left: 5px;
+}
+
+/**
+ * Maintenance message
+ */
+#maintenance-message {
+	padding: 5px;
+	background-color: orange;
+	color: black;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 1;
 }

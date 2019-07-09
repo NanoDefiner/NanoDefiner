@@ -54,6 +54,9 @@ spring.http.multipart.max-request-size=20MB
 # Set server time zone here
 spring.jpa.properties.hibernate.jdbc.time_zone = Europe/Berlin
 
+# Set a maintenance message which will be displayed on all pages
+nanodefiner.maintenance_message =
+
 # TODO add database settings
 
 ##

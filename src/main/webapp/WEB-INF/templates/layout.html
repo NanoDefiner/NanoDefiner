@@ -144,6 +144,7 @@
 	<title th:text="#{layout.title}"></title>
 </head>
 <body>
+
 <div class="navbar-spacer hidden-sm-up"></div>
 <!--/* Content */-->
 <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="navigation">
@@ -315,7 +316,9 @@
 		<span id="variables-action" th:text="${history.current.action}"></span>
 		<span id="variables-anchor" th:if="${anchor != null}" th:text="${anchor}"></span>
 		<span id="variables-base-name-without-context"
-				th:text="${@environment.getProperty('server.baseName').replace(@environment.getProperty('server.contextPath'), '')}"></span>
+				th:text="${@environment.getProperty('server.baseName').substring(0,
+					@environment.getProperty('server.baseName').length() -
+					@environment.getProperty('server.contextPath').length())}"></span>
 
 		<span id="locale-global.feedback.error.text_placeholder"
 				th:text="#{global.feedback.error.text_placeholder}"></span>
@@ -335,6 +338,12 @@
 		<!--[if IE]>
 		<span id="browser_warning" th:text="#{home.browser_warning}"></span>
 		<![endif]-->
+	</div>
+
+	<div id="maintenance-message"
+			th:if="${@environment.getProperty('nanodefiner.maintenance_message').length() > 0}">
+		<span class="glyphicon glyphicon-warning-sign"></span>
+		<span th:text="${@environment.getProperty('nanodefiner.maintenance_message')}"></span>
 	</div>
 
 </footer> <!-- footer -->

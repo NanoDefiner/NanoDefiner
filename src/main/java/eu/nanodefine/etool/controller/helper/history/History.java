@@ -70,11 +70,18 @@ public class History {
 	private String redirect = "redirect:/";
 
 	/**
+	 * Creates a new history.
+	 *
+	 * Please use {@link #forRequest(HttpServletRequest)} to create a new history.
+	 */
+	private History() {
+
+	}
+
+	/**
 	 * Retrieves or creates the history for the session associated with the given request
 	 *
 	 * <p>The request is registered in the history if it wasn't already.</p>
-	 *
-	 * TODO continue
 	 */
 	public static History forRequest(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -121,6 +128,9 @@ public class History {
 		return this.historyEntries.getLast();
 	}
 
+	/**
+	 * Returns a list of history entries.
+	 */
 	public List<HistoryEntry> getEntries() {
 		return this.historyEntries;
 	}
@@ -225,6 +235,7 @@ public class History {
 		if (!this.historyEntries.isEmpty()
 				&& uri.toString().equals(this.lastRequest)
 				&& request.getMethod().equals(this.getCurrent().getRequestMethod().name())) {
+			this.log.debug("Ignoring identical request");
 			return this;
 		}
 

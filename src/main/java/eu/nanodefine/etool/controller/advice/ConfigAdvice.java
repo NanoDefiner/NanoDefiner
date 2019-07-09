@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * Controller advice which makes configuration variables available as model attributes.
+ *
+ * TODO remove properties only need in templates and replace them with
+ *
+ * @environment.getProperty('config.property')
  */
 @ControllerAdvice
 public class ConfigAdvice {
