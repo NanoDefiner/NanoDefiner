@@ -96,6 +96,7 @@ public class History {
 			history.registerRequest(request);
 		} catch (URISyntaxException e) {
 			history.log.error("Unable to parse request URI: {}", request.getRequestURI());
+			history.log.error(e.getMessage());
 		}
 
 		request.setAttribute("history", history);
@@ -222,7 +223,8 @@ public class History {
 	 */
 	@CanIgnoreReturnValue
 	private History registerRequest(HttpServletRequest request) throws URISyntaxException {
-		URI uri = new URI(request.getRequestURI().substring(request.getContextPath().length()));
+		URI uri = new URI(request.getRequestURI().substring(request.getContextPath().length())
+				.replace("//", "/"));
 
 		this.log.debug("Registering request: {}, {}", uri.toString(), request.getMethod());
 
