@@ -1,17 +1,21 @@
-version: "3.1"
+version: "3.5"
 services:
   web:
+    container_name: nanodefiner_web
     image: nanodefiner/nanodefiner:1.0.2
     ports:
       - "8080:8080"
     depends_on:
-            - "db"
+      - "db"
     #volumes:
-      #- "/path/to/config/dir:/nanodefiner/config"
+      #- "/path/to/config/dir/application.properties:/nanodefiner/config/application.properties"
+      #- "/path/to/config/dir/hikari.properties:/nanodefiner/config/hikari.properties"
+      #- "/path/to/config/dir/hibernate.properties:/nanodefiner/config/hibernate.properties"
       #- "/path/to/data/dir:/nanodefiner/data"
     networks:
       - nanodefiner
   db:
+    container_name: nanodefiner_db
     image: mariadb:rc
     restart: always
     environment:
@@ -25,4 +29,4 @@ services:
       - nanodefiner
 networks:
   nanodefiner:
-
+    name: nanodefiner

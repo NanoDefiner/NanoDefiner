@@ -26,3 +26,5 @@ dataSource.url=jdbc:mysql://localhost:3306/NanoDefiner?autoReconnect=true
 #dataSource.cacheServerConfiguration=true
 #dataSource.elideSetAutoCommits=true
 #dataSource.maintainTimeStats=false
+#dataSource.maxReconnects=10
+#dataSource.initialTimeout=10
