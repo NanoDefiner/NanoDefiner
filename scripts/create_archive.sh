@@ -12,6 +12,8 @@ ln -s ../../config
 ln -s ../../scripts/start_server.sh
 ln -s ../../scripts/stop_server.sh
 mkdir /tmp/nanodefiner_archive
-zip -v /tmp/nanodefiner_archive/nanodefiner.zip NanoDefiner.war README.txt UPGRADE.txt config/img/* config/knowledge/hashes.properties config/knowledge/release/* config/*default config/locales/* *_server.sh
+
+zip -v /tmp/nanodefiner_archive/nanodefiner.zip NanoDefiner.war README.txt UPGRADE.txt config/img/* config/knowledge/release/* config/knowledge/hashes.properties config/*default config/locales/* *_server.sh
+
 cd ..
 rm -r archive

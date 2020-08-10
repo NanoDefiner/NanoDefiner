@@ -126,7 +126,15 @@ public class History {
 	 * {@link #forRequest(HttpServletRequest)}.</p>
 	 */
 	public HistoryEntry getCurrent() {
-		return this.historyEntries.getLast();
+		if (this.historyEntries.size() > 0) {
+			return this.historyEntries.getLast();
+		}
+
+		try {
+			return new HistoryEntry(new URI(""), RequestMethod.GET.name());
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -154,11 +162,15 @@ public class History {
 	 */
 	public Optional<HistoryEntry> getLastByRequestMethod(
 			RequestMethod requestMethod, boolean includeCurrent) {
-		for (int i = this.historyEntries.size() - (includeCurrent ? 1 : 2);
-				 i >= 0; i--) {
-			if (this.historyEntries.get(i).getRequestMethod().equals(requestMethod)) {
-				return Optional.of(this.historyEntries.get(i));
-			}
+		try {
+			for (int i = this.historyEntries.size() - (includeCurrent ? 1 : 2);
+					i >= 0; i--) {
+				if (this.historyEntries.get(i).getRequestMethod().equals(requestMethod)) {
+					return Optional.of(this.historyEntries.get(i));
+				}
+					}
+		} catch (NullPointerException ex) {
+			this.log.error("NullPointerException during history access");
 		}
 
 		return Optional.empty();

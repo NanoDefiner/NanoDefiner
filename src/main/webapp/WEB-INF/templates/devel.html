@@ -35,10 +35,16 @@
 			<a data-toggle="tab" href="#version" th:text="#{home.tab.project_information}"></a>
 		</li>
 		<li>
-			<a data-toggle="tab" href="#software" th:text="#{home.tab.related_software}"></a>
+			<a data-toggle="tab" href="#download">Download</a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#manual" th:text="#{home.tab.methods_manual}"></a>
 		</li>
 		<li>
 			<a data-toggle="tab" href="#publications" th:text="#{home.tab.related_publications}"></a>
+		</li>
+		<li>
+			<a data-toggle="tab" href="#software" th:text="#{home.tab.related_software}"></a>
 		</li>
 		<li>
 			<a data-toggle="tab" href="#citation" th:text="#{home.tab.citation}"></a>
@@ -66,9 +72,6 @@
 			<p th:utext="#{home.version.download_information}">
 			</p>
 
-
-			<p>
-
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -81,14 +84,71 @@
 					<div class="panel-collapse collapse" id="current">
 						<div class="panel-body">
 							<ul>
-								<li>Terminology update</li>
-								<li>Replace density plots with histograms</li>
+								<li>Improve index page</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="tab-pane" id="download">
+			<h2>Docker container</h2>
+			<p>
+			<a href="https://docker.com">Docker</a> provides lightweight virtualisation in the form
+			of containers which are derived from images.
+			</p>
+			<p>
+			The NanoDefiner e-tool is available on <a href="https://hub.docker.com">DockerHub</a> as
+			<a href="https://hub.docker.com/r/nanodefiner/nanodefiner">nanodefiner/nanodefiner</a>,
+			but it comes without a database management system (DBMS). You either have to mount your own configuration and
+			specify an external DBMS server, or run a separate docker container with a DBMS with
+			<a href="https://docs.docker.com/compose/">docker compose</a> as seen in the provided
+			<a href="https://github.com/NanoDefiner/NanoDefiner/blob/master/docker/docker-compose.yaml">
+				docker-compose.yaml
+			</a>.
+			</p>
+			<h2>Standalone/upgrade package</h2>
+			<p>
+			If you want to upgrade your NanoDefiner e-tool installation or do not want to use the provided
+			docker image, this package contains only the standalone JAR as well as installation/upgrade
+			instructions. It only requires Java 8 and a working DBMS server.
+			</p>
+			<ul>
+				<li>
+					<a href="https://github.com/NanoDefiner/NanoDefiner/releases/download/v1.0.2/nanodefiner_1.0.2.zip">
+						Download standalone/upgrade package for NanoDefiner version <span>1.0.2</span>
+					</a> (~ 85 MB)
+				</li>
+			</ul>
+			<h2>Development team</h2>
+			<p>Development team at University of Applied Sciences and Arts Dortmund:</p>
+			<ul>
+				<li><a href="https://www.researchgate.net/profile/Raphael_Bruengel">Raphael Brüngel</a></li>
+				<li><a href="https://www.researchgate.net/profile/Johannes_Rueckert">Johannes Rückert</a>
+			</ul>
+			<p>
+			For questions and feedback feel free to use the feedback button on the
+			<a href="https://labs.inf.fh-dortmund.de/NanoDefiner/">test service</a> page, the
+			<a href="https://github.com/NanoDefiner/NanoDefiner/issues">GitHub issue tracker</a>
+			or write us an e-mail.
+			</p>
+		</div>
+		<div class="tab-pane" id="manual">
+			<h2 th:text="#{home.methods_manual.heading}"></h2>
+			<p><a href="https://ec.europa.eu/jrc/en/publication/nanodefine-methods-manual">The NanoDefine Methods Manual</i></a> covers the whole knowledge gained in the NanoDefine project. It has been published in three parts as JRC Technical Reports that focus on (i) the NanoDefiner framework and tools, (ii) the evaluation of methods, and (iii) standard operating procedures (SOPs).</p>
+			<p>In <a href="https://ec.europa.eu/jrc/en/publications-list">EU Science Hub Publications</a>:</p>
+			<ul>
+				<li><p>Mech, A., Rauscher, H., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Weigel, S., Br&uuml;ngel, R., Friedrich, C. M. (2020). <a href="https://op.europa.eu/en/publication-detail/-/publication/4d2b205c-4245-11ea-9099-01aa75ed71a1/language-en"><em>The NanoDefine Methods Manual. Part 1: The NanoDefiner Framework and Tools</em></a>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11950-0, doi:<a href="https://dx.doi.org/10.2760/55181">10.2760/55181</a>, JRC117501</p></li>
+				<li><p>Mech, A., Rauscher, H., Rasmussen, K., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Br&uuml;ngel, R., Friedrich, C. M. (2020). <a href="https://op.europa.eu/en/publication-detail/-/publication/27a9e140-4246-11ea-9099-01aa75ed71a1/language-en"><em>The NanoDefine Methods Manual. Part 2: Evaluation of methods</em></a>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11953-1, doi:<a href="https://dx.doi.org/10.2760/071877">10.2760/071877</a>, JRC117501</p></li>
+				<li><p>Mech, A., Rauscher, H., Rasmussen, K., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Br&uuml;ngel, R., Friedrich, C. M., Löschner, K., Gilliland, D. (2020). <a href="https://op.europa.eu/en/publication-detail/-/publication/b8bf4c68-4246-11ea-9099-01aa75ed71a1/language-en"><em>The NanoDefine Methods Manual. Part 3: Standard Operating Procedures (SOPs)</em></a>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11955-5, doi:<a href="https://dx.doi.org/10.2760/02910">10.2760/02910</a>, JRC117501</p></li>
+			</ul>
+			<p>In addition, it is available in a compact book format that covers all three parts.</p>
+			<p>In <a href="https://ec.europa.eu/jrc/en/publications-list">EU Science Hub Publications</a>:</p>
+			<ul>
+				<li><p>Mech, A., Rauscher, H., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Weigel, S., Brüngel, R., Friedrich, C., Rasmussen, K., Loeschner, K., Gilliland, D. (2020). <a href="https://op.europa.eu/en/publication-detail/-/publication/9d60fd79-4244-11ea-9099-01aa75ed71a1/language-en"><em>The NanoDefine Methods Manual</em></a>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-12335-4, doi:<a href="https://dx.doi.org/10.2760/79490">10.2760/79490</a>, JRC117501</p></li>
+			</ul>
+		</div>
+
 		<div class="tab-pane" id="software">
 			<h2 th:text="#{home.related_software.heading}"></h2>
 
@@ -132,6 +192,26 @@
 				</li>
 			</ul>
 		</div>
+		<div class="tab-pane active" id="publications">
+			<h2 th:text="#{home.related_publications.heading}"></h2>
+			<ul>
+				<li><p>Mech, A., Wohlleben, W., Ghanem, A., Hodoroaba, V.‐D., Weigel, S., Babick, F., Brüngel, R., Friedrich, C. M., Rasmussen, K., Rauscher, H. (2020). <em>Nano or Not Nano? A Structured Approach for Identifying Nanomaterials According to the European Commission's Definition</em>. Small, 2002228. doi:<a href="https://doi.org/10.1002/smll.202002228">10.1002/smll.202002228</a></p></li>
+				<li><p>Mech, A., Rauscher, H., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Weigel, S., Brüngel, R., Friedrich, C., Rasmussen, K., Loeschner, K., Gilliland, D. (2020). <em>The NanoDefine Methods Manual</em>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-12335-4, doi:<a href="https://dx.doi.org/10.2760/79490">10.2760/79490</a>, JRC117501</p></li>
+				<li><p>Mech, A., Rauscher, H., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Weigel, S., Br&uuml;ngel, R., Friedrich, C. M. (2020). <em>The NanoDefine Methods Manual. Part 1: The NanoDefiner Framework and Tools</em>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11950-0, doi:<a href="https://dx.doi.org/10.2760/55181">10.2760/55181</a>, JRC117501</p></li>
+				<li><p>Mech, A., Rauscher, H., Rasmussen, K., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Br&uuml;ngel, R., Friedrich, C. M. (2020). <em>The NanoDefine Methods Manual. Part 2: Evaluation of methods</em>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11953-1, doi:<a href="https://dx.doi.org/10.2760/071877">10.2760/071877</a>, JRC117501</p></li>
+				<li><p>Mech, A., Rauscher, H., Rasmussen, K., Babick, F., Hodoroaba, V.-D., Ghanem, A., Wohlleben, W., Marvin, H., Br&uuml;ngel, R., Friedrich, C. M., Löschner, K., Gilliland, D. (2020). <em>The NanoDefine Methods Manual. Part 3: Standard Operating Procedures (SOPs)</em>. EUR 29876 EN, Publications Office of the European Union, Luxembourg, 2020, ISBN 978-92-76-11955-5, doi:<a href="https://dx.doi.org/10.2760/02910">10.2760/02910</a>, JRC117501</p></li>
+				<li><p>Br&uuml;ngel, R., Rückert, J., Wohlleben, W., Babick, F., Ghanem, A., Gaillard, C., Mech, A., Rauscher, H., Hodoroaba, V.-D., Weigel, S., Friedrich, C. M. (2019). <em>NanoDefiner e-Tool: An Implemented Decision Support Framework for Nanomaterial Identification</em>. Materials, 12(19), 3247. doi:<a href="https://dx.doi.org/10.3390/ma12193247">10.3390/ma12193247</a></p></li>
+				<li><p>Rauscher, H., Mech, A., Gibson, N., Gilliland, D., Held, A., Kestens V., Koeber, R., Linsinger, T. P. J., Stefaniak, E. A. (2019). <em>Identification of nanomaterials through measurements</em>. EUR 29942 EN, Publications Office of the European Union, Luxembourg, 2019, ISBN 978-92-76-10371-4, doi:<a href="http://dx.doi.org/10.2760/053982">10.2760/053982</a>, JRC118158</p></li>
+				<li><p>Rauscher, H., Roebben, Mech, A., Gibson, N., Kestens, V., Linsinger, T. P. J., Riego Sintes, J. <em>An overview of concepts and terms used in the European Commission's definition of nanomaterial</em>, EUR 29647 EN, Publications Office of the European Union, Luxembourg, 2019, ISBN 978-92-79-99660-3, doi:<a href="http://dx.doi.org/10.2760/459136">10.2760/459136</a>, Publications Office of the European Union</p></li>
+				<li><p>Gaillard, C., Mech, A., Wohlleben, W., Babick, F., Hodoroaba, V.-D., Ghanem, A., Weigel, S., &amp; Rauscher, H. (2019). <em>A technique-driven materials categorisation scheme to support regulatory identification of nanomaterials</em>. Nanoscale Advances, 1(2), 781–791. doi:<a href="http://dx.doi.org/10.1039/c8na00175h">10.1039/c8na00175h</a></p></li>
+				<li><p>Uusimaeki, T., Wagner, T., Lipinski, H.-G., &amp; Kaegi, R. (2019). <em>AutoEM: a software for automated acquisition and analysis of nanoparticles</em>. Journal of Nanoparticle Research, 21(6). doi:<a href="http://dx.doi.org/10.1007/s11051-019-4555-9">10.1007/s11051-019-4555-9</a></p></li>
+				<li><p>Br&uuml;ngel, R., Rückert, J., Wohlleben, W., Babick, F., Ghanem, A., Gaillard, C., Mech, A., Rauscher, H., Weigel, S., Friedrich, C. M. (2017). <em>The NanoDefiner e-tool — A decision support framework for recommendation of suitable measurement techniques for the assessment of potential nanomaterials</em>. 2017 IEEE 12th Nanotechnology Materials and Devices Conference (NMDC). doi:<a href="https://dx.doi.org/10.1109/nmdc.2017.8350509">10.1109/nmdc.2017.8350509</a></p></li>
+				<li><p>Wohlleben, W., Mielke, J., Bianchin, A., Ghanem, A., Freiberger, H., Rauscher, H.,  Gemeinert, M., &amp; Hodoroaba, V.-D. (2017). <em>Reliable nanomaterial classification of powders using the volume-specific surface area method</em>. Journal of Nanoparticle Research, 19(2). doi:<a href="http://dx.doi.org/10.1007/s11051-017-3741-x">10.1007/s11051-017-3741-x</a></p></li>
+				<li><p>Babick, F., Mielke, J., Wohlleben, W., Weigel, S., &amp; Hodoroaba, V.-D. (2016). <em>How reliably can a material be classified as a nanomaterial? Available particle-sizing techniques at work</em>. Journal of Nanoparticle Research, 18(6). doi:<a href="http://dx.doi.org/10.1007/s11051-016-3461-7">10.1007/s11051-016-3461-7</a></p></li>
+				<li><p>Peters, R., Herrera-Rivera, Z., Undas, A., van der Lee, M., Marvin, H., Bouwmeester, H., &amp; Weigel, S. (2015). <em>Single particle ICP-MS combined with a data evaluation tool as a routine technique for the analysis of nanoparticles in complex matrices</em>. Journal of Analytical Atomic Spectrometry, 30(6), 1274–1285. doi:<a href="http://dx.doi.org/10.1039/c4ja00357h">10.1039/c4ja00357h</a></p></li>
+				<li><p>European Union (2011). <em>Commission Recommendation of 18 October 2011 on the definition of nanomaterial (2011/696/EU)</em>. Official Journal of the European Union, L 275, pp. 38–40.</p></li>
+			</ul>
+		</div>
 		<div class="tab-pane" id="publications">
 			<h2 th:text="#{home.related_publications.heading}"></h2>
 
@@ -163,32 +243,49 @@
 						regulatory identification of nanomaterials.</em>
 					Nanoscale Advances, 1(2), 781–791.
 				</li>
+				<li>Rauscher, H., Roebben, Mech, A., G., Gibson, N.,
+					Kestens, V., Linsinger, T. P. J., Riego Sintes, J.
+					<em>An overview of concepts and terms used in the European Commission's definition of nanomaterial</em> JRC113469. EUR 29647 EN. ISBN: 978-92-79-99660-3. ISSN: 1831-9424. doi:<a href="http://dx.doi.org/10.2760/459136">10.2760/459136</a>,
+					Publications Office of the European Union
+				</li>
 			</ul>
 		</div>
 		<div class="tab-pane" id="citation">
 			<h2 th:text="#{home.citation.heading}"></h2>
-
-			<p>In <a href="https://ieeexplore.ieee.org/document/8350509/">IEEE Xplore</a>: Brüngel, R.,
-				Rückert, J., Wohlleben, W., Babick, F., Ghanem, A., Gaillard, C., Mech, A.,
-				Rauscher, H., Weigel, S. &amp; Friedrich, C. M. (2018). The NanoDefiner e-tool &#x2014; A
-				decision support framework for recommendation of suitable measurement techniques for the
-				assessment of potential nanomaterials. In <i>2017 IEEE 12th Nanotechnology Materials and
-					Devices Conference, NMDC 2017</i> (pp. 71-72).</p>
+			<p>In <a href="https://www.mdpi.com/journal/materials/special_issues/nanomaterial_characterization">MDPI Materials Special Issue Nanomaterial Characterization Methods: Leaping Towards Validation</a>:</p>
+			<p>Brüngel, R., Rückert, J., Wohlleben, W., Babick, F., Ghanem, A., Gaillard, C., Mech, A., Rauscher, H., Hodoroaba, V.-D., Weigel, S., Friedrich, C. M. (2019). <a href="https://www.mdpi.com/1996-1944/12/19/3247/htm"><em>NanoDefiner e-Tool: An Implemented Decision Support Framework for Nanomaterial Identification</em></a>. Materials, 12(19), 3247. doi:<a href="https://dx.doi.org/10.3390/ma12193247">10.3390/ma12193247</a></p>
 			<blockquote style="font-family: monospace">
 				BibTeX:
-				<h6>@INPROCEEDINGS{8350509,<br />
-					&nbsp;&nbsp;author={R. Br\"ungel and J. R\"uckert and W. Wohlleben and F. Babick and A.
-					Ghanem and C. Gaillard and A. Mech and H. Rauscher and S. Weigel and C. M.
-					Friedrich},<br />
+				<h6>@article{Bruengel_2019,<br />
+					&nbsp;&nbsp;doi = {10.3390/ma12193247},<br />
+					&nbsp;&nbsp;url = {https://www.mdpi.com/1996-1944/12/19/3247/htm},<br />
+					&nbsp;&nbsp;year = 2019,<br />
+					&nbsp;&nbsp;month = {oct},<br />
+					&nbsp;&nbsp;publisher = {{MDPI} {AG}},<br />
+					&nbsp;&nbsp;journal = {Materials},<br />
+					&nbsp;&nbsp;volume = {12},<br />
+					&nbsp;&nbsp;number = {19},<br />
+					&nbsp;&nbsp;pages = {3247},<br />
+					&nbsp;&nbsp;author = {Raphael Br\"ungel and Johannes R\"uckert and Wendel Wohlleben and Frank Babick and Antoine Ghanem and Claire Gaillard and Agnieszka Mech and Hubert Rauscher and Vasile-Dan Hodoroaba and Stefan Weigel and Christoph M. Friedrich},<br />
+					&nbsp;&nbsp;title = {{NanoDefiner e-Tool: An Implemented Decision Support Framework for Nanomaterial Identification}}<br />
+					}</h6>
+			</blockquote>
+
+			<p>In <a href="https://ieeexplore.ieee.org/xpl/conhome/8343063/proceeding">Proceedings of the 2017 IEEE 12th Nanotechnology Materials and Devices Conference (NMDC)</a>:</p>
+			<p>Brüngel, R., Rückert, J., Wohlleben, W., Babick, F., Ghanem, A., Gaillard, C., Mech, A., Rauscher, H., Weigel, S., Friedrich, C. M. (2017). <a href="https://ieeexplore.ieee.org/document/8350509/"><em>The NanoDefiner e-tool — A decision support framework for recommendation of suitable measurement techniques for the assessment of potential nanomaterials</em></a>. 2017 IEEE 12th Nanotechnology Materials and Devices Conference (NMDC). doi:<a href="https://dx.doi.org/10.1109/nmdc.2017.8350509">10.1109/nmdc.2017.8350509</a></p>
+			<blockquote style="font-family: monospace">
+				BibTeX:
+				<h6>@inproceedings{Bruengel_2017,<br />
+					&nbsp;&nbsp;doi={10.1109/NMDC.2017.8350509},<br />
+					&nbsp;&nbsp;url={https://ieeexplore.ieee.org/document/8350509/},<br />
+					&nbsp;&nbsp;year={2017},<br />
+					&nbsp;&nbsp;month={oct},<br />
+					&nbsp;&nbsp;publisher={IEEE},<br />
 					&nbsp;&nbsp;booktitle={2017 IEEE 12th Nanotechnology Materials and Devices Conference
 					(NMDC)},<br />
-					&nbsp;&nbsp;title={The NanoDefiner e-tool -- A decision support framework for
-					recommendation of suitable measurement techniques for the assessment of potential
-					nanomaterials},<br />
-					&nbsp;&nbsp;year={2017},<br />
-					&nbsp;&nbsp;month={Oct},<br />
 					&nbsp;&nbsp;pages={71-72},<br />
-					&nbsp;&nbsp;doi={10.1109/NMDC.2017.8350509}<br />
+					&nbsp;&nbsp;author={Raphael Br\"ungel and Johannes R\"uckert and Wendel Wohlleben and Frank Babick and Antoine Ghanem and Claire Gaillard and Agnieszka Mech and Hubert Rauscher and Stefan Weigel and Christoph M. Friedrich},<br />
+					&nbsp;&nbsp;title={{The NanoDefiner e-tool -- A decision support framework for recommendation of suitable measurement techniques for the assessment of potential nanomaterials}}<br />
 					}</h6>
 			</blockquote>
 		</div>

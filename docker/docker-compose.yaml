@@ -2,7 +2,7 @@ version: "3.5"
 services:
   web:
     container_name: nanodefiner_web
-    image: nanodefiner/nanodefiner:1.0.2
+    image: nanodefiner/nanodefiner:1.0.3
     ports:
       - "8080:8080"
     depends_on:

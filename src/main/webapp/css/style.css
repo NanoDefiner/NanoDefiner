@@ -64,6 +64,14 @@ nav.navbar {
 	padding-bottom: 0px;
 }
 
+.submenu-heading {
+  padding-left: 20px;
+}
+
+.submenu-entry {
+  padding-left: 25px;
+}
+
 /* Global alerts */
 nav .alert {
 	margin-bottom: -3px;

@@ -16,7 +16,7 @@
 							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n1}|"
 							class="img-responsive">
 				</a>
-				<h4 th:text="#{dossier.active}"></h4>
+                                <h4 th:text="#{|${entity}.active|}"></h4>
 				<span class="text-muted" th:text="#{|${entity}.active.count|}"></span>
 			</div>
 			<div class="col-xs-4 col-sm-4 placeholder">
@@ -25,7 +25,7 @@
 							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n2}|"
 							class="img-responsive">
 				</a>
-				<h4 th:text="#{dossier.archived}"></h4>
+                                <h4 th:text="#{|${entity}.archived|}"></h4>
 				<span class="text-muted" th:text="#{|${entity}.archived.count|}"></span>
 			</div>
 			<div class="col-xs-4 col-sm-4 placeholder">
@@ -34,7 +34,7 @@
 							th:data-src="|holder.js/100x100?fg=fff&bg=337ab7&size=18&text=${n3}|"
 							class="img-responsive">
 				</a>
-				<h4 th:text="#{dossier.all}"></h4>
+                                <h4 th:text="#{|${entity}.all|}"></h4>
 				<span class="text-muted" th:text="#{|${entity}.all.count|}"></span>
 			</div>
 		</div>

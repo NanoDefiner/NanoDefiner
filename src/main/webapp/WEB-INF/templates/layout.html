@@ -251,9 +251,18 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a th:href="${manualLink}"
-										th:text="#{layout.menu.help}">
-								</a>
+                                                        <!--<a th:href="${manualLink}"-->
+                                                          <span class="submenu-heading" th:text="#{layout.menu.help}"></span>
+                                                        <!--</a>-->
+							</li>
+							<li class="submenu-entry">
+								<a th:href="@{/static/downloads/p1_framework_and_tools.pdf}">Part 1, Framework and Tools</a>
+							</li>
+							<li class="submenu-entry">
+								<a th:href="@{/static/downloads/p2_evaluation_of_methods.pdf}">Part 2, Evaluation of Methods</a>
+							</li>
+							<li class="submenu-entry">
+								<a th:href="@{/static/downloads/p3_standard_operating_procedures.pdf}">Part 3, Standard Operating Procedures (SOPs)</a>
 							</li>
 							<li>
 								<a th:href="@{/static/downloads/nanodefiner_guide.pdf}"
