@@ -79,6 +79,15 @@
 			th:text="#{global.button.go_back}"></button>
 	<button class="btn btn-primary pull-right" th:if="${feedbackButtonEnabled}" id="reportProblem"
 			th:text="#{error.generic.button.report}"></button>
+	<th:block th:if="${feedbackButtonEnabled}">
+		<button class="btn-danger visible-xs-block" data-target="#feedbackModal"
+						data-toggle="modal" th:text="#{layout.feedback_button}">
+		</button>
+		<button class="btn-danger hidden-xs feedback" data-target="#feedbackModal"
+						data-toggle="modal" th:text="#{layout.feedback_button}">
+		</button>
+		<div th:replace="fragments/modals :: feedback"></div>
+	</th:block>
 </div>
 
 <script defer="defer" th:src="@{/js/error/report.js}"></script>

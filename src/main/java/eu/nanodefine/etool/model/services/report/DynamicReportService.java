@@ -241,7 +241,12 @@ public class DynamicReportService
 
 			hashResult = this.techniqueHashes.get(techniqueSignifier, materialSignifier);
 
-			invalid = hashResult.isInvalid();
+			if (hashResult == null) {
+				this.log.warn("No hash for technique signifier {} and material signifier {}",
+						techniqueSignifier, materialSignifier);
+			}
+
+			invalid = hashResult != null && hashResult.isInvalid();
 
 			if (invalid) {
 				break;
