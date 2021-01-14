@@ -38,7 +38,7 @@
 		<jasperReport.fonts.version>6.0.0</jasperReport.fonts.version>
 		<dynamicReports.version>6.0.0</dynamicReports.version>
 		<jbcrypt.version>0.4</jbcrypt.version>
-		<apache-poi.version>3.16</apache-poi.version>
+		<apache-poi.version>4.1.2</apache-poi.version>
 		<jsr305.version>3.0.2</jsr305.version>
 		<errorprone.version>2.1.2</errorprone.version>
 	</properties>
