@@ -2,15 +2,15 @@
 
 ## Bump version
 
-- in pom.xml
+- in `pom.xml`
 - in `docker/Dockerfile`
 - in `docker/docker-compose.yaml`
 
 ## Git
 
 - push
-- create tag: git tag vX.X.X
-- push tag: git push origin vX.X.X
+- create tag: `git tag vX.X.X`
+- push tag: `git push origin vX.X.X`
 
 ## GitHub
 
