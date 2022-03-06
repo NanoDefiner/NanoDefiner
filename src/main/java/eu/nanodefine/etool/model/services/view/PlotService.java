@@ -160,7 +160,7 @@ public class PlotService implements IService {
 
 		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		BarPlot plot = this.createBarPlot("Particle size (nm)", "f(x)", data);
+		BarPlot plot = this.createBarPlot("Particle size (nm), only particles <= 1000nm considered", "f(x)", data);
 		plot.getAxisRenderer(XYPlot.AXIS_X)
 				.setCustomTicks(ImmutableMap.of(processor.getResult(), d50.toString()));
 
@@ -196,7 +196,7 @@ public class PlotService implements IService {
 
 		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		XYPlot plot = this.createXYPlot("Particle size (nm)", "F(x)", data, dataMedianSeries);
+		XYPlot plot = this.createXYPlot("Particle size (nm), only particles <= 1000nm considered", "F(x)", data, dataMedianSeries);
 
 		int lastIndex = processor.getEntries().size() - 1;
 
@@ -254,7 +254,7 @@ public class PlotService implements IService {
 
 		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		BarPlot plot = this.createBarPlot("Particle size (nm)", "f(x)", data);
+		BarPlot plot = this.createBarPlot("Particle size (nm), only particles <= 1000nm considered", "f(x)", data);
 		plot.getAxisRenderer(XYPlot.AXIS_X)
 				.setCustomTicks(ImmutableMap.of(processor.getResult(), d50.toString()));
 
@@ -292,7 +292,7 @@ public class PlotService implements IService {
 
 		Integer d50 = Integer.valueOf(this.numberService.formatNumber(processor.getResult(), 0));
 
-		XYPlot plot = this.createXYPlot("Particle size (nm)", "F(x)", data, dataMedianSeries);
+		XYPlot plot = this.createXYPlot("Particle size (nm), only particles <= 1000nm considered", "F(x)", data, dataMedianSeries);
 
 		int lastIndex = data.getRowCount() - 1;
 

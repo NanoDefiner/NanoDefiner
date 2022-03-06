@@ -249,14 +249,15 @@ ND.material.create.updateIncompleteness = function (incompleteness) {
 };
 
 ND.material.create.updateProgressBar = function (id, incompleteness) {
+	let completeness = 100 - incompleteness;
 	var $progressBar = $("#" + id);
 	$progressBar.removeClass("progress-bar-success progress-bar-warning progress-bar-danger");
-	$progressBar.text(incompleteness + "%");
-	$progressBar.css("width", incompleteness + "%").attr("aria-valuenow", incompleteness);
+	$progressBar.text(completeness + "%");
+	$progressBar.css("width", completeness + "%").attr("aria-valuenow", completeness);
 
-	if (incompleteness > 50) {
+	if (completeness <= 50) {
 		$progressBar.addClass("progress-bar-danger");
-	} else if (incompleteness <= 20) {
+	} else if (completeness > 80) {
 		$progressBar.addClass("progress-bar-success");
 	} else {
 		$progressBar.addClass("progress-bar-warning");

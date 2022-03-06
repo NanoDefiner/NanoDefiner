@@ -26,6 +26,7 @@ build/
 bin/
 tmp/
 target/
+/target
 static/
 
 # Configuration and temporary files

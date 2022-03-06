@@ -268,10 +268,10 @@ public class DynamicReportService
 		// May be null if technique does not exist in KB anymore
 		List<Double> incompletenesses = techniqueIncompletenessMap.get(technique.getSignifier());
 
-		String techniqueIncompleteness = this.ns.formatPercentage(
-				incompletenesses != null ? incompletenesses.get(0) : 0.);
-		String weightedTechniqueIncompleteness = this.ns.formatPercentage(
-				incompletenesses != null ? incompletenesses.get(1) : 0.);
+		String techniqueIncompleteness = this.ns.formatPercentage(1 - (
+				incompletenesses != null ? incompletenesses.get(0) : 0.));
+		String weightedTechniqueIncompleteness = this.ns.formatPercentage(1 -
+				(incompletenesses != null ? incompletenesses.get(1) : 0.));
 
 		report.addRow(
 				this.translate("method.table.column.incompleteness_title"), techniqueIncompleteness)
@@ -590,7 +590,7 @@ public class DynamicReportService
 						.getModelAttribute("materialIncompletenessTable");
 
 		String weightedMaterialIncompleteness = this.ns.formatPercentage(
-				materialIncompletenessTable.get(material, technique.getSignifier()));
+				1 - materialIncompletenessTable.get(material, technique.getSignifier()));
 
 		DynamicPdfReport overviewReport = new DynamicPdfReport(pdfReport);
 
@@ -708,9 +708,9 @@ public class DynamicReportService
 			tierTranslated = this.performanceDictionary
 					.translateValue(PerformanceAttributes.TIER, tierRaw);
 			String techniqueIncompleteness = this.ns.formatPercentage(
-					techniqueIncompletenessMap.get(t.getSignifier()).get(0));
+					1 - techniqueIncompletenessMap.get(t.getSignifier()).get(0));
 			String weightedTechniqueIncompleteness = this.ns.formatPercentage(
-					techniqueIncompletenessMap.get(t.getSignifier()).get(1));
+					1 - techniqueIncompletenessMap.get(t.getSignifier()).get(1));
 			techniqueOverview.addRow(t.getName(), tierTranslated,
 					available ? this.translate("global.true") : this.translate("global.false"),
 					suitable ? this.translate("global.true") : this.translate("global.false"),
@@ -874,7 +874,7 @@ public class DynamicReportService
 					this.cs.createText(this.translate("global.table.column.comment") + ": " +
 							this.cs.createString(m.getComment())),
 					this.cs.createText(this.translate("material.create.incompleteness.label") + ": " +
-							ns.formatPercentage(incompleteness)));
+							ns.formatPercentage(1 - incompleteness)));
 
 			// List material criteria
 			ConfiguredMaterial configuredMaterial;

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
 >
 
 <head th:replace="layout :: header"></head>
@@ -23,43 +23,49 @@
 </div> <!-- End: .jumbotron -->
 
 <div class="container pace-hidden" th:with="idMethod='method', idAnalysis='analysis',
-	idDetails='details', idCustomAttributes='custom_attributes'">
+	idDetails='details', idManualD50='manual_d50', idCustomAttributes='custom_attributes'">
 	<div class="page-header">
 		<h3 th:text="#{method.read.heading}"></h3>
 	</div>
 
 	<ul class="nav nav-tabs">
 		<li>
-			<a th:href="|#${idMethod}|" data-toggle="tab" th:text="#{|method.read.tab.${idMethod}|}"></a>
+			<a data-toggle="tab" th:href="|#${idMethod}|" th:text="#{|method.read.tab.${idMethod}|}"></a>
 		</li>
 		<li>
-			<a th:href="|#${idAnalysis}|" data-toggle="tab"
+			<a data-toggle="tab" th:href="|#${idAnalysis}|"
 					th:text="#{|method.read.tab.${idAnalysis}|}"></a>
 		</li>
 		<th:block th:if="${(method.dataFormat == @ADF.PARTICLE_SIZER ||  method.dataFormat == @ADF.RIKILT_SPCTv2)
 			&& method.result != null}">
 			<li>
-				<a th:href="|#${idDetails}|" data-toggle="tab"
+				<a data-toggle="tab" th:href="|#${idDetails}|"
 						th:text="#{|method.read.tab.${idDetails}|}"></a>
 			</li>
 		</th:block>
+		<th:block th:if="${methodState == @methodStates.CREATED}">
+			<li>
+				<a data-toggle="tab" th:href="|#${idManualD50}|"
+					 th:utext="#{|method.read.tab.${idManualD50}|}"></a>
+			</li>
+		</th:block>
 		<li>
-			<a th:href="|#${idCustomAttributes}|" data-toggle="tab"
+			<a data-toggle="tab" th:href="|#${idCustomAttributes}|"
 					th:text="#{|method.read.tab.${idCustomAttributes}|}"></a>
 		</li>
 	</ul>
-	<div id="methodTabContent" class="tab-content">
-		<div class="tab-pane" th:id="${idMethod}" role="tabpanel">
+	<div class="tab-content" id="methodTabContent">
+		<div class="tab-pane" role="tabpanel" th:id="${idMethod}">
 			<div class="table-responsive">
 				<table data-classes="table table-hover"
-						data-toggle="table"
-						data-striped="true"
+						data-detail-view="false"
+						data-export-data-type="all"
 						data-locale="en-US"
 						data-search="true"
 						data-search-align="left"
-						data-detail-view="false"
 						data-show-export="true"
-						data-export-data-type="all">
+						data-striped="true"
+						data-toggle="table">
 					<thead>
 					<tr>
 						<th data-field="attribute" data-width="25%"
@@ -106,7 +112,7 @@
 			<p></p>
 		</div>
 
-		<div class="tab-pane" th:id="${idAnalysis}" role="tabpanel">
+		<div class="tab-pane" role="tabpanel" th:id="${idAnalysis}">
 			<!--/* No analysis data submitted. */-->
 			<th:block th:if="${methodState == @methodStates.CREATED}">
 				<!--/* Exceptional form layout case for BET. */-->
@@ -121,9 +127,6 @@
 				<th:block th:replace="${method.technique.signifier != 'SP-ICP-MS'
 					&& method.technique.signifier != 'BET'} ?
 					~{method/fragments :: particleSizerUpload} : ~{}">
-				</th:block>
-
-				<th:block th:replace="method/fragments :: manualD50Upload">
 				</th:block>
 
 
@@ -158,13 +161,22 @@
 			</th:block>
 		</div>
 
+		<th:block th:if="${methodState == @methodStates.CREATED}">
+			<div class="tab-pane" role="tabpanel" th:id="${idManualD50}">
+
+					<th:block th:replace="method/fragments :: manualD50Upload">
+					</th:block>
+			</div>
+		</th:block>
+
 		<th:block th:replace="${(method.dataFormat == @ADF.PARTICLE_SIZER
 			|| method.dataFormat == @ADF.RIKILT_SPCTv2)
 			&& methodState >= @methodStates.INTERMEDIATE_RESULTS} ?
 			~{method/fragments :: fileUploadDetails} : ~{}">
 		</th:block>
 
-		<div class="tab-pane" th:id="${idCustomAttributes}" role="tabpanel">
+		<div class="tab-pane" role="tabpanel" th:id="${idCustomAttributes}">
+			<p th:text="#{|method.read.custom_attribute.description|}"></p>
 			<div th:replace="custom_attribute/tables :: default (${method},
 				${method.customAttributes}, ${!method.archived && !method.dossier.archived})"></div>
 		</div>

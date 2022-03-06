@@ -479,6 +479,11 @@
 			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
+			<id>jasper-3rd-party</id>
+			<name>Jasper3rdParty</name>
+			<url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+		</repository>
+		<repository>
 			<id>central</id>
 			<name>Central Repository</name>
 			<url>https://repo.maven.apache.org/maven2</url>

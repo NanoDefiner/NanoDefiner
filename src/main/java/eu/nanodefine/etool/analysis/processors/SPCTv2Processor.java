@@ -142,7 +142,7 @@ public class SPCTv2Processor extends AbstractAnalysisProcessor {
 			try {
 				value = row.getCell(COLUMN_PARTICLE_DIAMETER).getNumericCellValue();
 
-				if (value > 0) {
+				if (value > 0 && value <= 1000) {
 					this.values.add((double) Math.round(value));
 				}
 			} catch (IllegalStateException | NumberFormatException ex) {

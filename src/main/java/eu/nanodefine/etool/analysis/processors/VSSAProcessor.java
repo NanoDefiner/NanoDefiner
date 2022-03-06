@@ -79,12 +79,9 @@ public class VSSAProcessor extends AbstractAnalysisProcessor {
 	public VSSAProcessor(Method method, String dimensions, String aggregation,
 			String multimodality) throws IOException {
 		super(method);
-		this.vssa = this.vssa;
 		this.attrDimensions = dimensions;
 		this.attrAggregation = aggregation;
 		this.attrMultimodality = multimodality;
-
-		this.log.debug("vssa : " + this.vssa);
 	}
 
 	/**
@@ -106,6 +103,8 @@ public class VSSAProcessor extends AbstractAnalysisProcessor {
 
 	/**
 	 * Determines the number of small dimensions.
+	 *
+	 * TODO remove dimension (mix?)
 	 */
 	private void determineD() {
 
@@ -177,152 +176,9 @@ public class VSSAProcessor extends AbstractAnalysisProcessor {
 
 		this.vssa = Double.valueOf(vssa);
 
-		// Determine all VSSA value related parts
-		determineD();
-		determineDVSSA();
-		determineDMinVSSA();
-
-		// Determine additional material criteria
-		determineAggregation();
-		determineMultimodality();
-
-		this.result = this.d_vssa_nm;
-
-		/*
-		 * Directly identifiable as nanomaterial according to EC recommendation,
-		 * not part of the screening strategy.
-		 */
-		if (this.d_vssa_nm < NM_100) {
-			String argumentation = VSSA + " " + vssa + " > " + VSSA_CUTOFF
-					+ VSSA_UNIT
-					+ ", thus " + this.d_vssa_nm + NM_UNIT + " < " + NM_100
-					+ NM_UNIT;
-			//analysisResult.setArgumentation(argumentation);
-
-			return;
+		if (this.vssa < 6) {
+			this.result = this.vssa;
 		}
-
-		/*
-		 * Screening strategy step 1:
-		 * TODO Documentation
-		 */
-		// Prelimiary porosity check, not processed here.
-
-		/*
-		 * Screening strategy step 2:
-		 * TODO Documentation
-		 */
-		if (this.d_vssa_nm > NM_1000 && this.D == null) {
-			/*analysisResult = new AnalysisResult();
-			analysisResult.setAnalysisValue(d_vssa_nm);
-			analysisResult.setAnalysisUnit(NM_UNIT);
-			analysisResult.setNano(Boolean.FALSE);*/
-
-			String argumentation = D_VSSA + " " + this.d_vssa_nm + NM_UNIT
-					+ " > " + NM_1000 + NM_UNIT + " (D unknown, D=3 assumed)";
-
-			//analysisResult.setArgumentation(argumentation);
-
-			return;
-		} else if (this.d_vssa_nm > NM_1000 && this.D != null) {
-			this.result = this.dmin_vssa_nm;
-			/*analysisResult = new AnalysisResult();
-			analysisResult.setAnalysisValue(dmin_vssa_nm);
-			analysisResult.setAnalysisUnit(NM_UNIT);
-			analysisResult.setNano(Boolean.FALSE);*/
-
-			String argumentation = DMIN_VSSA + " " + this.dmin_vssa_nm + NM_UNIT
-					+ " > " + NM_1000 + NM_UNIT + " (D=" + this.D + ")";
-
-			//analysisResult.setArgumentation(argumentation);
-
-			return;
-		}
-
-		this.result = this.dmin_vssa_nm;
-
-		/*
-		 * Screening strategy step 3:
-		 * TODO Documentation
-		 *
-		 * TODO Check: Aggregation?
-		 * TODO Check: Multimodality?
-		 */
-		//if ((d_vssa_nm >= NM_100 && d_vssa_nm <= NM_1000) && D != null) {
-		if (this.D != null) {
-
-			// Substeps of step 3 following
-
-			/*
-			 * Screening strategy step 3d:
-			 * TODO Documentation
-			 */
-			// TODO Multimodality check
-
-			if (this.dmin_vssa_nm < NM_100) {
-
-				/*
-				 * Screening strategy step 3a:
-				 * TODO Documentation
-				 */
-
-				/*analysisResult = new AnalysisResult();
-				analysisResult.setAnalysisValue(dmin_vssa_nm);
-				analysisResult.setAnalysisUnit(NM_UNIT);
-				analysisResult.setNano(Boolean.TRUE);*/
-
-				String argumentation = DMIN_VSSA + " " + this.dmin_vssa_nm + NM_UNIT
-						+ " < " + NM_100 + NM_UNIT + " (D=" + this.D + ")";
-				//analysisResult.setArgumentation(argumentation);
-
-			} else if (this.dmin_vssa_nm > NM_250) {
-
-				/*
-				 * Screening strategy step 3b:
-				 * TODO Documentation
-				 */
-
-				/*analysisResult = new AnalysisResult();
-				analysisResult.setAnalysisValue(dmin_vssa_nm);
-				analysisResult.setAnalysisUnit(NM_UNIT);
-				analysisResult.setNano(Boolean.FALSE);*/
-
-				String argumentation = DMIN_VSSA + " " + this.dmin_vssa_nm + NM_UNIT
-						+ " > " + NM_250 + NM_UNIT + " (D=" + this.D + ")";
-				//analysisResult.setArgumentation(argumentation);
-
-			} else if (this.dmin_vssa_nm >= NM_100 && this.dmin_vssa_nm <= NM_250) {
-
-				/*
-				 * Screening strategy step 3c:
-				 * TODO Documentation
-				 */
-
-				/*analysisResult = new AnalysisResult();
-				analysisResult.setAnalysisValue(dmin_vssa_nm);
-				analysisResult.setAnalysisUnit(NM_UNIT);
-				analysisResult.setNano(null); // Borderline*/
-
-				String argumentation = NM_100 + NM_UNIT + " <= " + DMIN_VSSA
-						+ " " + this.dmin_vssa_nm + NM_UNIT + " <= " + NM_250
-						+ NM_UNIT
-						+ " (D=" + this.D + ")";
-				//analysisResult.setArgumentation(argumentation);
-			}
-
-			return;
-		}
-
-		this.result = null;
-
-		// Analysis result is null at this point? Oops...
-
-		this.log.error("VSSA processing did not match any case");
-		this.log.error("vssa : " + vssa);
-		this.log.error("dimensions : " + this.attrDimensions);
-		this.log.error("aggregation : " + this.attrAggregation);
-		this.log.error("multimodality : " + this.attrMultimodality);
-
 	}
 
 }

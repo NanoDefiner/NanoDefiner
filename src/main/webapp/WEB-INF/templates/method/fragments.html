@@ -113,10 +113,10 @@
 </div>
 
 <div class="progress progress-table" id="incompletenessBar"
-		th:data-sort="${#numbers.formatDecimal(incompleteness * 100, 3, 0)}"
+		th:data-sort="${#numbers.formatDecimal(100 - incompleteness * 100, 3, 0)}"
 		th:fragment="incompletenessBar (incompleteness)"
 		th:title="|${incompletenessFormatted}%|"
-		th:with="incompletenessFormatted=${#numbers.formatDecimal(incompleteness * 100, 1, 0)}">
+		th:with="incompletenessFormatted=${#numbers.formatDecimal(100 - incompleteness * 100, 1, 0)}">
 
 	<div class="progress-bar" role="progressbar"
 			th:classappend="|progress-bar-${@materialTS.determineIncompletenessClass(incompleteness)}|"
@@ -467,11 +467,39 @@
 				<td th:text="#{method.fragment.bet_result.vssa_value_label}"></td>
 				<td th:text="${method.dataFile}"></td>
 			</tr>
-			<th:block th:replace=":: commonResultRows">
-			</th:block>
+			<tr>
+				<td th:utext="#{method.fragment.common_result.analysis_data_format_label}"></td>
+				<td th:utext="#{|method.read.analysis_data_format.${method.dataFormat}|}"></td>
+			</tr>
+			<tr th:if="${method.hasResult()}">
+				<td th:utext="#{method.fragment.common_result.analysis_result_label}"></td>
+				<td th:utext="|${#numbers.formatDecimal(method.result, 1, 0)} m<sup>2</sup>/cm<sup>3</sup>|"></td>
+			</tr>
+			<tr>
+			<tr>
+				<td th:utext="#{method.table.column.uncertainty}"></td>
+				<td th:text="${@methodTS.determineUncertainty(method, true)}"></td>
+			</tr>
+			<tr>
+				<td th:utext="#{method.fragment.common_result.nanomaterial_label}"></td>
+				<td th:if="${method.hasResult()}">
+					<span th:text="#{|method.read.nano.decision.${nanoString}|}"></span>
+					<span th:if="${borderline}" th:text="#{method.fragment.common_result.borderline}">
+			</span>
+					<span th:if="${sizePlausibilityCheck}"
+								th:text="#{method.fragment.common_result.size_check_needed}">
+			</span>
+					<span th:if="${method.hasAttribute(@MA.SIZE_PLAUSIBILITY_CHECK_FAILED)}"
+								th:text="#{method.fragment.common_result.size_check_failed}">
+			</span>
+				</td>
+				<td th:if="!${method.hasResult()}">
+					<span th:text="#{|method.read.nano.decision.none|}"></span>
+				</td>
+			</tr>
 			<tr>
 				<td th:text="#{method.fragment.result.argumentation}"></td>
-				<td th:if="${method.hasResult()}" th:utext="'D<sub>50</sub>'"></td>
+				<td th:if="${method.hasResult()}" th:utext="'VSSA value'"></td>
 				<td th:if="${!method.hasResult()}" th:text="#{method.update.error.bet}"></td>
 			</tr>
 			</tbody>

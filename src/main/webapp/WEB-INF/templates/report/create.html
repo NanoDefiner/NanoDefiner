@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org"
 >
 
 <head th:replace="layout :: header"></head>
@@ -23,31 +23,31 @@
 		</div>
 		<p>
 		<div class="progress">
-			<div class="progress-bar active progress-bar-form" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+			<div aria-valuemax="100" aria-valuemin="0" class="progress-bar active progress-bar-form" role="progressbar"></div>
 		</div>
 	</div> <!-- container -->
 </div> <!-- jumbotron -->
 
 <div class="container pace-hidden">
-	<form accept-charset="UTF-8" class="form multistep" method="post" role="form"
-			enctype="multipart/form-data"
-			id="reportCreateForm" data-classes="submit-popup"
+	<form accept-charset="UTF-8" class="form multistep" data-classes="submit-popup" enctype="multipart/form-data"
+			id="reportCreateForm"
+			method="post" role="form"
 			th:action="@{|/${@E.REPORT}/${@A.CREATE}/${@E.DOSSIER}.id=${dossier.id}|}">
 		<th:block th:replace="fragments/modals :: formSubmitModal ('reportCreateForm')"></th:block>
 
 		<!-- Fix for accidental submit via return key. -->
-		<input class="hidden" type="submit" onclick="return false;" />
+		<input class="hidden" onclick="return false;" type="submit" />
 
 		<div class="page-header" data-classes="no-actionbox">
 			<div class="btn-toolbar pull-right">
-				<button type="submit" name="submit" value="true" data-target="table"
-						class="action submit btn btn-primary pull-right"
-						th:text="#{report.create.form.button.generate_report}">
+				<button class="action submit btn btn-primary pull-right" data-target="table" name="submit" th:text="#{report.create.form.button.generate_report}"
+						type="submit"
+						value="true">
 				</button>
-				<button type="button" class="action next btn btn-primary pull-right"
-						th:text="#{global.form.button.next}"></button>
-				<button type="button" class="action back btn btn-primary pull-right"
-						th:text="#{global.form.button.back}"></button>
+				<button class="action next btn btn-primary pull-right" th:text="#{global.form.button.next}"
+						type="button"></button>
+				<button class="action back btn btn-primary pull-right" th:text="#{global.form.button.back}"
+						type="button"></button>
 			</div>
 			<h3 class="hstep" th:text="#{report.create.form.headline.step1}"></h3>
 			<h3 class="hstep" th:text="#{report.create.form.headline.step2}"></h3>
@@ -61,25 +61,25 @@
 			<div class="form-group">
 				<label for="reportName" th:text="#{report.create.form.report_name_label}">
 				</label>
-				<input type="text" id="reportName" name="reportName"
-						required="required" th:value="${reportName}" />
+				<input class="form-control" id="reportName" name="reportName" required="required"
+						th:value="${reportName}" type="text" />
 			</div>
 
-			<div class="alert alert-warning" role="alert"><strong>[[#{global.warning}]]!</strong>
+			<div class="alert alert-warning" role="alert"><strong>[[#{global.note}]]:</strong>
 				[(#{report.create.form.generate_report_warning})]
 			</div>
 		</div>
 
 		<div class="form-group">
 			<div class="btn-toolbar">
-				<button type="submit" name="submit" value="true" data-target="table"
-						class="action submit btn btn-primary pull-right"
-						th:text="#{report.create.form.button.generate_report}">
+				<button class="action submit btn btn-primary pull-right" data-target="table" name="submit" th:text="#{report.create.form.button.generate_report}"
+						type="submit"
+						value="true">
 				</button>
-				<button type="button" class="action next btn btn-primary pull-right"
-						th:text="#{global.form.button.next}"></button>
-				<button type="button" class="action back btn btn-primary pull-right"
-						th:text="#{global.form.button.back}"></button>
+				<button class="action next btn btn-primary pull-right" th:text="#{global.form.button.next}"
+						type="button"></button>
+				<button class="action back btn btn-primary pull-right" th:text="#{global.form.button.back}"
+						type="button"></button>
 			</div>
 		</div>
 	</form>

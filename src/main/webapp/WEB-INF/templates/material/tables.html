@@ -1,45 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-		xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
 
 <body>
 <th:block th:fragment="default (materials, archiveButton)"
 		th:with="hideColumns = ${hideColumns ?: @TS.list()},
 						showColumns = ${showColumns ?: @TS.list()}">
-	<table id="materialTable"
+	<table data-buttons-class="default"
 			data-classes="table table-hover"
-			data-toggle="table"
-			data-striped="true"
-			data-pagination="true"
-			data-pagination-v-align="bottom"
-			data-show-pagination-switch="true"
-			data-page-number="1"
-			data-page-size="10"
-			data-page-list="[10, 25, 50, 100, All]"
-			data-show-columns="true"
-			data-search="true"
-			data-search-align="right"
-			data-minimum-count-columns="0"
-			data-locale="en-US"
-			data-sort-name="id"
-			data-sort-order="desc"
-			data-toolbar="#toolbar"
-			data-toolbar-align="left"
-			data-trim-on-search="false"
-			data-buttons-class="default"
 			data-cookie="true"
 			data-cookie-expire="1y"
 			data-cookie-id-table="materialTable"
-			data-show-export="true"
 			data-export-data-type="all"
-			th:data-select-item-name="|${@E.MATERIAL}Select|"
-			th:data-entity="${@E.MATERIAL}">
+			data-locale="en-US"
+			data-minimum-count-columns="0"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-page-number="1"
+			data-page-size="10"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-search="true"
+			data-search-align="right"
+			data-show-columns="true"
+			data-show-export="true"
+			data-show-pagination-switch="true"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-striped="true"
+			data-toggle="table"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			id="materialTable"
+			th:data-entity="${@E.MATERIAL}"
+			th:data-select-item-name="|${@E.MATERIAL}Select|">
 		<thead>
 		<tr>
-			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-checkbox="true" data-field="state" th:if="${archiveButton}"></th>
 			<th data-field="id" data-sortable="true">#</th>
 			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
-			<th data-field="signifier" data-visible="false" data-sortable="true"
+			<th data-field="signifier" data-sortable="true" data-visible="false"
 					th:text="#{material.table.column.signifier}">
 
 			</th>
@@ -52,11 +52,11 @@
 					th:text="#{dossier}">
 			</th>
 			<th data-field="creationDate" data-sortable="true" th:text="#{global.table.column.creation_date}"></th>
-			<th data-field="changeDate" data-visible="false" data-sortable="true" th:text="#{global.table.column.change_date}"></th>
+			<th data-field="changeDate" data-sortable="true" data-visible="false" th:text="#{global.table.column.change_date}"></th>
 			<th data-field="actions" data-sortable="false" th:text="#{global.table.column.actions}"></th>
 		</tr>
 		</thead> <!-- thead -->
-		<tbody data-link="row" class="rowlink">
+		<tbody class="rowlink" data-link="row">
 		<tr th:each="m : ${materials}">
 			<td th:if="${archiveButton}"></td>
 			<td th:text="${m.id}"></td>
@@ -104,9 +104,9 @@
 
 	<!-- Archive button -->
 	<div th:if="${archiveButton}">
-		<button id="materialArchiveButton" data-toggle="modal"
-				data-target="#materialArchiveModal" data-table="#materialTable"
-				class="btn btn-default pull-left hidden"
+		<button class="btn btn-default pull-left hidden" data-table="#materialTable"
+				data-target="#materialArchiveModal" data-toggle="modal"
+				id="materialArchiveButton"
 				th:text="#{global.table.button.archive}">
 		</button>
 
@@ -117,50 +117,50 @@
 </th:block>
 
 <th:block th:fragment="templates (materials, archiveButton)">
-	<table id="templateTable"
+	<table data-buttons-class="default"
 			data-classes="table table-hover"
-			data-toggle="table"
-			data-striped="true"
-			data-pagination="true"
-			data-pagination-v-align="bottom"
-			data-show-pagination-switch="true"
-			data-page-number="1"
-			data-page-size="10"
-			data-page-list="[10, 25, 50, 100, All]"
-			data-show-columns="true"
-			data-search="true"
-			data-search-align="right"
-			data-minimum-count-columns="0"
-			data-locale="en-US"
-			data-sort-name="id"
-			data-sort-order="desc"
-			data-toolbar="#toolbar"
-			data-toolbar-align="left"
-			data-trim-on-search="false"
-			data-buttons-class="default"
 			data-cookie="true"
 			data-cookie-expire="1y"
 			data-cookie-id-table="templateTable"
-			data-show-export="true"
 			data-export-data-type="all"
-			th:data-select-item-name="|${@E.MATERIAL}Select|"
-			th:data-entity="${@E.MATERIAL}">
+			data-locale="en-US"
+			data-minimum-count-columns="0"
+			data-page-list="[10, 25, 50, 100, All]"
+			data-page-number="1"
+			data-page-size="10"
+			data-pagination="true"
+			data-pagination-v-align="bottom"
+			data-search="true"
+			data-search-align="right"
+			data-show-columns="true"
+			data-show-export="true"
+			data-show-pagination-switch="true"
+			data-sort-name="id"
+			data-sort-order="desc"
+			data-striped="true"
+			data-toggle="table"
+			data-toolbar="#toolbar"
+			data-toolbar-align="left"
+			data-trim-on-search="false"
+			id="templateTable"
+			th:data-entity="${@E.MATERIAL}"
+			th:data-select-item-name="|${@E.MATERIAL}Select|">
 		<thead>
 		<tr>
-			<th th:if="${archiveButton}" data-field="state" data-checkbox="true"></th>
+			<th data-checkbox="true" data-field="state" th:if="${archiveButton}"></th>
 			<th data-field="id" data-sortable="true">#</th>
 			<th data-field="name" data-sortable="true" th:text="#{global.table.column.name}"></th>
-			<th data-field="signifier" data-visible="false" data-sortable="true"
+			<th data-field="signifier" data-sortable="true" data-visible="false"
 					th:text="#{material.table.column.signifier}">
 			</th>
 			<th data-field="comment" data-sortable="true" th:text="#{global.table.column.comment}"></th>
 			<th data-field="creationDate" data-sortable="true" th:text="#{global.table.column.creation_date}"></th>
-			<th data-field="changeDate" data-visible="false" data-sortable="true" th:text="#{global.table.column.change_date}"></th>
+			<th data-field="changeDate" data-sortable="true" data-visible="false" th:text="#{global.table.column.change_date}"></th>
 			</th>
 			<th data-field="actions" data-sortable="false" th:text="#{global.table.column.actions}"></th>
 		</tr>
 		</thead> <!-- thead -->
-		<tbody data-link="row" class="rowlink">
+		<tbody class="rowlink" data-link="row">
 		<tr th:each="m : ${materials}">
 			<td th:if="${archiveButton}"></td>
 			<td th:text="${m.id}"></td>
@@ -201,9 +201,9 @@
 
 	<!-- Delete button -->
 	<div th:if="${archiveButton}">
-		<button id="materialDeleteButton" data-toggle="modal"
-				data-target="#materialDeleteModal" data-table="#templateTable"
-				class="btn btn-default pull-left hidden"
+		<button class="btn btn-default pull-left hidden" data-table="#templateTable"
+				data-target="#materialDeleteModal" data-toggle="modal"
+				id="materialDeleteButton"
 				th:text="#{global.table.button.delete}">
 		</button>
 
@@ -219,8 +219,8 @@
 			idPrefix=${technique.signifier + materialSignifier + idSuffix}">
 
 	<div class="form-group">
-		<a class="popovers" data-container="body" data-toggle="popover"
-				data-placement="bottom" data-trigger="click" th:data-content="|
+		<a class="popovers" data-container="body" data-placement="bottom"
+				data-toggle="popover" data-trigger="click" th:data-content="|
 							<small>
 								#{material.table.modal.technique.popover.content}
 								<hr>
@@ -244,10 +244,10 @@
 			<label th:for="|${idPrefix}Incompleteness|">
 				[(#{material.table.modal.technique.incompleteness.label})] <i>&Icirc;<sup>m</sup></i>
 			</label></a>
-		<div class="progress" th:with="incompleteness=${@N.formatPercentage(incompleteness)}">
-			<div class="progress-bar progress-bar-success" th:id="|${idPrefix}Incompleteness|"
-					role="progressbar"
-					th:attr="aria-valuenow=|${incompleteness}|" aria-valuemin="0" aria-valuemax="100"
+		<div class="progress" th:with="incompleteness=${@N.formatPercentage(1 - incompleteness)}">
+			<div aria-valuemax="100" aria-valuemin="0"
+					class="progress-bar progress-bar-success"
+					role="progressbar" th:attr="aria-valuenow=|${incompleteness}|" th:id="|${idPrefix}Incompleteness|"
 					th:style="|min-width: 2em; width: ${incompleteness};|"
 					th:text="|${incompleteness}|">
 			</div>
@@ -255,35 +255,35 @@
 	</div>
 	<hr>
 
-	<div th:id="|${idPrefix}Toolbar|" data-classes="search-buttons" class="btn-group">
-		<button data-classes="x-all" class="btn btn-xs btn-primary"
+	<div class="btn-group" data-classes="search-buttons" th:id="|${idPrefix}Toolbar|">
+		<button class="btn btn-xs btn-primary" data-classes="x-all"
 				th:text="#{material.table.modal.technique.search.all}"></button>
-		<button data-classes="x-match" class="btn btn-xs btn-success"
+		<button class="btn btn-xs btn-success" data-classes="x-match"
 				th:text="#{material.table.modal.technique.search.matching}"></button>
-		<button data-classes="x-incompleteness" class="btn btn-xs btn-warning"
+		<button class="btn btn-xs btn-warning" data-classes="x-incompleteness"
 				th:text="#{material.table.modal.technique.search.unknown}"></button>
-		<button data-classes="x-mismatch" class="btn btn-xs btn-danger"
+		<button class="btn btn-xs btn-danger" data-classes="x-mismatch"
 				th:text="#{material.table.modal.technique.search.nonmatching}"></button>
 	</div>
 	<div class="table-responsive">
 		<table data-classes="table table-hover technique-modal-table"
-				data-toggle="table"
-				data-striped="true"
-				data-pagination="true"
-				data-pagination-v-align="bottom"
-				data-show-pagination-switch="true"
+				data-detail-view="true"
+				data-export-data-type="all"
+				data-locale="en-US"
+				data-page-list="[5, 10, 25, All]"
 				data-page-number="1"
 				data-page-size="5"
-				data-page-list="[5, 10, 25, All]"
-				data-locale="en-US"
+				data-pagination="true"
+				data-pagination-v-align="bottom"
 				data-search="true"
 				data-search-align="right"
+				data-show-columns="true"
+				data-show-export="true"
+				data-show-pagination-switch="true"
 				data-sort-name="attribute"
 				data-sort-order="asc"
-				data-show-export="true"
-				data-show-columns="true"
-				data-export-data-type="all"
-				data-detail-view="true"
+				data-striped="true"
+				data-toggle="table"
 				th:data-technique="${technique.signifier}"
 				th:data-toolbar="|#${idPrefix}Toolbar|">
 			<thead>
@@ -301,7 +301,7 @@
 			<tbody>
 			<th:block th:each="attribute : ${@referenceDictionary.attributes}"
 					th:with="t=${@performanceConfiguration.getEntry(technique.signifier, materialSignifier).getEntry(attribute.name)}">
-				<tr th:if="${t != null}" th:data-attribute="|${attribute.name}|"
+				<tr th:data-attribute="|${attribute.name}|" th:if="${t != null}"
 						th:with="mc=${compatibilityTable != null ? compatibilityTable.get(attribute.name, technique.signifier).materialCriterion : null},
 						t=${@performanceConfiguration.getEntry(technique.signifier, materialSignifier).getEntry(attribute.name)},
 						matchStatus=${compatibilityTable != null ? compatibilityTable.get(attribute.name, technique.signifier).matchReason : 'irrelevance'}">
@@ -318,9 +318,9 @@
 					</td>
 					<!-- technique -->
 					<td>
-						<span th:text="${@performanceDictionary.getAttribute(attribute.name).label}" th:remove="tag"></span>:<br />
-						<span th:utext="${@performanceDictionary.translateValue(t.name, t.value)}"
-								th:remove="tag">
+						<span th:remove="tag" th:text="${@performanceDictionary.getAttribute(attribute.name).label}"></span>:<br />
+						<span th:remove="tag"
+								th:utext="${@performanceDictionary.translateValue(t.name, t.value)}">
 						</span>
 					</td>
 					<!-- material -->
@@ -329,7 +329,7 @@
 						<span data-classes="attribute-value"
 								th:utext="${mc != null ? @performanceDictionary.translateValue(mc.name, mc.value) : 'JavaScript error'}"></span>
 						<span class="hidden" data-classes="matching">
-							<span th:remove="tag" th:if="${compatibilityTable != null}"
+							<span th:if="${compatibilityTable != null}" th:remove="tag"
 									th:text="|x-${compatibilityTable.get(attribute.name, technique.signifier).matchReason}|"></span>
 						</span>
 					</td>
