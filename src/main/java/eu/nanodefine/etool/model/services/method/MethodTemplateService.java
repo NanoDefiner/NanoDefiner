@@ -58,7 +58,7 @@ public class MethodTemplateService extends TemplateService {
 	 */
 	public String formatResult(Method method) {
 		return method.hasResult() ? this.serviceManager.getBean(NumberService.class)
-				.formatNumber(method.getNumericResult(), 0) + "nm" : "–";
+				.formatNumber(method.getNumericResult(), 0) + (method.getDataFormat().equals("VSSA") ? "m²/cm³" : "nm") : "–";
 	}
 
 }
