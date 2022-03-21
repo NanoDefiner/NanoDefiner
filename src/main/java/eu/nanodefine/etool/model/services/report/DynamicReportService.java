@@ -537,11 +537,11 @@ public class DynamicReportService
 				.horizontalList(DynamicReports.cmp.horizontalGap(10),
 						this.cs.createText(
 								this.translate("material.create.incompleteness.popover.explanation") +
-										"<br /><br />" + "<em>I<sup>m</sup></em> ≤ 20% = "
+										"<br /><br />" + "<em>C<sup>m</sup></em> &lt; 50% = "
 										+ this.translate("material.create.incompleteness.popover.low")
-										+ "<br />" + "<em>I<sup>m</sup></em> ≤ 50% = "
+										+ "<br />" + "<em>C<sup>m</sup></em> ≥ 50% = "
 										+ this.translate("material.create.incompleteness.popover.moderate")
-										+ "<br />" + "<em>I<sup>m</sup></em> &gt; 50% = "
+										+ "<br />" + "<em>C<sup>m</sup></em> &gt; 80% = "
 										+ this.translate("material.create.incompleteness.popover.high"),
 								Markup.HTML)), this.cs.createDefaultFiller());
 
@@ -552,11 +552,11 @@ public class DynamicReportService
 		pdfReport.addSummary(DynamicReports.cmp
 				.horizontalList(DynamicReports.cmp.horizontalGap(10),
 						this.cs.createText(this.translate("material.table.modal.technique.popover.content")
-										+ "<br /><br /><em>Î<sup>m</sup></em> ≤ 20% = "
+										+ "<br /><br /><em>Ĉ<sup>m</sup></em> &lt; 50% = "
 										+ this.translate("material.table.modal.technique.popover.low")
-										+ "<br /><em>Î<sup>m</sup></em> ≤ 50% = "
+										+ "<br /><em>Ĉ<sup>m</sup></em> ≥ 50% = "
 										+ this.translate("material.table.modal.technique.popover.moderate")
-										+ "<br /><em>Î<sup>m</sup></em> &gt; 50% = "
+										+ "<br /><em>Ĉ<sup>m</sup></em> &gt; 80% = "
 										+ this.translate("material.table.modal.technique.popover.high"),
 								Markup.HTML)), this.cs.createDefaultFiller());
 
