@@ -988,7 +988,7 @@ public class DynamicReportService
 					"report.create.pdf.analysis_data_format." + m.getDataFormat());
 			String result = m.getResult() != null ?
 					this.translateDouble("number_format.analysis_result",
-							Double.valueOf(m.getResult())) + "nm" : "–";
+							Double.valueOf(m.getResult())) + (m.getDataFormat().equals("VSSA") ? "m²/cm³" : "nm") : "–";
 
 			methodReport.addRow(this.translate("method.table.column.data_format"), dataFormat)
 					.addRow(this.translate("method.table.column.result"), result)

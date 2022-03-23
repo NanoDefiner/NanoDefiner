@@ -272,7 +272,7 @@ public class MethodService implements IService {
 	 */
 	public boolean isNano(Method method) {
 
-		Double result = method.hasResult() ? Double.valueOf(method.getResult()) : 101;
+		Double result = method.hasResult() && !method.getDataFormat().equals("VSSA") ? Double.valueOf(method.getResult()) : 101;
 
 		return result <= 100;
 	}
