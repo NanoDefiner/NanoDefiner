@@ -549,7 +549,7 @@ method.table.result.size_check_needed,Size plausibility check needed,
 method.update,Edit method,
 method.update.breadcrumb,Edit method,
 method.update.error.analysis_file,The given analysis data file could not be processed,
-method.update.error.bet,"For the given particle type and VSSA value, no nano/non-nano decision can be made, please use a tier 2 method",
+method.update.error.bet,"For the given particle type and VSSA value, no nano/non-nano decision can be made, please use another method (for regulatory purposes, using a tier 2 method is recommended)",
 method.update.error.D50,The given D<sub>50</sub> value was invalid,
 method.update.error.plausibility,"Plausibility check failed, please use a tier 2 method or BET to confirm the result",
 method.update.jumbo.headline,Editing of {0} method criteria,{0} = tier

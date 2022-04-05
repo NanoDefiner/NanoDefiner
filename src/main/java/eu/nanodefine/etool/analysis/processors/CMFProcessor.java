@@ -220,9 +220,7 @@ public class CMFProcessor extends AbstractAnalysisProcessor {
 			size = Double.valueOf(csvLn[0].trim());
 			q0 = Double.valueOf(csvLn[1].trim());
 			t = new Tuple<>(size, q0);
-			if (q0 <= 1000) {
-				this.entries.add(t);
-			}
+			this.entries.add(t);
 		}
 		reader.close();
 
