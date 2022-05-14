@@ -318,6 +318,9 @@
 
 	<!--/* Keep this last */-->
 	<script defer="defer" th:src="@{'/js/incl/last.js'}"></script>
+	<script type="application/javascript">
+		setTimeout(() => { if (typeof ND === 'undefined') location.reload(); }, 1000);
+	</script>
 
 	<!--/* Hidden information, for JS */-->
 	<div class="variables" th:if="${history != null}">

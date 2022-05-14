@@ -57,8 +57,17 @@ public class MethodTemplateService extends TemplateService {
 	 * <p>Returns "–" if the method has no result.</p>
 	 */
 	public String formatResult(Method method) {
-		return method.hasResult() ? this.serviceManager.getBean(NumberService.class)
-				.formatNumber(method.getNumericResult(), 0) + (method.getDataFormat().equals("VSSA") ? "m²/cm³" : "nm") : "–";
+		if (method.hasResult()) {
+			if (method.getDataFormat().equals("VSSA")) {
+				return this.serviceManager.getBean(NumberService.class)
+						.formatNumber(method.getNumericResult(), 2) + " m²/cm³";
+			} else {
+				return this.serviceManager.getBean(NumberService.class)
+						.formatNumber(method.getNumericResult(), 0) + " nm";
+			}
+		}
+
+		return "–";
 	}
 
 }
