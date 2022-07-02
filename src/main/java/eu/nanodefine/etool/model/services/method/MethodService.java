@@ -144,8 +144,8 @@ public class MethodService implements IService {
 				createMethodUri.copy().addPathParam(tierParam, tierValues[1]).build(),
 		};
 
-		boolean tier1Enabled =
-				!this.hasMethodsWithDataFile(dossier) || this.hasNonBorderlineResult(dossier);
+		boolean tier1Enabled = true;
+				//!this.hasMethodsWithDataFile(dossier) || this.hasNonBorderlineResult(dossier);
 
 		return ImmutableList.of(new ActionListEntry(createMethodPaths[0],
 						localeString + tierValues[0], enabled && tier1Enabled),
