@@ -58,7 +58,7 @@ public class MethodTemplateService extends TemplateService {
 	 */
 	public String formatResult(Method method) {
 		if (method.hasResult()) {
-			if (method.getDataFormat().equals("VSSA")) {
+			if (method.getDataFormat().equals("VSSA") && !this.isOtherPurpose(method)) {
 				return this.serviceManager.getBean(NumberService.class)
 						.formatNumber(method.getNumericResult(), 2) + " m²/cm³";
 			} else {
@@ -68,6 +68,10 @@ public class MethodTemplateService extends TemplateService {
 		}
 
 		return "–";
+	}
+
+	public boolean isOtherPurpose(Method method) {
+		return method.getDossier().getPurpose().equals("{other}");
 	}
 
 }

@@ -102,12 +102,6 @@ public class MethodUpdateController extends AbstractMethodController {
 			this.log.debug("Exception:", e);
 		}
 
-		// If the result is null there was a problem with the uploaded data
-		// TODO what are the different scenarios here, do we need different error messages?
-		if (!methodUpdated.hasResult()) {
-			errors.add("method.update.error.bet");
-		}
-
 		return this.buildRedirect(method);
 	}
 

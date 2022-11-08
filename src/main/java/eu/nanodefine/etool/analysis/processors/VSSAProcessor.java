@@ -176,9 +176,73 @@ public class VSSAProcessor extends AbstractAnalysisProcessor {
 
 		this.vssa = Double.valueOf(vssa);
 
-		if (this.vssa < 6) {
-			this.result = this.vssa;
+		if (!this.getMethod().getDossier().getPurpose().equals("{other}")) {
+			if (this.vssa < 6) {
+				this.result = this.vssa;
+			}
+			return;
 		}
+
+		// Determine all VSSA value related parts
+		determineD();
+		determineDVSSA();
+		determineDMinVSSA();
+
+		// Determine additional material criteria
+		determineAggregation();
+		determineMultimodality();
+
+		this.result = this.d_vssa_nm;
+
+		/*
+		 * Directly identifiable as nanomaterial according to EC recommendation,
+		 * not part of the screening strategy.
+		 */
+		if (this.d_vssa_nm < NM_100) {
+			return;
+		}
+
+		/*
+		 * Screening strategy step 1:
+		 * TODO Documentation
+		 */
+		// Prelimiary porosity check, not processed here.
+
+		/*
+		 * Screening strategy step 2:
+		 * TODO Documentation
+		 */
+		if (this.d_vssa_nm > NM_1000 && this.D == null) {
+			return;
+		} else if (this.d_vssa_nm > NM_1000 && this.D != null) {
+			this.result = this.dmin_vssa_nm;
+
+			return;
+		}
+
+		this.result = this.dmin_vssa_nm;
+
+		/*
+		 * Screening strategy step 3:
+		 * TODO Documentation
+		 *
+		 * TODO Check: Aggregation?
+		 * TODO Check: Multimodality?
+		 */
+		if (this.D != null) {
+			return;
+		}
+
+		this.result = null;
+
+		// Analysis result is null at this point? Oops...
+
+		this.log.error("VSSA processing did not match any case");
+		this.log.error("vssa : " + vssa);
+		this.log.error("dimensions : " + this.attrDimensions);
+		this.log.error("aggregation : " + this.attrAggregation);
+		this.log.error("multimodality : " + this.attrMultimodality);
+
 	}
 
 }

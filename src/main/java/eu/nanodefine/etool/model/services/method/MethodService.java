@@ -145,7 +145,6 @@ public class MethodService implements IService {
 		};
 
 		boolean tier1Enabled = true;
-				//!this.hasMethodsWithDataFile(dossier) || this.hasNonBorderlineResult(dossier);
 
 		return ImmutableList.of(new ActionListEntry(createMethodPaths[0],
 						localeString + tierValues[0], enabled && tier1Enabled),
@@ -272,7 +271,8 @@ public class MethodService implements IService {
 	 */
 	public boolean isNano(Method method) {
 
-		Double result = method.hasResult() && !method.getDataFormat().equals("VSSA") ? Double.valueOf(method.getResult()) : 101;
+		final boolean isVSSAAndNotOther = method.getDataFormat().equals("VSSA") && !method.getDossier().getPurpose().equals("{other}");
+		Double result = method.hasResult() && !isVSSAAndNotOther ? Double.valueOf(method.getResult()) : 101;
 
 		return result <= 100;
 	}
