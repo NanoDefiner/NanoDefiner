@@ -355,7 +355,7 @@ public class DynamicReportService
 	private void addWarning(DynamicPdfReport pdfReport, String text, int fillersBefore,
 			int fillersAfter) {
 		pdfReport.addSummary(this.cs.createDefaultFiller(fillersBefore),
-				this.cs.createText("<b>" + this.translate("global.warning") + ":</b> " + text),
+				this.cs.createText("<b>" + this.translate("global.warning") + ":</b> " + text, Markup.HTML),
 				this.cs.createDefaultFiller(fillersAfter));
 	}
 
@@ -680,8 +680,8 @@ public class DynamicReportService
 						this.translate("method.table.column.tier"),
 						this.translate("method.table.column.available"),
 						this.translate("method.table.column.suitable"),
-						this.translate("method.table.column.incompleteness"),
-						this.translate("method.table.column.weighted_incompleteness") });
+						this.translate("method.table.column.incompleteness.report"),
+						this.translate("method.table.column.weighted_incompleteness.report") });
 
 		techniqueOverview.getColumn("technique").setWidth(60);
 		techniqueOverview.getColumn("available").setWidth(40);
