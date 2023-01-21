@@ -1,0 +1,7 @@
+Attribute,Type,Options,Description,Example,Note,Changes
+attribute,string,,Name of an attribute of the performance dictionary which shall get a priority level.,"<attribute1>
+<attribute2>
+... 
+",,
+priority,decimal,,"Priority level, which must be in the interval [0.00,1.00]. It indicates a priority between 0% and 100% and influences the decision making process by weighting attributes.","0.00 = Lowest priority, not included in the decision making process
+1.00 = Highest priority, imperative in the decision making process",,

@@ -1,0 +1,92 @@
+Attribute,Type,Options,Label,Description,Disclaimer,Manual,Note,Changes
+reference_signifier,string,,Signifier,Representing the unique material signifier (identification purpose).,,,,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+reference_name,string,,Name,Representing the material name.,,,,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+reference_comment,string,,Comment,Representing a comment on the material.,,,,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+trade_form,set,"powder = Powder
+suspension = Suspension
+aerosol = Aerosol",Trade form,Representing material trade form.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=21,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+dispersibility,set,"aqueous = Dispersible in aqueous media
+nonpolar = Dispersible in non-polar liquids
+polar = Dispersible in polar liquids
+specific = Dispersible in material-specific media
+aerosol = Can be aerosolized
+substrate = Can be distributed on a substrate",Dispersibility,Representing dispersibility by protocols.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=40,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+chemical_composition,set,"inorganic = Inorganic
+carbon = Carbon based
+organic_p = Organic, particulate
+organic_np = Organic, non-particulate
+biological = Biological
+composite = Composite
+other = Other",Chemical composition,Representing chemical compositions.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=20,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+composites,set,"core_shell = Core/shell
+multiple_coatings = Multiple coatings
+mix = A mix of two or more different materials",Composites,Representing composites.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=41,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+dimensions,set,"1d = 1 small dimension
+2d = 2 small dimensions
+3d = 3 small dimensions
+mix = Mixture of different dimensions",Dimension,Representing small dimensions.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=41,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+shape,set,"spherical = Sphere or similar
+equiaxial = Equiaxial
+elongated = Tubes, fibres, rods (length:ø ≥ 3)
+flat = Flakes and discs (thickness:ø ≤ 0.25)
+other = Other
+mix = Mixture of different nanoscaled materials",Shape,Representing nano-particle shapes.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=41,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+analysis_temperature,interval,"[,]",Stable temperature,Representing the stable analysis temperature range in degree Celsius.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=41,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+electron_beam,binary,"no = No
+yes = Yes",Electron beam sensitivity,Indicating degradation under electron beam radiation.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=42,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+polydispersity,set,"quasi_mono = Quasi-monodisperse
+moderate_poly = Moderate polydisperse
+high_poly = Highly polydisperse",Polydispersity,Representing grade of polydispersity.,[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+multimodality,set,"diff_leq_20pct = Peak size differ ≤ 20%
+diff_gt_x10 = Peak size differ > factor 10
+diff_moderate = Moderate distance between peaks",Multimodality,Representing grade of multimodality.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=42,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+conductivity,set,"conductive = Conductive
+semiconductive = Semi-conductive
+insulator = Insulator",Conductivity,Representing conductive properties.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=42,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+magnetism,set,"diamagnetic = Diamagnetic
+paramagnetic = Paramagnetic
+superparamagnetic = Superparamagnetic
+ferromagnetic = Ferromagnetic
+ferrimagnetic = Ferrimagnetic
+antiferromagnetic = Antiferromagnetic",Magnetism,Representing types of magnetic properties.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=43,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+functionalisation,binary,"no = No
+yes = Yes",Functionalisation,Indicating functionalisation of particles.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=43,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+light_absorption,binary,"no = No
+yes = Yes",Light absorption,Indicating light absorbing properties.,[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+fluorescence,binary,"no = No
+yes = Yes",Fluorescence,Indicating fluorescent properties.,[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+aggregation,binary,"no = No
+yes = Yes",Aggregation,Indicating particle aggregation.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=46,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+agglomeration,binary,"no = No
+yes = Yes",Agglomeration,Indicating particle agglomeration.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=43,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+release_iam,binary,"no = No
+yes = Yes","Release of ions, atoms, molecues","Indicating release of ions, atoms and molecules.",[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+wr_size_range,interval,"[,]",Particle size range,Indicating the size range (nm-scaled) of particles.,[Insert material attribute-related disclaimer here.],https://labs.inf.fh-dortmund.de/NanoDefiner/static/downloads/Methods_manual_Summer_school.pdf#page=46,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+presence,binary,"no = No
+yes = Yes",Presence of different sized particles,Indicating the presence of different sized subnano (d<1nm in all dimensions) or susnano (d>100nm in all dimensions) particles.,[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."
+os_vacuum,binary,"no = No
+yes = Yes",Vacuum sensitivity,Indicating degradation under vacuum.,[Insert material attribute-related disclaimer here.],,Adopted from the identically named performance criterion.,"Deleted 'Examples' column as a duplicate exists in the sheet.
+Added 'Disclaimer' column for attribute-individual disclaimers."

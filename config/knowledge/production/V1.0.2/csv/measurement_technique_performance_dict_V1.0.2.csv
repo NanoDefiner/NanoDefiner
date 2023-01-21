@@ -1,0 +1,353 @@
+Attribute,Type,Options,Label,Description,Disclaimer,Manual,Note,Changes,D3.2/D7.2/D7.6 source,D7.3 source
+technique_signifier,string,,Technique signifier,Identifier from the technique sheet. The combination of the technique signifier and the material signifier needs to be globally unique. See the documentation for further information.,,,,,,
+material_signifier,string,,Material signifier,Identifier from the material sheet. The combination of the technique signifier and the material signifier needs to be globally unique. See the documentation for further information.,,,,,,
+trade_form,set,"powder = Powder
+suspension = Suspension
+aerosol = Aerosol",Trade form support,Representing supported material trade forms.,,,,,,
+preparation,set,"wetting = Sample wetting
+drying = Sample drying
+dispersion = Creation of a dispersion
+substrate = Creation of a substrate",Sample preparation support,Representing suitable SOP-based preparation techniques for the CM.,,,This attribute will use SOPs as options. A well defined set of those is required from the colleagues of WP2.,Updated option labels.,,
+dispersion_medium,set,"liquid = Dispersed in liquids
+solid = Solid particulate form
+embedded = Dispersed or embedded in different kinds of matrices
+substrate = Distributed on a substrate",Dispersion media support,Representing supported dispersion media.,,,,,Nanoparticles in powder or liquid suspension or embedded in a matrix,
+dispersibility,set,"aqueous = Dispersible in aqueous media
+nonpolar = Dispersible in non-polar liquids
+polar = Dispersible in polar liquids
+specific = Dispersible in material-specific media
+aerosol = Can be aerosolized",Dispersibility support,Representing supported dispersibilities by protocols.,,,,"Option ‘substrate’ eliminated, as any dispersion may be distributed on a substrate.",Dispersibility by dispersion protocols,Dispersibility
+chemical_composition,set,"inorganic = Inorganic
+carbon = Carbon based
+organic_p = Organic, particulate
+organic_np = Organic, non-particulate
+biological = Biological
+composite = Composite
+other = Other",Chemical composition support,Representing supported chemical compositions.,,,A mix is not possible for one material. Multi-constituent samples consist of multiple materials.,,Substance nature,Chemical composition
+composites,set,"core_shell = Core/shell
+multiple_coatings = Multiple coatings
+mix = A mix of two or more different materials",Composite support,Representing supported composites.,,,,,Composite,Composite
+dimensions,set,"1d = 1 small dimension
+2d = 2 small dimensions
+3d = 3 small dimensions
+mix = Mixture of different dimensions",Dimension support,Representing supported small dimensions.,,,,,Number of nano-scaled dimensions,Nanoscaled dimensions
+shape,set,"spherical = Sphere or similar
+equiaxial = Equiaxial
+elongated = Tubes, fibres, rods (length:ø ≥ 3)
+flat = Flakes and discs (thickness:ø ≤ 0.25)
+other = Other
+mix = Mixture of different nanoscaled materials",Shape support,Representing supported nano-particle shapes.,,,,,Shape of nano-particles,Shape
+analysis_temperature,interval,"[,]",Analysis temperature range,Representing the CM's analysis temperature range in degree Celsius which can lead to degradation of the analyzed material.,,,"The interval form makes it possible to implement the decision process more flexible. Thoughts about this were that a device might support a variable temperature, depending on it's configuration. Thus, a wider spectrum of materials could be measured without the risk of degradation.",,"Thermal degradation sensitivity
+Cooling degradation sensitivity","Heating
+Cooling"
+electron_beam,binary,"no = No
+yes = Yes",Use of electron beam,Indicating whether a CM uses an electron beam or not.,,,"CMs which are not using an electron beam might never be a risk for an electron beam induced material degradation. Hence, indicating whether the CM uses an electron beam or not, should be enough information.",,E-beam sensitivity,E-beam
+polydispersity,set,"quasi_mono = Quasi-monodisperse
+moderate_poly = Moderate polydisperse
+high_poly = Highly polydisperse",Polydispersity support,Representing supported grades of polydispersity.,,,This attribute is a split part of 'Sample dispersity and modality'.,,Sample dispersity and modality,
+multimodality,set,"diff_leq_20pct = Peak size differ ≤ 20%
+diff_moderate = Moderate distance between peaks
+diff_gt_x10 = Peak size differ > factor 10",Multimodality support,Representing supported grades of multimodality.,,,This attribute is a split part of 'Sample dispersity and modality'.,,Sample dispersity and modality,
+conductivity,set,"conductive = Conductive
+semiconductive = Semi-conductive
+insulator = Insulator",Conductivity support,Representing supported conductive properties of a material.,,,A mix is not possible for one material.,,Conductive properties,"Specific properties, Electrically conductive"
+magnetism,set,"diamagnetic = Diamagnetic
+paramagnetic = Paramagnetic
+superparamagnetic = Superparamagnetic
+ferromagnetic = Ferromagnetic
+ferrimagnetic = Ferrimagnetic
+antiferromagnetic = Antiferromagnetic",Magnetism support,Representing supported types of magnetic properties of a material.,,,A mix is not possible for one material.,,Magnetic properties,"Specific properties, Magnetic properties"
+functionalisation,binary,"no = No
+yes = Yes",Functionalisation support,Indicating whether the CM supports functionalised materials or not.,,,A mix is not possible for one material.,,Functionalisation,"Specific properties, Functionalised"
+light_absorption,binary,"no = No
+yes = Yes",Light absorption support,Indicating whether the CM supports light absorbing materials or not.,,,This attribute is a split part of 'chemical_composition'. The split was applied since light absorption and fluorescence are special properties that need to be examined separately.,,Substance nature,"Specific properties, Size-dependent absorption / fluorescence"
+fluorescence,binary,"no = No
+yes = Yes",Fluorescence support,Indicating whether the CM supports fluorescences or not.,,,This attribute is a split part of 'chemical_composition'. The split was applied since light absorption and fluorescence are special properties that need to be examined separately.,,Substance nature,"Specific properties, Size-dependent absorption / fluorescence"
+aggregation,binary,"no = No
+yes = Yes",Aggregation support,Indicating whether beneath non-aggregated samples also aggregated samples are supported by the method.,,,This attribute is a split part of 'Agglomeration / aggregation state'. The split was applied since support for aggregated samples implies support for non-aggregated samples.,,Agglomeration / aggregation state,
+agglomeration,binary,"no = No
+yes = Yes",Agglomeration support,Indicating whether beneath non-agglomerated samples also agglomerated samples are supported by the CM.,,,This attribute is a split part of 'Agglomeration / aggregation state'. The split was applied since support for agglomerated samples implies support for non-agglomerated samples.,,Agglomeration / aggregation state,
+release_iam,binary,"no = No
+yes = Yes","Ion, atom, molecule release support","Indicating whether a CM is supports a material's release of ions, atoms and molecules.",,,,,,
+tier,set,"tier1 = Tier 1 (screening)
+tier1_na = Potential tier 1 (not assessed)
+tier2 = Tier 2 (confirmatory)
+tier2_na = Potential tier 2 (not assessed)",Tier,Indicating whether the CM is a screening or confirmatory method.,,,,,,
+purpose,set,"reach = REACH / REACH nanoform
+cosmetics_regulation = Cosmetics regulation
+food_regulation = Food regulation
+biocide_regulation = Biocide regulation
+other = Other (e.g. informative, scientific)
+other_2011 = Other (e.g. informative, scientific), NanoDefine approach aligned with EC 2011 nanomaterial definition",Purpose support,Indicating whether the CM may be used for measurement for a specific purpose or not.,,,An adequate wording for all options is required.,"Joined options 'reach' and 'reach_nanoform' into 'reach', updated label.
+Joined options 'cosmetics_labelling' and 'cosmetics_legislation' into 'cosmetics_regulation', updated label.
+Changed option 'food_labelling' into 'food_regulation', updated label.
+Changed option 'biocide' into 'biocide_regulation', updated label.",,
+disclaimer,string,,Disclaimer,Represents important information regarding the use of the measurement technique as disclaimer.,,,,,,
+multiconstituent,binary,"no = No
+yes = Yes",Multiconstituent sample support,Indicating whether the CM supports multiconstituent samples or not.,,,,,,
+specific_technique,set,"counting = Single particle counting
+spectroscopic = Calculate number or concentration from spectroscopic (ensemble) methods
+fractionating = Fractionating Methods (hyphenated methods)
+integral = Integral measurement",,Displaying whether the CM provides specific techniques or not.,,,,,"counting, separative or ensemble techniques",
+wr_size_range,interval,"[,]",Analysis size range,Indicating the size range (nm-scaled) of particles which the CM is able to measure properly. Support for sub-nanometer particles is guaranteed.,,,,,"Working range, Size range",
+wr_concentration_range_type,string,"mass_fraction = Mass fraction g/g
+mass = Mass concentration µg/µl
+volume = Volume concentration µl/µl
+number = Particle concentration particles/µl",,Indicating the type of concentration range specified via the attribute wr_concentration_range. Only one of the following options might be applied.,,,,,"Working range, Concentration range",
+wr_concentration_range,interval,"[,]",,Interpretation is dependent on the attribute wr_concentration_range_type's value.,,,,,"Working range, Concentration range",
+wr_minimum_sample_type,string,"mass = Mass in µg
+volume = Volume in µl
+number = Number of particles",,Indicating the type of sample specified via the attribute wr_minimum_sample_type. Only one of the following options might be applied.,,,,,"Working range, Minimum needed sample amount",
+wr_minimum_sample,interval,"[,]",,Interpretation is dependent on the attribute wr_minimum_sample_type's value.,,,,,"Working range, Minimum needed sample amount",
+wr_linear_proportional_size,binary,"no = No
+yes = Yes",,Indicating whether the CM's results are linear/proportional with respect to the particle size.,,,,,"Working range, Linearity/proportionality",
+wr_linear_proportional_concentration,binary,"no = No
+yes = Yes",,Indicating whether the CM's results are linear/proportional with respect to the particle concentration.,,,,,"Working range, Linearity/proportionality",
+wr_detection_quantification_limit,interval,"[,]",,Indicating the size range (nm-scaled) limits of particles which the CM is able to measure properly. Support for sub-nanometer regions is guaranteed.,,,,,"Working range, Limits of detection / quantification",
+wr_sensitivity,scale,"-- = Very low (--)
+- = Low (-)
+o = Moderate (o)
++ = High (+)
+++ = Very high (++)",,"Indicating the trust / usability / quality level regarding the sensitivity.
+
+++ = Very high, -- = Very low",,,,,"Working range, Sensitivity (Counting efficiency) as a function of size",
+trueness,scale,"-- = Very low (--)
+- = Low (-)
+o = Moderate (o)
++ = High (+)
+++ = Very high (++)",,"Indicating the trust / use / quality level regarding the trueness.
+
+++ = Very high, -- = Very low",,,,,Trueness,
+weighting_trueness,scale,"-- = Very low (--)
+- = Low (-)
+o = Moderate (o)
++ = High (+)
+++ = Very high (++)",,"Indicating the trust / use / quality level regarding the trueness in weighting the size fractions.
+
+++ = Very high, -- = Very low",,,,,Trueness in weighting the size fractions,
+robustness,scale,"-- = Very low (--)
+- = Low (-)
+o = Moderate (o)
++ = High (+)
+++ = Very high (++)",,"Indicating the trust / use / quality level regarding the robustness.
+
+++ = Very high, -- = Very low",,,,,Robustness,
+precision_type,string,"length = nm-scaled precision
+percent = percent-scaled precision",,Indicating the type of the precision range specified via the attribute precision. Only one of the following options might be applied.,,,,,Precision,
+precision,interval,"[,]",,Indicating the precision (nm-scaled) of the CM. Support for sub-nanometer regions is guaranteed.,,,Interpretation of the value depends on the attribute precision_type.,,Precision,
+resolution_type,string,"length = nm-scaled precision
+percent = percent-scaled precision",,Indicating the type of the resolution range specified via the attribute resolution. Only one of the following options might be applied.,,,,,Resolution,
+resolution,interval,"[,]",,Indicating the resolution (nm-scaled) of the CM. Support for sub-nanometer regions is guaranteed.,,,Interpretation of the value depends on the attribute resolution_type.,,Resolution,
+size_distribution,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of size distribution.,,,,,Size distribution,
+presence,binary,"no = No
+yes = Yes",Different sized particle support,Indicating whether the CM supports the presence of different sized subnano (d<1nm in all dimensions) or susnano (d>100nm in all dimensions) particles.,,,,,,Presence of different sized particles
+sl_discr_nnp_same,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the discrimination from non-nanoparticles of the same composition.,,,,,Selectivity,
+sl_discr_nnp_same_robustness,set,"dissolved = Robust against dissolved impurities
+particulate = Robust against particulate impurities",,Displaying whether the CM provides robustness against different types of impurities in case of discrimination from non-nanoparticles of the same composition.,,,"Johannes Mielke questioned the wording 'robust(ness) against (several kinds of) impurities', as it might not go well with the definition and meaning of impurities in this context. The experts are asked to evaluate this.",,Selectivity,
+sl_discr_nnp_diff,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the discrimination from non-nanoparticles of another composition.,,,,,Selectivity,
+sl_discr_nnp_diff_robustness,set,"dissolved = Robust against dissolved impurities
+particulate = Robust against particulate impurities",,Displaying whether the CM provides robustness against different types of impurities in case of discrimination from non-nanoparticles of another composition.,,,"Johannes Mielke questioned the wording 'robust(ness) against (several kinds of) impurities', as it might not go well with the definition and meaning of impurities in this context. The experts are asked to evaluate this.",,Selectivity,
+sl_discr_np_diff,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the discrimination from nanoparticles of another composition.,,,,,Selectivity,
+sl_discr_np_diff_robustness,set,"dissolved = Robust against dissolved impurities
+particulate = Robust against particulate impurities",,Displaying whether the CM provides robustness against different types of impurities in case of discrimination from nanoparticles of another composition.,,,"Johannes Mielke questioned the wording 'robust(ness) against (several kinds of) impurities', as it might not go well with the definition and meaning of impurities in this context. The experts are asked to evaluate this.",,Selectivity,
+measurement_aggr,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of particles within aggregates.,,,,,Measures aggregation,
+measurement_aggl,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of particles within agglomerates.,,,,,Measures aggregation,
+measurement_individual_particle,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of single particles in size and number.,,,,,Measures individual particles,
+constituent_particle_counting_aggr,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of particles in aggregates.,,,,,Counting constituent particles in aggregations,
+constituent_particle_counting_aggl,binary,"no = No
+yes = Yes",,Indicating whether the CM supports the measurement of particles in agglomerates.,,,,,Counting constituent particles in aggregations,
+composition,binary,"no = No
+yes = Yes",,Indicating whether the CM provides information on the chemical composition.,,,,,Composition,
+size_type,set,"acoustophoretic = Acoustophoretic diameter
+apparent_hydrodynamic = Apparent hydrodynamic diameter
+electrical_mobility = Electrical mobility diameter
+equivalent_circle = Equivalent circle diameter (ECD)
+feret_crystalline = Feret crystalline diameter
+feret_mean = Feret mean diameter
+feret_minimum = Feret minimum diameter
+height_perpendicular = Height (perpendicular to image plane)
+inner_circle = Inner circle diameter
+lateral_size = Lateral size
+main_axis_length = Main axis length
+mass_equivalent_spherical = Mass equivalent spherical diameter
+stokes = Stokes diameter
+volume_equivalent = Volume equivalent diameter
+other = Other",,Displaying which measurands (equivalent diameters) the CM provides. All diameters are nm-scaled.,,,,,Specification of the type of size (diameter),
+data_format,set,"cmf = Cummulative mass function
+count = Count-based particle size distribution
+vssa = Volume-specific surface area",Data format support,Displaying which analysis file data formats the CM provides.,,,,,,
+destructive,binary,"no = No
+yes = Yes",,Indicating whether the CM is destructive.,,,,,Destructive method or not,
+os_vacuum,binary,"no = No
+yes = Yes",Use of vacuum,Indicating whether the CM needs vacuum.,,,,,"Other Specifity, Vacuum",
+os_sample_support,binary,"no = No
+yes = Yes",,Indicating whether the CM needs preparation of suited supports.,,,,,"Other Specifity, Sample support",
+direct_counting,scale,"-- = No (--)
+- = Rather no (-)
+o = Moderate (o)
++ = Rather yes (+)
+++ = Yes (++)",,"Indicating the CM's support of yielding a directly number-weighted size distribution.
+
+++ = Yes, -- = No",,,,,Direct counting CM,
+convertibility,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's conversion algorithm's quality.
+
+++ = Very good, -- = Very bad",,,,,Convertibility to number weighted size distribution,
+full_size_range,scale,"-- = No (--)
+- = Rather no (-)
+o = Moderate (o)
++ = Rather yes (+)
+++ = Yes (++)",,"Indicating the CM's support of accessing the full size range according to EC definition 1nm -- 100nm.
+
+++ = Yes, -- = No",,,,,Full size range acc. To EC definition,
+upper_size,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's approximate upper size limit support.
+
+++ = Very good, -- = Very bad",,,,,Upper size,
+lower_size,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's approximate lower size limit (close to 1nm) support.
+
+++ = Very good, -- = Very bad",,,,,Lower size,
+smallest_particle_dimension,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's support of accessing the smallest particle dimension.
+
+++ = Very good, -- = Very bad",,,,,Smallest particle dimension,
+primary_particle_access_aggr,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's support of accessing the primary particles within aggregates.
+
+++ = Very good, -- = Very bad",,,,,Primary particle access,
+primary_particle_access_aggl,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's support of accessing the primary particles within agglomerates.
+
+++ = Very good, -- = Very bad",,,,,Primary particle access,
+availability,scale,"-- = Rarely used (--)
+- = Rather rarely used (-)
+o = Moderately used (o)
++ = Rather widely used (+)
+++ = Widely used (++)",,"Indicating the CM's availability and wide use.
+
+++ = Widely used, -- = Rarely used",,,,,Availability,
+standard,scale,"-- = No (--)
+- = Rather no (-)
+o = Moderate (o)
++ = Rather yes (+)
+++ = Yes (++)",,"Indicating whether the CM is a standard.
+
+++ = Yes, -- = No",,,,,Standard availability,
+reference,scale,"-- = Very low (--)
+- = Low (-)
+o = Moderate (o)
++ = High (+)
+++ = Very high (++)",,"Indicating the CM's potential as reference CM.
+
+++ = Very high, -- = Very low",,,,,Potential as reference CM,
+eot_preparation,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's sample preparation time.
+
+++ = Efficient, -- = Inefficient",,,,,"Expediture of time, Time for sample preparation",
+eot_measurement,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's measurement time.
+
+++ = Efficient, -- = Inefficient",,,,,"Expediture of time, Measurement time",
+eot_reduction,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's data reduction time.
+
+++ = Efficient, -- = Inefficient",,,,,"Expediture of time, Data reduction time",
+eot_total,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's total time until results.
+
+++ = Efficient, -- = Inefficient",,,,,"Expediture of time, Total time until results",
+cost_instrument,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's instrument costs.
+
+++ = Efficient, -- = Inefficient",,,,,"Costs, Instrument costs",
+cost_analysis,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's analysis costs.
+
+++ = Efficient, -- = Inefficient",,,,,"Costs, Analysis costs",
+cost_efficiency,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's cost efficiency.
+
+++ = Efficient, -- = Inefficient",,,,,Cost-efficiency,
+expertise,scale,"-- = High expertise (--)
+- = Rather high expertise (-)
+o = Moderate expertise (o)
++ = Rather low expertise (+)
+++ = Rather low expertise (++)",,"Indicating the CM's required expertise.
+
+++ = Low expertise, -- = High expertise",,,,,required expertise,
+hyphenation,scale,"-- = Very bad (--)
+- = Rather bad (-)
+o = Moderate (o)
++ = Rather good (+)
+++ = Very good (++)",,"Indicating the CM's ability to be hyphenated to other CMs.
+
+++ = Very good, -- = Very bad",,,,,CM hyphenation,
+vacuum,scale,"-- = Very high vacuum (--)
+- = Rather high vacuum (-)
+o = Moderate vacuum (o)
++ = Rather low vacuum (+)
+++ = Very low or no vacuum (++)",,"Indicating the CM's demand for vacuum.
+
+++ = Very low or no vacuum, -- = Very high vacuum",,,,,Vacuum,
+sample_support,scale,"-- = Inefficient (--)
+- = Rather inefficient (-)
+o = Moderately efficient (o)
++ = Rather efficient (+)
+++ = Efficient (++)",,"Indicating the CM's demand for preparation on suited supports.
+
+++ = Efficient, -- = Inefficient",,,,,Sample support,
+degradation,scale,"-- = Very high risk (--)
+- = Rather high risk (-)
+o = Moderate risk (o)
++ = Rather low risk (+)
+++ = Very low or no risk (++)",,"Indicating the CM's risk of chemically degrading the sample during the measurement process.
+
+++ = Very low or no risk, -- = Very high risk",,,,,Chemical degradation,

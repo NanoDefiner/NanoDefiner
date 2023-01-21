@@ -1,0 +1,19 @@
+technique_signifier,name,comment
+TEM,TEM,Transmission Electron Microscopy
+miniTEM-T1,miniTEM-T1,"mini Transmission Electron Microscopy, Tier 1 settings"
+miniTEM-T2,miniTEM-T2,"mini Transmission Electron Microscopy, Tier 2 settings"
+SEM,SEM,Scanning Electron Microscopy
+AFM,AFM,Atomic-force Microscopy
+SP-ICP-MS,SP-ICP-MS,Single Particle Inductively Coupled Plasma Mass Spectrometry
+TRPS,TRPS,Tunable Resistive Pulse Sensing
+PTA,PTA,Particle Tracking Analysis
+sprayDEMA,sprayDEMA,Spray Differential Electrical Mobility Analysis
+AC-turb,AC-turb,"Analytical Centrifugation, turbidity"
+AC-RI,AC-RI,"Analytical Centrifugation, refractive index"
+AF4-MALS,AF4-MALS,"Asymmetric Flow FFF, Multi-angular Light Scattering"
+DLS,DLS,Dynamic Light Scattering
+ALS,ALS,Angular Light Scattering
+SAXS,SAXS,Small-Angle X-ray Scattering
+USSP,USSP,Ultrasonic Spectroscopy
+XRD,XRD,X-ray Diffraction
+BET,BET,Brunauer-Emmett-Teller

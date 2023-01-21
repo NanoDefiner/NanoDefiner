@@ -1,0 +1,84 @@
+attribute,match,mismatch,uncertainty_material,uncertainty_technique,irrelevance
+trade_form,The trade form of the particulate component is supported by the measurement technique.,"The trade form of the particulate component is not supported by the measurement technique. However, given that at least one of the expected dispersibility options of the particulate component is supported by the measurement technique, this circumstance does not affect its recommendation.","As the trade form of the particulate component is unknown, hence the recommendation of the measurement technique is not affected.",There is no data available on this performance characteristic of the measurement technique. This circumstance will not affect its recommendation.,The trade form of the particulate component is irrelevant for the recommendation of the measurement technique.
+preparation,,,,,
+dispersion_medium,,,,,
+dispersibility,At least one expected dispersibility option of the particulate component is supported by the measurement technique. Any dispersion may also be distributed on a substrate.,"The expected dispersibility options of the particulate component are not supported by the measurement technique. However, given that the trade form of the particulate component is supported by the measurement technique, this circumstance does not affect its recommendation.",As the dispersibility options of the particulate component are unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The dispersibility options of the particulate component is irrelevant for the recommendation of the measurement technique.
+chemical_composition,The expected chemical composition of the particulate component is supported by the measurement technique.,At least one part of the expected chemical composition of the particulate component is not supported by the measurement technique.,As the chemical composition of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The chemical composition of the particulate component is irrelevant for the recommendation of the measurement technique.
+composites,Either no composites are expected or the expected composites of the particulate component do not affect the reliability of the measurement technique.,The expected composites of the particulate component may affect the reliability of the measurement technique.,As the composites of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The composites of the particulate component is irrelevant for the recommendation of the measurement technique.
+dimensions,The expected number of small dimensions of the particulate component is supported by the measurement technique.,The expected number of small dimensions of the particulate component is not supported by the measurement technique.,As the number of small dimensions of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The number of small dimensions of the particulate component is irrelevant for the recommendation of the measurement technique.
+shape,The expected particle shape of the particulate component is supported by the measurement technique.,The expected particle shape of the particulate component is not supported by the measurement technique.,As the particle shape of the particulate component is unknown the recommendation of the measurement technique is not affected. ,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The particle shape of the particulate component is irrelevant for the recommendation of the measurement technique.
+analysis_temperature,"Degradation of the particulate component is not expected, as the measurement technique can operate in the expected stable temperature range of the particulate component.","Degradation of the particulate component may occur, as the measurement technique can not operate in the expected stable temperature range of the particulate component.",As the stable temperature range of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The stable temperature range of the particulate component is irrelevant for the recommendation of the measurement technique.
+electron_beam,"Degradation of the particulate component is not expected, as either the particulate component is expected to be insensitive to electron radiation or the measurement technique does not apply electron radiation.","Degradation of the particulate component is may occur, as either the particulate component is expected to be sensitive to electron radiation and the measurement technique does apply electron radiation.",As the sensitivity to electron radiation of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The sensitivity to electron radiation of the particulate component is irrelevant for the recommendation of the measurement technique.
+polydispersity,The expected grade of polydispersity of the particulate component does not affect the reliability of the measurement technique.,The expected grade of polydispersity of the particulate component may affect the reliability of the measurement technique.,As the grade of polydispersity of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The grade of polydispersity of the particulate component is irrelevant for the recommendation of the measurement technique.
+multimodality,The expected grade of multimodality of the particulate component does not affect the reliability of the measurement technique.,The expected grade of multimodality of the particulate component may affect the reliability of the measurement technique.,As the grade of multimodality of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The grade of multimodality of the particulate component is irrelevant for the recommendation of the measurement technique.
+conductivity,The expected conductivity of the particulate component does not affect the reliability of the measurement technique.,The expected conductivity of the particulate component does may the reliability of the measurement technique.,As the conductivity of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The conductivity of the particulate component is irrelevant for the recommendation of the measurement technique.
+magnetism,Either no magnetic properties are expected or the expected magnetic properties of the particulate component do not affect the reliability of the measurement technique.,At least one expected type of magnetism of the particulate component is not supported by the measurement technique.,As the magnetic properties of the particulate component are unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The magnetic properties of the particulate component is irrelevant for the recommendation of the measurement technique.
+functionalisation,Either no functionalisation of particles is expected or functionalisation of particles in the particulate component does not affect the reliability of the measurement technique.,The expected functionalization of particles in the particulate component may affect the reliability of the measurement technique.,As the functionalisation of particles of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,Functionalisation of particles in the particulate component is irrelevant for the recommendation of the measurement technique.
+light_absorption,Either no light absorptive properties are expected or light absorptive properties of the particulate component do not affect the reliability of the measurement technique.,The expected light absorptive properties of the particulate component may affect the reliability of the measurement technique.,As the light absorptive properties of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The light absorptive properties of the particulate component are irrelevant for the recommendation of the measurement technique.
+fluorescence,Either no fluorescent properties are expected or light fluorescent properties of the particulate component do not affect the reliability of the measurement technique.,The expected fluorescent properties of the particulate component may affect the reliability of the measurement technique.,As the fluorescent properties of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The fluorescent properties of the particulate component are irrelevant for the recommendation of the measurement technique.
+aggregation,Either no significant aggregation is expected or significant aggregation in the particulate component does not affect the reliability of the measurement technique.,The expected significant aggregation in the particulate component may affect the reliability of the measurement technique.,As significant aggregation in the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,Significant aggregation in the particulate component is irrelevant for the recommendation of the measurement technique.
+agglomeration,Either no significant agglomeration is expected or significant agglomeration in the particulate component does not affect the reliability of the measurement technique.,The expected significant agglomeration in the particulate component may affect the reliability of the measurement technique.,As significant agglomeration in the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,Significant agglomeration in the particulate component is irrelevant for the recommendation of the measurement technique.
+release_iam,"Either no release of ions, atoms or molecules is expected or the expected release of ions, atoms or molecules of the particulate component does not affect the reliability of the measurement technique.","The expected release of ions, atoms or molecules of the particulate component may affect the reliability of the measurement technique.","As the release of ions, atoms or molecules of the particulate component is unknown the recommendation of the measurement technique is not affected.",There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,"The release of ions, atoms or molecules by the particulate component is irrelevant for the recommendation of the measurement technique."
+tier,,,,,
+purpose,,,,,
+disclaimer,,,,,
+multiconstituent,,,,,
+specific_technique,,,,,
+wr_size_range,The expected particle size range of the particulate component is supported by the measurement technique.,The expected particle size range of the particulate component is not supported by the measurement technique.,As the particle size range of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The particle size range of the particulate component is irrelevant for the recommendation of the measurement technique.
+wr_concentration_range_type,,,,,
+wr_concentration_range,,,,,
+wr_minimum_sample_type,,,,,
+wr_minimum_sample,,,,,
+wr_linear_proportional_size,,,,,
+wr_linear_proportional_concentration,,,,,
+wr_detection_quantification_limit,,,,,
+wr_sensitivity,,,,,
+trueness,,,,,
+weighting_trueness,,,,,
+robustness,,,,,
+precision_type,,,,,
+precision,,,,,
+resolution_type,,,,,
+resolution,,,,,
+size_distribution,,,,,
+presence,Either no presence of sub- or susnano-sized particles is expected or presence of sub- or susnano-sized particles in the particulate component does not affect the reliability of the measurement technique.,The expected presence of sub- or susnano-sized particles in the particulate component may affect the reliability of the measurement technique.,As the presence of sub- or susnano-sized particles in the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The presence of sub- or susnano-sized particles in the particulate component is irrelevant for the recommendation of the measurement technique.
+sl_discr_nnp_same,,,,,
+sl_discr_nnp_same_robustness,,,,,
+sl_discr_nnp_diff,,,,,
+sl_discr_nnp_diff_robustness,,,,,
+sl_discr_np_diff,,,,,
+sl_discr_np_diff_robustness,,,,,
+measurement_aggr,,,,,
+measurement_aggl,,,,,
+measurement_individual_particle,,,,,
+constituent_particle_counting_aggr,,,,,
+constituent_particle_counting_aggl,,,,,
+composition,,,,,
+size_type,,,,,
+data_format,,,,,
+destructive,,,,,
+os_vacuum,"Degradation of the particulate component is not expected, as either the particulate component is insensitive to vacuum or the measurement technique does not operate under vacuum.","Degradation of the particulate component is may occur, as either the particulate component is expected to be sensitive to vacuum and the measurement technique does apply vacuum.",As the sensitivity to vacuum of the particulate component is unknown the recommendation of the measurement technique is not affected.,There is no data available on the performance characteristics of the measurement technique. This circumstance will not affect its recommendation.,The sensitivity to vacuum of the particulate component is irrelevant for the recommendation of the measurement technique.
+os_sample_support,,,,,
+direct_counting,,,,,
+convertibility,,,,,
+full_size_range,,,,,
+upper_size,,,,,
+lower_size,,,,,
+smallest_particle_dimension,,,,,
+primary_particle_access_aggr,,,,,
+primary_particle_access_aggl,,,,,
+availability,,,,,
+standard,,,,,
+reference,,,,,
+eot_preparation,,,,,
+eot_measurement,,,,,
+eot_reduction,,,,,
+eot_total,,,,,
+cost_instrument,,,,,
+cost_analysis,,,,,
+cost_efficiency,,,,,
+expertise,,,,,
+hyphenation,,,,,
+vacuum,,,,,
+sample_support,,,,,
+degradation,,,,,

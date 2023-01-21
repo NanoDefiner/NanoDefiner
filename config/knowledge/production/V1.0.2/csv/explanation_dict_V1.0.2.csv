@@ -1,0 +1,7 @@
+Attribute,Type,Options,Label,Description,Note,Changes
+attribute,string,,Attribute (single decision point),Attribute which represents a single decision point.,,
+match,string,,Explanation for match,"Qualitative explanation for a match, displayed in case of a match.",,
+mismatch,string,,Explanation for mismatch,"Qualitative explanation for a mismatch, displayed in case of a mismatch",,
+material_uncertainty,string,,Consequences of material uncertainty,"Qualitative explanation for a material attribute, displayed in case of uncertainty.",,
+technique_uncertainty,string,,Consequences of technique uncertainty,"Qualitative explanation for a technique attribute, displayed in case of uncertainty.",,
+irrelevance,string,,Consequences of irrelevance,"Qualitative explanation for a technique attribute, displayed in case of irrelevance.",,

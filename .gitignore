@@ -34,7 +34,6 @@ src/main/resources/banner.txt
 src/main/resources/build.properties
 config/*.properties
 config/*/*.properties
-config/knowledge
 
 # Others
 *~

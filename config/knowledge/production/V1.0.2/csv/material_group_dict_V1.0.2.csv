@@ -1,0 +1,30 @@
+Attribute,Type,Options,Description,Example,Note,Changes
+material_signifier,string,,"Signifier of the material, must be globally unique and uniform. It can be referenced in a CM's performance characteristics sheet.
+
+Its naming is free, suggested are short abbreviations, acronyms or structural formulas (will not be compiled), written as one word, added a prefix (M for material, G for material group). The identifier might be visible in the application at several places. See the documentation for further information.
+
+Important: Please note, that chemical elements do not need to be configured as they are supported implicitly. They can be used in a CM's performance characteristics sheet without being defined in the material sheet.","M-CARB-BLK for Carbon Black,
+M-SILICA or M-SiO2 for silica,
+M-IRMM-380 for organic pigment yellow 83 (nano grade),
+
+G-INORG-TRANSP for a material group (inorganic, transparent)",,"Renamed, previous attribute name was 'material'."
+group,binary,"no = No
+yes = Yes","Type of the material, indicating whether it is a material or a material group.","Either: no = Material
+Or: yes = Material group",,"Renamed, previous attribute name was 'type'."
+name,string,,"Name of the material or material group.
+
+Its naming is free, suggested are official names and / or chemical formulas in LaTeX syntax (will be compiled, needs to be valid). The alias might be visible in the application at several places. See the documentation for further information.
+
+Math mode:
+$...$ = Denotes the math mode, ... is the content
+
+Sub-/superscript:
+_c = Denotes a single subscripted character c
+_{s} = Denotes a subscripted character string s
+^c = Denotes a single superscripted character c
+^{s} = Denotes a superscripted character string s","Carbon Black,
+$SiO_2$ (Silica),
+IRMM-380, Organic pigment yellow 83 (nano grade),
+Inorganic, transparent materials
+",,
+comment,string,,"Short comment regarding the material, for documentation purpose. The comment might be visible in the application at several places. See the documentation for further information.",,,"Renamed, previous attribute name was 'description'."
