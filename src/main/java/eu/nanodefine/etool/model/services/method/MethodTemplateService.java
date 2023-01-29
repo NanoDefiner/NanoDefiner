@@ -71,7 +71,7 @@ public class MethodTemplateService extends TemplateService {
 	}
 
 	public boolean isOtherPurpose(Method method) {
-		return method.getDossier().getPurpose().equals("{other}");
+		return method.getDossier().getPurpose().equals("{other_2011}");
 	}
 
 }

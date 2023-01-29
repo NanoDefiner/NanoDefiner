@@ -271,7 +271,7 @@ public class MethodService implements IService {
 	 */
 	public boolean isNano(Method method) {
 
-		final boolean isVSSAAndNotOther = method.getDataFormat().equals("VSSA") && !method.getDossier().getPurpose().equals("{other}");
+		final boolean isVSSAAndNotOther = method.getDataFormat().equals("VSSA") && !method.getDossier().getPurpose().equals("{other_2011}");
 		Double result = method.hasResult() && !isVSSAAndNotOther ? Double.valueOf(method.getResult()) : 101;
 
 		return result <= 100;

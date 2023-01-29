@@ -176,7 +176,7 @@ public class VSSAProcessor extends AbstractAnalysisProcessor {
 
 		this.vssa = Double.valueOf(vssa);
 
-		if (!this.getMethod().getDossier().getPurpose().equals("{other}")) {
+		if (!this.getMethod().getDossier().getPurpose().equals("{other_2011}")) {
 			if (this.vssa < 6) {
 				this.result = this.vssa;
 			}

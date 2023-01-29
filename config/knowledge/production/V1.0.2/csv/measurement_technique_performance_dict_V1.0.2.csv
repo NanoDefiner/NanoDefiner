@@ -78,7 +78,7 @@ cosmetics_regulation = Cosmetics regulation
 food_regulation = Food regulation
 biocide_regulation = Biocide regulation
 other = Other (e.g. informative, scientific)
-other_2011 = Other (e.g. informative, scientific), NanoDefine approach aligned with EC 2011 nanomaterial definition",Purpose support,Indicating whether the CM may be used for measurement for a specific purpose or not.,,,An adequate wording for all options is required.,"Joined options 'reach' and 'reach_nanoform' into 'reach', updated label.
+other_2011 = Other (e.g. informative, scientific), NanoDefine approach oriented towards the EC 2011 nanomaterial definition",Purpose support,Indicating whether the CM may be used for measurement for a specific purpose or not.,,,An adequate wording for all options is required.,"Joined options 'reach' and 'reach_nanoform' into 'reach', updated label.
 Joined options 'cosmetics_labelling' and 'cosmetics_legislation' into 'cosmetics_regulation', updated label.
 Changed option 'food_labelling' into 'food_regulation', updated label.
 Changed option 'biocide' into 'biocide_regulation', updated label.",,
