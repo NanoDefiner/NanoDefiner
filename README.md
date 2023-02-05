@@ -1,5 +1,7 @@
 # NanoDefiner e-tool
 
+[![DOI](https://zenodo.org/badge/120874735.svg)](https://zenodo.org/badge/latestdoi/120874735)
+
 Welcome to the official repository for the NanoDefiner e-tool! :microscope: :computer: :notebook:
 
 ## What is the e-tool?
