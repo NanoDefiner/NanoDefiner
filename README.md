@@ -77,12 +77,13 @@ When referring to the e-tool, please use the following references (Harvard Style
 	volume = {12},
 	number = {19},
 	pages = {3247},
+	publisher = {{MDPI} {AG}},
 	url = {https://www.mdpi.com/1996-1944/12/19/3247},
 	doi = {10.3390/ma12193247}
 }
 ```
 
-- Brüngel, R., Rückert, J., Müller, P., Babick, F., Friedrich, C. M., Ghanem, A., Hodoroaba, V.-D., Mech, A., Weigel, S., Wohlleben, W., & Rauscher, H. (2023). NanoDefiner Framework and e-Tool Revisited According to the European Commission's Nanomaterial Definition 2022/C 229/01. Nanomaterials. Submitted, under review.
+- Brüngel, R., Rückert, J., Müller, P., Babick, F., Friedrich, C. M., Ghanem, A., Hodoroaba, V.-D., Mech, A., Weigel, S., Wohlleben, W., & Rauscher, H. (2023). NanoDefiner Framework and e-Tool Revisited According to the European Commission's Nanomaterial Definition 2022/C 229/01. Nanomaterials, 13(6), 990. https://doi.org/10.3390/nano13060990
 
 ```
 @article{bruengel2023nanodefiner_revisit,
@@ -91,12 +92,12 @@ When referring to the e-tool, please use the following references (Harvard Style
 	year = {2023},
 	journal = {Nanomaterials},
 	issn = {2079-4991},
-	volume = {},
-	number = {},
-	pages = {},
-	url = {},
-	doi = {}
-	note = {Submitted, under review}
+	volume = {13},
+	number = {6},
+	pages = {990},
+	publisher = {{MDPI} {AG}},
+	url = {https://www.mdpi.com/2079-4991/13/6/990},
+	doi = {10.3390/nano13060990}
 }
 ```
 
@@ -104,6 +105,10 @@ When referring to the e-tool, please use the following references (Harvard Style
 ## Related work
 
 The e-tool is related to the following works (Harvard style, sorted by most recent publication date):
+
+- Brüngel, R., Rückert, J., Müller, P., Babick, F., Friedrich, C. M., Ghanem, A., Hodoroaba, V.-D., Mech, A., Weigel, S., Wohlleben, W., & Rauscher, H. (2023). NanoDefiner Framework and e-Tool Revisited According to the European Commission’s Nanomaterial Definition 2022/C 229/01. Nanomaterials, 13(6), 990. https://doi.org/10.3390/nano13060990
+
+- Rauscher, H., Kobe, A., Kestens, V., & Rasmussen, K. (2023). Is it a nanomaterial in the EU? Three essential elements to work it out. Nano Today, 49, 101780. https://doi.org/10.1016/j.nantod.2023.101780
 
 - European Commission (2022). Commission Recommendation of 10 June 2022 on the definition of nanomaterial (2022/C 229/01). Official Journal of the European Union, C 229, 1-5. https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022H0614(01)
 
@@ -136,8 +141,6 @@ The e-tool is related to the following works (Harvard style, sorted by most rece
 - Peters, R., Herrera-Rivera, Z., Undas, A., van der Lee, M., Marvin, H., Bouwmeester, H., & Weigel, S. (2015). Single particle ICP-MS combined with a data evaluation tool as a routine technique for the analysis of nanoparticles in complex matrices. Journal of Analytical Atomic Spectrometry, 30(6), 1274–1285. https://doi.org/10.1039/c4ja00357h
 
 - European Commission (2011). Commission Recommendation of 18 October 2011 on the definition of nanomaterial (2011/696/EU). Official Journal of the European Union, L 275, 38–40. https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32011H0696
-
-
 
 
 ## Acknowledgment
